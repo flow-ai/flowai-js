@@ -1,0 +1,29 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "node": true,
+    "browser": true,
+    "es6": true
+  },
+  "plugins": [
+    "import"
+  ],
+  "rules": {
+    "indent": ["error", 2, { "VariableDeclarator": { "var": 2, "let": 2, "const": 3 }, "SwitchCase": 1 } ],
+    "semi": [2, "never"],
+    "one-var": 0,
+    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+    "no-underscore-dangle": 0,
+    "prefer-const": 2,
+    "no-undef": 0,
+    "max-len": 0,
+    "func-names": ["error", "never"],
+    "comma-dangle": ["error", "never"],
+    "prefer-arrow-callback": 2,
+    "arrow-body-style": ["error", "as-needed", { "requireReturnForObjectLiteral": true }],
+    "import/prefer-default-export": 0,
+    "import/imports-first": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/no-unresolved": 0
+  }
+}

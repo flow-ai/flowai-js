@@ -1,0 +1,180 @@
+# The flow.ai Javascript SDK
+Access the [flow.ai](https://flow.ai) platform from your Node.js or javascript app. This library lets you build on the flow.ai Webclient API.
+
+## What can you do?
+
+*	A simple way to connect with [flow.ai](https://flow.ai)
+* Auto reconnect and event binding
+*	Send and receive messages
+*	Trigger actions and interact with AI bots
+
+## Usage
+
+### Installation
+Run `npm install --save flowai-js`
+
+### Simple Node.js example
+
+```js
+const {
+  LiveClient,
+  Message,
+  Originator
+} = require("../lib")
+
+// Create a new live client
+const client = new LiveClient('YOUR CLIENT ID HERE')
+
+// Fired whenever the client connects
+client.on(LiveClient.CONNECTED, () => {
+
+  console.log('--> Connected')
+
+  // Create the originator of the message
+  const originator = new Originator({
+    name: "Boss"
+  })
+
+  // Create a Message
+  const message = new Message({
+    // Thread Id limits the message just to John
+    threadId: 'john',
+    // The text to send
+    speech: "Behold, I'm pure awesomeness!",
+    // Person or system sending the message
+    originator
+  })
+
+  // Send
+  client.send(message)
+})
+
+// Start the connection
+client.start()
+```
+
+### Advanced Node.js example
+In this example you'll notice all events that are available
+
+```js
+const {
+  LiveClient,
+  LiveClient,
+  Message,
+  Originator
+} = require("../lib")
+
+const client = new LiveClient('YOUR CLIENT ID HERE')
+
+client.on(LiveClient.CONNECTED, () => {
+  const originator = new Originator({
+    name: "Boss"
+  })
+
+  const message = new Message({
+    // Thread Id limits the message just to John
+    threadId: 'john',
+    // Use the traceId to identify message
+    // being marked as delivered
+    traceId: 1,
+    speech: "Behold, I'm pure awesomeness!",
+    originator
+  })
+
+  client.send(message)
+})
+
+client.on(LiveClient.MESSAGE_DELIVERED, (message) => {
+  // The message we have send has been delivered
+  // check the traceId to see what message has been
+  // delivered since it's an async method
+})
+
+client.on(LiveClient.REPLY_RECEIVED, (message) => {
+  // Called when a bot or human operator
+  // sends a message or reply
+  if(message.threadId === 'john') {
+    // Incoming message for John
+  } else {
+    // Incoming message for another user
+  }
+})
+
+client.on(LiveClient.ERROR, (err) => {
+  // This handler will be fired whenever an error
+  // occurs during the connection
+  console.error('Something bad happened', err)
+})
+
+client.on(LiveClient.DISCONNECTED, () => {
+  // The client has been disconnected
+})
+
+client.on(LiveClient.MESSAGE_SEND, (message) => {
+  // Called whenever the client sends a message
+})
+
+client.on(LiveClient.RECONNECTING, () => {
+  // Called when the client tries to reconnect
+})
+
+client.start()
+```
+
+### Simple browser example
+Using the library within the browser is pretty much the same as the Node.js examples.
+
+There is one notable difference, all classes live inside a `Flowai` object.
+
+#### Include the script
+```html
+<script src="flowai-js.min.js"></script>
+```
+
+#### Usage
+
+```js
+var client = new Flowai.LiveCLient('YOUR CLIENT ID HERE', 'UNIQUE KEY FOR USER');
+client.on(LiveClient.CONNECTED, function(){
+  var originator = new Flowai.Originator({ fullName: "John Doo" });
+
+  var message = new Flowai.Message({
+    threadId: 'john',
+    traceId: 1,
+    speech: "Behold, I'm pure awesomeness!",
+    originator
+  });
+
+  client.send(message);
+})
+
+client.start();
+```
+
+### Notes on using with webpack
+The library can be easily used with webpack. You'll probably receive an error though involving `fs`.
+
+Add the following to your webpack config file:
+```
+node: {
+  fs: 'empty'
+},
+```
+
+## Identifying messages
+The SDK is pretty flexible with regard to how messages are delivered and grouped. To do this we use two unique keys: sessionId and threadId.
+
+![ThreadId](/media/unique-threadid.png)
+
+### threadId
+A threadId is a unique token representing a channel, room, or user. If you have a single connection running for multiple clients, all using the same threadId, they will all receive the same message. It's important to note that sessionId completely disregared.
+
+![Unique sessionIds](/media/unique-sessionid.png)
+
+### sessionId
+The sessionId is mostly useful for connecting multiple clients. Each connection is partly identified on our end using this key. Use the threadId to identify messages that belong to a certain user or chat room.
+
+![Unique sessions and threadids](/media/unique-sessionid-threadid.png)
+
+# API Reference
+{{>main~}}
