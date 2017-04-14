@@ -134,7 +134,7 @@ There is one notable difference, all classes live inside a `Flowai` object.
 #### Usage
 
 ```js
-var client = new Flowai.LiveCLient('YOUR CLIENT ID HERE', 'UNIQUE KEY FOR USER');
+var client = new Flowai.LiveClient('YOUR CLIENT ID HERE', 'UNIQUE KEY FOR USER');
 client.on(LiveClient.CONNECTED, function(){
   var originator = new Flowai.Originator({ fullName: "John Doo" });
 

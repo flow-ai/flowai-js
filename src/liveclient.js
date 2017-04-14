@@ -193,8 +193,9 @@ class LiveClient extends EventEmitter {
    * This methods is not yet publicy supported since we don't have a way yet to provide a mergerKey.
    * @param {string} mergerKey - Unique token representing merge Request
    * @param {string} threadId - Optional. The threadId to merge
+   * @param {string} sessionId - Optional. The sessionId to assign to the thread
    **/
-  merger(mergerKey, threadId) {
+  merger(mergerKey, threadId, sessionId) {
 
     debug(`Merging threads '${mergerKey}', threadId '${threadId}'`)
 
@@ -212,6 +213,7 @@ class LiveClient extends EventEmitter {
         payload: {
           clientId: this._clientId,
           threadId: threadId || this.threadId,
+          sessionId: sessionId || this.sessionId,
           mergerKey
         }
       })
@@ -228,6 +230,7 @@ class LiveClient extends EventEmitter {
 
   /**
    * Request historic messages
+   * @param {string} threadId - Optional. Specify the thread to retreive historic messages
    **/
   history(threadId) {
     if(!this.isConnected) {
@@ -263,10 +266,10 @@ class LiveClient extends EventEmitter {
   }
 
   /**
-   * Call to indicate we've seen a thread.
+   * Call to mark a thread as noticed.
    * The library automatically throttles the number of calls
-   * @param {string} threadId
-   * @param {bool} instantly - True to instantly send notice Default is false.
+   * @param {string} threadId - Optional. Specify the thread that is noticed
+   * @param {bool} instantly - Optional. Instantly send notice. Default is false
    **/
   noticed(threadId, instantly) {
 
