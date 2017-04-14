@@ -59,7 +59,6 @@ In this example you'll notice all events that are available
 ```js
 const {
   LiveClient,
-  LiveClient,
   Message,
   Originator
 } = require("../lib")
@@ -243,8 +242,8 @@ Live streaming websocket client extends EventEmitter
         * [.stop()](#LiveClient+stop)
         * [.destroy()](#LiveClient+destroy)
         * [.send(message)](#LiveClient+send) ⇒
-        * [.merger(mergerKey, threadId)](#LiveClient+merger)
-        * [.history()](#LiveClient+history)
+        * [.merger(mergerKey, threadId, sessionId)](#LiveClient+merger)
+        * [.history(threadId)](#LiveClient+history)
         * [.noticed(threadId, instantly)](#LiveClient+noticed)
         * [.checkUnnoticed(threadId)](#LiveClient+checkUnnoticed)
     * _static_
@@ -330,7 +329,7 @@ This method triggers a `LiveClient.MESSAGE_SEND` event
 
 <a name="LiveClient+merger"></a>
 
-### liveClient.merger(mergerKey, threadId)
+### liveClient.merger(mergerKey, threadId, sessionId)
 Merge two threads from different channels.
 This methods is not yet publicy supported since we don't have a way yet to provide a mergerKey.
 
@@ -340,25 +339,31 @@ This methods is not yet publicy supported since we don't have a way yet to provi
 | --- | --- | --- |
 | mergerKey | <code>string</code> | Unique token representing merge Request |
 | threadId | <code>string</code> | Optional. The threadId to merge |
+| sessionId | <code>string</code> | Optional. The sessionId to assign to the thread |
 
 <a name="LiveClient+history"></a>
 
-### liveClient.history()
+### liveClient.history(threadId)
 Request historic messages
 
 **Kind**: instance method of <code>[LiveClient](#LiveClient)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| threadId | <code>string</code> | Optional. Specify the thread to retreive historic messages |
+
 <a name="LiveClient+noticed"></a>
 
 ### liveClient.noticed(threadId, instantly)
-Call to indicate we've seen a thread.
+Call to mark a thread as noticed.
 The library automatically throttles the number of calls
 
 **Kind**: instance method of <code>[LiveClient](#LiveClient)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| threadId | <code>string</code> |  |
-| instantly | <code>bool</code> | True to instantly send notice Default is false. |
+| threadId | <code>string</code> | Optional. Specify the thread that is noticed |
+| instantly | <code>bool</code> | Optional. Instantly send notice. Default is false |
 
 <a name="LiveClient+checkUnnoticed"></a>
 
