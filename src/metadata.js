@@ -14,6 +14,37 @@ class Metadata {
   constructor({ contexts, params }) {
     this.contexts = contexts || []
     this.params = params || {}
+
+    if(document && location && navigator) {
+      // This is a web browser
+      let origin
+      if (typeof location.origin === 'undefined') {
+        location.origin = location.protocol + '//' + location.host
+      } else {
+        origin = location.origin
+      }
+
+      const {
+        href,
+        pathname,
+        hostname
+      } = location
+
+      this.domain = {
+        realm: 'browser',
+        title: document.title,
+        url: href,
+        pathname: pathname,
+        origin,
+        hostname: hostname,
+        language: navigator.language,
+        platform: navigator.platform
+      }
+    } else {
+      this.domain = {
+        realm: 'server'
+      }
+    }
   }
 
 
@@ -46,7 +77,8 @@ class Metadata {
   static build(metadata){
     return new Metadata({
       contexts: metadata.contexts,
-      params: metadata.params
+      params: metadata.params,
+      domain: metadata.domain
     })
   }
 }
