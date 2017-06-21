@@ -6,13 +6,16 @@ debug('flowai:unique')
 // Private class
 class Unique {
 
-  constructor(key, value) {
+  constructor(clientId, key, value) {
+    if(typeof clientId !== 'string' || !clientId.length) {
+      throw new Error('Invalid clientId provided')
+    }
 
     if(typeof key !== 'string' || key.length < 2) {
       throw new Error('Invalid key provided')
     }
 
-    this._storageKey = key
+    this._storageKey = `${clientId}.${key}`
     debug(`Creating a new Unique with key '${key}' and value '${value}'`)
 
     if (typeof localStorage === "undefined" || localStorage === null) {

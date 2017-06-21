@@ -5,6 +5,8 @@ import {
   LIVE_EVENTS
 } from "../lib"
 import Exception from '../lib/exception'
+import Unique from '../lib/unique'
+
 
 chai.use(chaiEventemitter)
 
@@ -12,6 +14,15 @@ const __CLIENT_ID__ = 'NzRkNDFmMGEtYTM5OC00Njk0LWI4MTktZTA4NmJjZjEyMTg3fGIyNzIxM
 const __ENDPOINT__ = 'http://localhost:6005'
 
 describe("Flow.ai SDK", () => {
+
+  it("Unique must have values", () => {
+    expect(() => new Unique()).to.throw(Error)
+  })
+
+  it("Unique must have values", () => {
+    const uniqueId = new Unique('abc', 'key', 'value')
+    expect(uniqueId.id()).to.be.equal('value')
+  })
 
   it("ClientId must be string", () => {
     expect(() => new LiveClient({})).to.throw(Exception)
@@ -22,7 +33,8 @@ describe("Flow.ai SDK", () => {
   })
 
   it("Throws not on invalid clientId", () => {
-    const client = new LiveClient('')
+    const client = new LiveClient('asassaasassasaasassaas')
+    client.start()
     expect(() => client.start()).to.not.throw(Exception)
   })
 

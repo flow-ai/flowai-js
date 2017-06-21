@@ -8,7 +8,6 @@ import Rest from './rest'
 import Unique from './unique'
 import Exception from './exception'
 
-
 debug('flowai:liveclient')
 
 /**
@@ -52,7 +51,7 @@ class LiveClient extends EventEmitter {
   }
 
   set sessionId(value) {
-    this._session = new Unique('sessionId', value)
+    this._session = new Unique(this._clientId, 'sessionId', value)
   }
 
   /**
@@ -69,7 +68,7 @@ class LiveClient extends EventEmitter {
 
   set threadId(value) {
     // Create a new Thread
-    this._thread = new Unique('threadId', value)
+    this._thread = new Unique(this._clientId, 'threadId', value)
   }
 
   /**
@@ -115,7 +114,7 @@ class LiveClient extends EventEmitter {
 
     } catch(err) {
       // Wrap the error
-      throw new Exception("Failed to start the client", 'connection', err)
+      throw new Exception(`Failed to start the client ${err}`, 'connection', err)
     }
   }
 
