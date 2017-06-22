@@ -34,7 +34,6 @@ describe("Flow.ai SDK", () => {
 
   it("Throws not on invalid clientId", () => {
     const client = new LiveClient('asassaasassasaasassaas')
-    client.start()
     expect(() => client.start()).to.not.throw(Exception)
   })
 
