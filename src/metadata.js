@@ -11,11 +11,20 @@ class Metadata {
   /**
    * Constructor
    **/
-  constructor({ contexts, params }) {
+  constructor({ contexts, params, language, timezone }) {
+    this.language = language || undefined
+    this.timezone = timezone || new Date().getTimezoneOffset() / 60
     this.contexts = contexts || []
     this.params = params || {}
 
-    if(document && location && navigator) {
+    if(!global.navigator ||
+       !global.document ||
+       !global.location) {
+         
+      this.domain = {
+        realm: 'server'
+      }
+    } else {
       // This is a web browser
       let origin
       if (typeof location.origin === 'undefined') {
@@ -40,9 +49,9 @@ class Metadata {
         language: navigator.language,
         platform: navigator.platform
       }
-    } else {
-      this.domain = {
-        realm: 'server'
+
+      if(!this.language) {
+        this.language = navigator.language
       }
     }
   }
@@ -76,6 +85,8 @@ class Metadata {
 
   static build(metadata){
     return new Metadata({
+      language: metadata.language || undefined,
+      timezone: metadata.timezone || undefined,
       contexts: metadata.contexts,
       params: metadata.params,
       domain: metadata.domain

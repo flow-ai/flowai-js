@@ -22,7 +22,15 @@ class Message {
    * @param {Originator} options.originator - Originator
    * @param {object} options.metadata - Meta data
    **/
-  constructor({threadId, traceId, speech, originator, metadata}) {
+  constructor(opts = {}) {
+
+    const {
+      threadId,
+      traceId,
+      speech,
+      originator,
+      metadata
+    } = opts
 
     if(traceId && typeof traceId !== 'number') {
       throw new Exception("traceId should be an integer.", 'user')

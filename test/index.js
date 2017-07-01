@@ -6,7 +6,7 @@ import {
 } from "../lib"
 import Exception from '../lib/exception'
 import Unique from '../lib/unique'
-
+import Message from '../lib/message'
 
 chai.use(chaiEventemitter)
 
@@ -79,5 +79,10 @@ describe("Flow.ai SDK", () => {
   it("Can create exception with Error", () => {
     const ex = new Exception(new Error('Bad stuff'))
     expect(ex.message).to.be.equal('Bad stuff')
+  })
+
+  it("Message has metadata", () => {
+    const m = new Message()
+    expect(m.metadata).to.be.not.null
   })
 })
