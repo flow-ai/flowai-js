@@ -13,14 +13,14 @@ class Metadata {
    **/
   constructor({ contexts, params, language, timezone }) {
     this.language = language || undefined
-    this.timezone = timezone || new Date().getTimezoneOffset() / 60
+    this.timezone = timezone || -(new Date().getTimezoneOffset() / 60)
     this.contexts = contexts || []
     this.params = params || {}
 
     if(!global.navigator ||
        !global.document ||
        !global.location) {
-         
+
       this.domain = {
         realm: 'server'
       }
