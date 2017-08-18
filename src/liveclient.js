@@ -374,7 +374,8 @@ class LiveClient extends EventEmitter {
         path: 'socket.info',
         queryParams: {
           clientId: this._clientId,
-          sessionId: this.sessionId
+          sessionId: this.sessionId,
+          threadId: this.threadId
         }
       })
       .then(({ payload }) => this._handleConnection(payload))

@@ -2,6 +2,7 @@ import debug from 'debug'
 import Exception from './exception'
 import Originator from './originator'
 import Metadata  from './metadata'
+import Attachment from './attachment/attachment'
 
 debug('flowai:message')
 
@@ -44,17 +45,19 @@ class Message {
     this.traceId = traceId || undefined
     this.speech = speech || ""
     this.originator = originator || new Originator({})
+    this.attachment = null
     this.metadata = metadata || new Metadata({})
   }
 
   /**
    * Factory method
    **/
-  static build(message){
+  static build({ speech, originator, metadata, attachment }){
     return new Message({
-      speech: message.speech,
-      originator: new Originator(message.originator),
-      metadata: Metadata.build(message.metadata)
+      speech,
+      originator: new Originator(originator),
+      metadata: Metadata.build(metadata),
+      attachment: Attachment.build(attachment)
     })
   }
 }

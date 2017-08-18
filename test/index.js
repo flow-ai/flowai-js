@@ -7,6 +7,8 @@ import {
 import Exception from '../lib/exception'
 import Unique from '../lib/unique'
 import Message from '../lib/message'
+import Attachment from '../lib/attachment/attachment'
+import EventAttachment from '../lib/attachment/event'
 
 chai.use(chaiEventemitter)
 
@@ -84,5 +86,24 @@ describe("Flow.ai SDK", () => {
   it("Message has metadata", () => {
     const m = new Message()
     expect(m.metadata).to.be.not.null
+  })
+
+  it("Can create attachment", () => {
+    const attachment = new Attachment('EVENT', { name: 'monkey' })
+    expect(attachment).to.be.not.null
+  })
+
+  it("Can create specific attachment", () => {
+    const event = new EventAttachment('Coolness')
+    expect(event).to.be.not.null
+  })
+
+  it("Can add attachment to message", () => {
+    const m = new Message()
+    expect(m.attachment).to.be.null
+
+    m.attachment = new EventAttachment('Coolness')
+
+    expect(m.attachment).to.be.not.null
   })
 })
