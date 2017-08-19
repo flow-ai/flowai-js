@@ -474,7 +474,7 @@ class LiveClient extends EventEmitter {
 
   _handleDelivered(payload) {
     debug('Handling delivered payload', payload)
-    this.emit(LiveClient.MESSAGE_DELIVERED, new Message(payload))
+    this.emit(LiveClient.MESSAGE_DELIVERED, Message.build(payload))
   }
 
   _closeConnection() {

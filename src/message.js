@@ -2,7 +2,7 @@ import debug from 'debug'
 import Exception from './exception'
 import Originator from './originator'
 import Metadata  from './metadata'
-import Attachment from './attachment/attachment'
+import { Attachment } from './attachment'
 
 debug('flowai:message')
 

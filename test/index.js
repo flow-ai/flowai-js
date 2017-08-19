@@ -8,7 +8,7 @@ import Exception from '../lib/exception'
 import Unique from '../lib/unique'
 import Message from '../lib/message'
 import Attachment from '../lib/attachment/attachment'
-import EventAttachment from '../lib/attachment/event'
+import { EventAttachment } from '../lib/attachment'
 
 chai.use(chaiEventemitter)
 
@@ -126,4 +126,39 @@ describe("Flow.ai SDK", () => {
   it("Cannot construct message with invalid attachment", () => {
     expect(() => new Message({ attachment: {}})).to.throw(Exception)
   })
+
+  it("Can construct message back with JSON", () => {
+    const data = {
+      "threadId": "9867517ad8b04f33b44e43ed78dacccb",
+      "traceId": 1503132880254,
+      "speech": "EVENT attachment",
+      "originator": {
+        "name": "John",
+        "role": "external",
+        "profile": {
+          "fullName": "John Doe"
+        }
+      },
+      "attachment": {
+        "type": "EVENT",
+        "payload": {
+          "name": 'TEST'
+        }
+      },
+      "metadata": {
+        "language": "en",
+        "timezone": 2,
+        "contexts": ["socket"],
+        "params": {},
+        "domain": {
+          "realm": "browser",
+          "title": "Local webclient"
+        }
+      }
+    }
+    Message.build(data)
+    expect(() => Message.build(data)).to.not.throw()
+  })
+
+
 })
