@@ -28,7 +28,7 @@ export class Attachment {
 
   static build({ type, payload}) {
     switch(type) {
-      case 'EVENT':
+      case 'event':
         return new EventAttachment(payload.name)
       default:
         return new Attachment(type, payload)
@@ -51,6 +51,6 @@ export class EventAttachment extends Attachment {
       throw new Exception("payload should be a string", 'user')
     }
 
-    super('EVENT', { name: payload })
+    super('event', { name: payload })
   }
 }

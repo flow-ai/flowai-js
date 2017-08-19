@@ -89,7 +89,7 @@ describe("Flow.ai SDK", () => {
   })
 
   it("Can create attachment", () => {
-    const attachment = new Attachment('EVENT', { name: 'monkey' })
+    const attachment = new Attachment('event', { name: 'monkey' })
     expect(attachment).to.be.not.null
   })
 
@@ -112,7 +112,7 @@ describe("Flow.ai SDK", () => {
       attachment: new EventAttachment('Coolness')
     })
     expect(m.attachment).to.be.not.undefined
-    expect(m.speech).to.be.equal('EVENT attachment')
+    expect(m.speech).to.be.equal('event attachment')
   })
 
   it("Can construct message with attachment, with speech", () => {
@@ -131,7 +131,7 @@ describe("Flow.ai SDK", () => {
     const data = {
       "threadId": "9867517ad8b04f33b44e43ed78dacccb",
       "traceId": 1503132880254,
-      "speech": "EVENT attachment",
+      "speech": "event attachment",
       "originator": {
         "name": "John",
         "role": "external",
@@ -140,7 +140,7 @@ describe("Flow.ai SDK", () => {
         }
       },
       "attachment": {
-        "type": "EVENT",
+        "type": "event",
         "payload": {
           "name": 'TEST'
         }
