@@ -11,7 +11,8 @@ debug('flowai:message')
  * @class
  * @property {string} speech - Text representing the Message
  * @property {Originator} sender - Originator
- * @property {object} meta - Meta data
+ * @property {Metadata} meta - Meta data
+ * @property {Attachment} attachment - Optional attachment
  **/
 class Message {
 
@@ -22,6 +23,7 @@ class Message {
    * @param {string} options.speech - Text representing the Message
    * @param {Originator} options.originator - Originator
    * @param {object} options.metadata - Meta data
+   * @param {object} options.attachment - Attachment (optional)
    **/
   constructor(opts = {}) {
 
@@ -30,7 +32,8 @@ class Message {
       traceId,
       speech,
       originator,
-      metadata
+      metadata,
+      attachment
     } = opts
 
     if(traceId && typeof traceId !== 'number') {
@@ -41,12 +44,21 @@ class Message {
       throw new Exception("threadId should be an string.", 'user')
     }
 
+    if(attachment && !(attachment instanceof Attachment) ) {
+      throw new Exception("attachment should be a Attachment.", 'user')
+    }
+
     this.threadId = threadId
     this.traceId = traceId || undefined
     this.speech = speech || ""
     this.originator = originator || new Originator({})
     this.attachment = null
     this.metadata = metadata || new Metadata({})
+    this.attachment = attachment || undefined
+
+    if(!this.speech.length && attachment) {
+      this.speech = `${attachment.type} attachment`
+    }
   }
 
   /**
@@ -57,7 +69,7 @@ class Message {
       speech,
       originator: new Originator(originator),
       metadata: Metadata.build(metadata),
-      attachment: Attachment.build(attachment)
+      attachment: (attachment) ? Attachment.build(attachment) : undefined
     })
   }
 }

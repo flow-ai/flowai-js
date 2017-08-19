@@ -100,10 +100,30 @@ describe("Flow.ai SDK", () => {
 
   it("Can add attachment to message", () => {
     const m = new Message()
-    expect(m.attachment).to.be.null
+    expect(m.attachment).to.be.undefined
 
     m.attachment = new EventAttachment('Coolness')
 
     expect(m.attachment).to.be.not.null
+  })
+
+  it("Can construct message with attachment, without speech", () => {
+    const m = new Message({
+      attachment: new EventAttachment('Coolness')
+    })
+    expect(m.attachment).to.be.not.undefined
+    expect(m.speech).to.be.equal('EVENT attachment')
+  })
+
+  it("Can construct message with attachment, with speech", () => {
+    const m = new Message({
+      speech: 'coolness',
+      attachment: new EventAttachment('Coolness')
+    })
+    expect(m.speech).to.be.equal('coolness')
+  })
+
+  it("Cannot construct message with invalid attachment", () => {
+    expect(() => new Message({ attachment: {}})).to.throw(Exception)
   })
 })
