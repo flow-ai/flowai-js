@@ -237,8 +237,7 @@ class LiveClient extends EventEmitter {
       return this.emit(LiveClient.NO_HISTORY)
     }
 
-    this.threadId = new Unique(this._clientId, 'threadId', threadId)
-    this.sessionId = new Unique(this._clientId, 'sessionId', threadId)
+    this.threadId = threadId
 
     this.emit(LiveClient.REQUESTING_HISTORY)
 
@@ -247,7 +246,7 @@ class LiveClient extends EventEmitter {
         path: 'thread.history',
         queryParams: {
           clientId: this._clientId,
-          threadId: threadId || this.threadId
+          threadId: this.threadId
         }
       })
       .then(result => {
@@ -290,7 +289,7 @@ class LiveClient extends EventEmitter {
       const enveloppe = JSON.stringify({
         type: 'thread.noticed',
         payload: {
-          threadId: threadId || this.threadId
+          threadId: this.threadId
         }
       })
 
@@ -315,7 +314,7 @@ class LiveClient extends EventEmitter {
       })
     }
 
-    this.threadId = new Unique(this._clientId, 'threadId', threadId)
+    this.threadId = threadId
 
     this._rest
       .get({
