@@ -307,7 +307,7 @@ Live streaming websocket client extends EventEmitter
         * [.REQUESTING_HISTORY](#LiveClient.REQUESTING_HISTORY) : <code>string</code>
         * [.NO_HISTORY](#LiveClient.NO_HISTORY) : <code>string</code>
         * [.RECEIVED_HISTORY](#LiveClient.RECEIVED_HISTORY) : <code>string</code>
-        * [.UNNOTICED_MESSAGES](#LiveClient.UNNOTICED_MESSAGES) : <code>string</code>
+        * [.CHECKED_UNNOTICED_MESSAGES](#LiveClient.CHECKED_UNNOTICED_MESSAGES) : <code>string</code>
 
 <a name="new_LiveClient_new"></a>
 
@@ -486,9 +486,9 @@ Event that triggers when a request is made to load historic messages
 Event that triggers when historic messages are received
 
 **Kind**: static constant of <code>[LiveClient](#LiveClient)</code>  
-<a name="LiveClient.UNNOTICED_MESSAGES"></a>
+<a name="LiveClient.CHECKED_UNNOTICED_MESSAGES"></a>
 
-### LiveClient.UNNOTICED_MESSAGES : <code>string</code>
+### LiveClient.CHECKED_UNNOTICED_MESSAGES : <code>string</code>
 Event that triggers when there are unnoticed messages
 
 **Kind**: static constant of <code>[LiveClient](#LiveClient)</code>  

@@ -52,6 +52,12 @@ client.on(LiveClient.RECONNECTING, () => {
   console.log('--> Trying to reconnect')
 })
 client.on(LiveClient.ERROR, (err) => {
-  console.log('--> Error while sending, receiving messages', err)
+  console.log('--> Error while doing stuff', err)
 })
-client.start()
+client.on(LiveClient.CHECKED_UNNOTICED_MESSAGES, (result) => {
+  console.log('--> Checked unnoticed messages', result)
+})
+
+client.checkUnnoticed()
+
+// client.start()

@@ -72,11 +72,10 @@ class Rest {
       debug(`Calling URL '${url}'`)
 
       fetch(url, enveloppe)
-        .then((response) => {
-          debug('Received a response')
+        .then(response => {
           resolve(response.json())
         })
-        .catch((err) => {
+        .catch(err => {
           debug('Failed with error', err)
           reject(err)
         })

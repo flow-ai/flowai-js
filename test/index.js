@@ -26,6 +26,22 @@ describe("Flow.ai SDK", () => {
     expect(uniqueId.id()).to.be.equal('value')
   })
 
+  it("Check if unique exists", () => {
+    new Unique('abc', 'key', 'value')
+    expect(Unique.exists('abc', 'key')).to.be.true
+  })
+
+  it("Check if unique does not exist", () => {
+    new Unique('abc1', 'key1', 'value1')
+    expect(Unique.exists('abc2', 'key2')).to.be.false
+  })
+
+  it("Unique exists throws with invalid arguments", () => {
+    expect(() => Unique.exists(null, null)).to.throw(Error)
+    expect(() => Unique.exists('null', null)).to.throw(Error)
+    expect(() => Unique.exists(null, 'null')).to.throw(Error)
+  })
+
   it("ClientId must be string", () => {
     expect(() => new LiveClient({})).to.throw(Exception)
   })

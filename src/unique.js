@@ -44,6 +44,30 @@ class Unique {
 
     return uniqueId
   }
+
+  /**
+   * See if a key exists in storageKey
+   **/
+  static exists(clientId, key) {
+    if(typeof clientId !== 'string' || !clientId.length) {
+      throw new Error('Invalid clientId provided')
+    }
+
+    if(typeof key !== 'string' || !key.length) {
+      throw new Error('Invalid key provided')
+    }
+
+    let localStorage
+    if (typeof localStorage === "undefined" || localStorage === null) {
+      const LocalStorage = require('node-localstorage').LocalStorage
+      localStorage = new LocalStorage('./unique')
+    } else {
+      localStorage = window.localStorage
+    }
+
+    const storageKey = `${clientId}.${key}`
+    return (localStorage && localStorage.getItem(storageKey) !== null)
+  }
 }
 
 export default Unique

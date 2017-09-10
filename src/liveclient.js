@@ -216,12 +216,12 @@ class LiveClient extends EventEmitter {
           mergerKey
         }
       })
-      .then((result) => {
+      .then(result => {
         if(result.status !== 'ok') {
-          throw new Error('Unable to merge, received a status other then "ok"')
+          throw new Error(`Unable to merge, received a status other then "ok". ${result.payload.message}`)
         }
       })
-      .catch((err) => {
+      .catch(err => {
         debug('Error while trying to merge', err)
         this.emit(LiveClient.ERROR, new Exception(err, 'connection'))
       })
@@ -232,15 +232,13 @@ class LiveClient extends EventEmitter {
    * @param {string} threadId - Optional. Specify the thread to retreive historic messages
    **/
   history(threadId) {
-    if(!this.isConnected) {
-      throw new Exception("Could not load any historic information", 'user')
+
+    if(!threadId && !Unique.exists(this._clientId, 'threadId')) {
+      return this.emit(LiveClient.NO_HISTORY)
     }
 
-    if(!threadId && !this.threadId) {
-      // No history to be loaded
-      this.emit(LiveClient.NO_HISTORY)
-      return
-    }
+    this.threadId = new Unique(this._clientId, 'threadId', threadId)
+    this.sessionId = new Unique(this._clientId, 'sessionId', threadId)
 
     this.emit(LiveClient.REQUESTING_HISTORY)
 
@@ -252,14 +250,14 @@ class LiveClient extends EventEmitter {
           threadId: threadId || this.threadId
         }
       })
-      .then((result) => {
+      .then(result => {
         if(result.status !== 'ok') {
-          throw new Error('Unable to merge, received a status other then "ok"')
+          throw new Error(`Unable to fetch historic messages, received a status other then "ok". ${result.payload.message}`)
         }
         this.emit(LiveClient.RECEIVED_HISTORY, result.payload)
       })
-      .catch((err) => {
-        debug('Error while trying to merge', err)
+      .catch(err => {
+        debug('Error while trying to fetch the history', err)
         this.emit(LiveClient.ERROR, new Exception(err, 'connection'))
       })
   }
@@ -272,7 +270,7 @@ class LiveClient extends EventEmitter {
    **/
   noticed(threadId, instantly) {
 
-    if(!threadId && !this.threadId) {
+    if(!threadId && !Unique.exists(this._clientId, 'threadId')) {
       // Skip
       throw new Exception("Could not send noticed. No threadId", 'user')
     }
@@ -311,28 +309,30 @@ class LiveClient extends EventEmitter {
    **/
   checkUnnoticed(threadId) {
 
-    if(!threadId && !this.threadId) {
-      return
+    if(!threadId && !Unique.exists(this._clientId, 'threadId')) {
+      return this.emit(LiveClient.CHECKED_UNNOTICED_MESSAGES, {
+        unnoticed: false
+      })
     }
+
+    this.threadId = new Unique(this._clientId, 'threadId', threadId)
 
     this._rest
       .get({
         path: 'thread.unnoticed',
         queryParams: {
           clientId: this._clientId,
-          threadId: threadId || this.threadId
+          threadId: this.threadId
         }
       })
-      .then((result) => {
+      .then(result => {
         if(result.status !== 'ok') {
-          throw new Error('Unable to send a notice, received a status other then "ok"')
+          throw new Error(`Unable to check unnoticed messages, received a status other then "ok". ${result.payload.message}`)
         }
 
-        if(result.payload.unnoticed){
-          this.emit(LiveClient.UNNOTICED_MESSAGES)
-        }
+        this.emit(LiveClient.CHECKED_UNNOTICED_MESSAGES, result.payload)
       })
-      .catch((err) => {
+      .catch(err => {
         debug('Error while trying to find out unnoticed messages', err)
         this.emit(LiveClient.ERROR, new Exception(err, 'connection'))
       })
@@ -342,7 +342,6 @@ class LiveClient extends EventEmitter {
     this._session= null
     this._thread = null
     this._socket = null
-    this._connection = null
     this._keepAliveInterval = null
     this._reconnectTimeout = null
     this._noticedTimeout = null
@@ -378,8 +377,13 @@ class LiveClient extends EventEmitter {
           threadId: this.threadId
         }
       })
-      .then(({ payload }) => this._handleConnection(payload))
-      .catch((err) => {
+      .then(result => {
+        if(result.status !== 'ok') {
+          throw new Error(`Unable to create get a socket URL, received a status other then "ok". ${result.payload.message}`)
+        }
+        this._handleConnection(result.payload)
+      })
+      .catch(err => {
         debug('Error while trying to connect', err)
         this._reconnect()
 
@@ -596,6 +600,6 @@ LiveClient.RECEIVED_HISTORY = 'received.history'
  * @type {string}
  * @desc Event that triggers when there are unnoticed messages
  **/
-LiveClient.UNNOTICED_MESSAGES = 'unnoticed.messages'
+LiveClient.CHECKED_UNNOTICED_MESSAGES = 'unnoticed.messages'
 
 export default LiveClient
