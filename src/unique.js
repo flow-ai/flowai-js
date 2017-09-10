@@ -57,16 +57,16 @@ class Unique {
       throw new Error('Invalid key provided')
     }
 
-    let localStorage
+    let storage
     if (typeof localStorage === "undefined" || localStorage === null) {
       const LocalStorage = require('node-localstorage').LocalStorage
-      localStorage = new LocalStorage('./unique')
+      storage = new LocalStorage('./unique')
     } else {
-      localStorage = window.localStorage
+      storage = localStorage
     }
 
     const storageKey = `${clientId}.${key}`
-    return (localStorage && localStorage.getItem(storageKey) !== null)
+    return (storage && storage.getItem(storageKey) !== null)
   }
 }
 
