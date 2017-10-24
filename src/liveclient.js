@@ -31,7 +31,7 @@ class LiveClient extends EventEmitter {
     super()
 
     this._clientId = clientId
-    this._endpoint = endpoint || 'https://api.flow.ai/channels/webclient/api'
+    this._endpoint = endpoint || 'https://api.flow.ai'
     this._rest = new Rest(this._endpoint)
     this._init()
 
