@@ -583,6 +583,7 @@ Reply being returned by Flow.ai
 | messages[].responses | <code>Array</code> | List of response templates |
 | messages[].responses[].type | <code>Array</code> | Template type |
 | messages[].responses[].payload | <code>Array</code> | Template payload |
+| messages[].responses[].delay | <code>Array</code> | Number of seconds the response is delayed |
 
 <a name="new_Reply_new"></a>
 

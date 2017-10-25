@@ -17,6 +17,7 @@ debug('flowai:reply')
  * @property {Array} messages[].responses - List of response templates
  * @property {Array} messages[].responses[].type - Template type
  * @property {Array} messages[].responses[].payload - Template payload
+ * @property {Array} messages[].responses[].delay - Number of seconds the response is delayed
  **/
 class Reply {
 
@@ -42,9 +43,10 @@ class ReplyMessage {
 }
 
 class Response {
-  constructor({ type, payload }) {
+  constructor({ type, payload, delay }) {
     this.type = type
     this.payload = payload
+    this.delay = delay || 0
   }
 }
 

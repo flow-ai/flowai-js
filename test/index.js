@@ -172,9 +172,6 @@ describe("Flow.ai SDK", () => {
         }
       }
     }
-    Message.build(data)
     expect(() => Message.build(data)).to.not.throw()
   })
-
-
 })
