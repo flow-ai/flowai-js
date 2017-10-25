@@ -7,6 +7,7 @@ import {
 import Exception from '../lib/exception'
 import Unique from '../lib/unique'
 import Message from '../lib/message'
+import Reply from '../lib/reply'
 import Attachment from '../lib/attachment/attachment'
 import { EventAttachment } from '../lib/attachment'
 
@@ -173,5 +174,66 @@ describe("Flow.ai SDK", () => {
       }
     }
     expect(() => Message.build(data)).to.not.throw()
+  })
+
+  it("Can construct a reply message with JSON", () => {
+    const data = {
+      "threadId": "4243324233422342344343432",
+      "messages": [
+        {
+          "fallback": "Hi how can I help?",
+          "silent": false,
+          "replyTo": "hello",
+          "originator": {
+            "actorId": "4243324233422342344343432",
+            "userId": "flowai|4243324233422342344343432",
+            "name": "Awesome Bot",
+            "role": "bot",
+            "profile": {
+              "description": "Flow.ai",
+              "locale": "en",
+              "picture": "https://flow.ai/img/brains/flowai.svg"
+            }
+          },
+          "actions": [],
+          "responses": [
+            {
+              "type": "text",
+              "payload": {
+                "text": "Hi how can I help?"
+              },
+              "delay": 20
+            }
+          ],
+          "intents": [],
+          "flow": {
+            "flowId": "4243324233422342344343432",
+            "title": "Greeting"
+          },
+          "step": {
+            "stepId": "4243324233422342344343432",
+            "title": "hello"
+          },
+          "params": {},
+          "contexts": [
+            "4243324233422342344343432"
+          ]
+        }
+      ],
+      "originator": {
+        "actorId": "4243324233422342344343432",
+        "userId": "flowai|4243324233422342344343432",
+        "name": "Awesome bot",
+        "role": "bot",
+        "profile": {
+          "description": "Flow.ai",
+          "locale": "en",
+          "picture": "https://flow.ai/img/brains/flowai.svg"
+        }
+      }
+    }
+    expect(() => new Reply(data)).to.not.throw()
+    const r = new Reply(data)
+    expect(r.messages[0].responses[0].delay).to.equal(20)
   })
 })
