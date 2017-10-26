@@ -1,13 +1,38 @@
 <html>
   <head>
-    <script src="flowai-js.min.js"></script>
+    <title>Demo API</title>
+    <meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      html, body {
+        height: 100%;
+        width: 100%
+      }
+    </style>
   </head>
   <body>
+    <script src="flowai-js.min.js"></script>
     <script type="text/javascript">
-      document.addEventListener("DOMContentLoaded", function(event) {
-        // Create a new LiveClient
-        // var client = new Flowai.LiveClient()
-      });
+      document.addEventListener('DOMContentLoaded', function() {
+        var { LiveClient, Message, Originator } = Flowai
+        var client = new LiveClient('YOUR CLIENT ID', 'https://api.flow.ai');
+        client.on(LiveClient.RECONNECTING, () => console.info('Reconnecting'));
+        client.on(LiveClient.ERROR, (err) => console.error(err));
+        client.on(LiveClient.CONNECTED, function(){
+          var originator = new Originator({
+            name: "John Doo"
+          });
+
+          var message = new Message({
+            speech: "Behold, I'm pure awesomeness!",
+            originator
+          });
+
+          client.send(message);
+        })
+        client.start();
+      })
     </script>
   </body>
 </html>
