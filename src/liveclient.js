@@ -265,7 +265,7 @@ class LiveClient extends EventEmitter {
 
     if(!threadId && !Unique.exists({
       clientId: this._clientId,
-      label: 'threadId',
+      key: 'threadId',
       engine: this._storage
     })) {
       return this.emit(LiveClient.NO_HISTORY)
@@ -305,7 +305,7 @@ class LiveClient extends EventEmitter {
 
     if(!threadId && !Unique.exists({
       clientId: this._clientId,
-      label: 'threadId',
+      key: 'threadId',
       engine: this._storage
     })) {
       // Skip
@@ -348,7 +348,7 @@ class LiveClient extends EventEmitter {
 
     if(!threadId && !Unique.exists({
       clientId: this._clientId,
-      label: 'threadId',
+      key: 'threadId',
       engine: this._storage
     })) {
       return this.emit(LiveClient.CHECKED_UNNOTICED_MESSAGES, {
