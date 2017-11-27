@@ -283,7 +283,7 @@ Live streaming websocket client extends EventEmitter
 **Kind**: global class  
 
 * [LiveClient](#LiveClient)
-    * [new LiveClient(clientId, endpoint)](#new_LiveClient_new)
+    * [new LiveClient(opts)](#new_LiveClient_new)
     * _instance_
         * [.sessionId](#LiveClient+sessionId) ⇒ <code>string</code> &#124; <code>null</code>
         * [.threadId](#LiveClient+threadId) ⇒ <code>string</code> &#124; <code>null</code>
@@ -311,14 +311,16 @@ Live streaming websocket client extends EventEmitter
 
 <a name="new_LiveClient_new"></a>
 
-### new LiveClient(clientId, endpoint)
+### new LiveClient(opts)
 Constructor
 
 
-| Param | Type | Description |
-| --- | --- | --- |
-| clientId | <code>string</code> | Client token |
-| endpoint | <code>string</code> | For testing purposes |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| opts | <code>string</code> &#124; <code>object</code> |  | Configuration options or shorthand for just clientId |
+| opts.clientId | <code>string</code> |  | Mandatory Client token |
+| opts.storage | <code>string</code> | <code>&quot;local&quot;</code> | Optional, 'session' or 'local' for using sessionStorage or localStorage |
+| opts.endpoint | <code>string</code> |  | Optional, only for testing purposes |
 
 <a name="LiveClient+sessionId"></a>
 

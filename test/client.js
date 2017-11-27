@@ -5,7 +5,6 @@ import {
   LIVE_EVENTS
 } from "../lib"
 import Exception from '../lib/exception'
-import Unique from '../lib/unique'
 import Message from '../lib/message'
 import Reply from '../lib/reply'
 import Attachment from '../lib/attachment/attachment'
@@ -16,32 +15,7 @@ chai.use(chaiEventemitter)
 const __CLIENT_ID__ = 'NzRkNDFmMGEtYTM5OC00Njk0LWI4MTktZTA4NmJjZjEyMTg3fGIyNzIxMGUzLWU5ZmEtNDkyYS04YTM1LTliOTM0NTAwMDM4Mw=='
 const __ENDPOINT__ = 'http://localhost:6005'
 
-describe("Flow.ai SDK", () => {
-
-  it("Unique must have values", () => {
-    expect(() => new Unique()).to.throw(Error)
-  })
-
-  it("Unique must have values", () => {
-    const uniqueId = new Unique('abc', 'key', 'value')
-    expect(uniqueId.id()).to.be.equal('value')
-  })
-
-  it("Check if unique exists", () => {
-    new Unique('abc', 'key', 'value')
-    expect(Unique.exists('abc', 'key')).to.be.true
-  })
-
-  it("Check if unique does not exist", () => {
-    new Unique('abc1', 'key1', 'value1')
-    expect(Unique.exists('abc2', 'key2')).to.be.false
-  })
-
-  it("Unique exists throws with invalid arguments", () => {
-    expect(() => Unique.exists(null, null)).to.throw(Error)
-    expect(() => Unique.exists('null', null)).to.throw(Error)
-    expect(() => Unique.exists(null, 'null')).to.throw(Error)
-  })
+describe("Flow.ai SDK Client", () => {
 
   it("ClientId must be string", () => {
     expect(() => new LiveClient({})).to.throw(Exception)
@@ -51,18 +25,42 @@ describe("Flow.ai SDK", () => {
     expect(() => new LiveClient()).to.throw(Exception)
   })
 
+  it("Create legacy way", () => {
+    expect(() => new LiveClient(__CLIENT_ID__)).to.not.throw()
+  })
+
+  it("Create new way", () => {
+    expect(() => new LiveClient({ clientId: __CLIENT_ID__ })).to.not.throw()
+  })
+
+  it("Create with options", () => {
+    const client1 = new LiveClient({
+      clientId: __CLIENT_ID__,
+      endpoint: __ENDPOINT__,
+      storage: 'local'
+    })
+    expect(client1._endpoint).to.equal(__ENDPOINT__)
+    expect(client1._storage).to.equal('local')
+
+    const client2 = new LiveClient({
+      clientId: __CLIENT_ID__,
+      storage: 'session'
+    })
+    expect(client2._storage).to.equal('session')
+  })
+
   it("Throws not on invalid clientId", () => {
     const client = new LiveClient('asassaasassasaasassaas')
     expect(() => client.start()).to.not.throw(Exception)
   })
 
   it("Throws on invalid sessionId", () => {
-    const client = new LiveClient('')
+    const client = new LiveClient(__CLIENT_ID__)
     expect(() => client.start(1)).to.throw(Exception)
   })
 
   it("Throws on invalid threadId", () => {
-    const client = new LiveClient('')
+    const client = new LiveClient(__CLIENT_ID__)
     expect(() => client.start('', 1)).to.throw(Exception)
   })
 

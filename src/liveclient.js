@@ -18,20 +18,40 @@ class LiveClient extends EventEmitter {
 
 /**
  * Constructor
- * @param {string} clientId - Client token
- * @param {string} endpoint - For testing purposes
+ * @param {string|object} opts - Configuration options or shorthand for just clientId
+ * @param {string} opts.clientId - Mandatory Client token
+ * @param {string} opts.storage=local - Optional, 'session' or 'local' for using sessionStorage or localStorage
+ * @param {string} opts.endpoint - Optional, only for testing purposes
  * @returns {LiveClient}
  */
-  constructor(clientId, endpoint) {
-
-    if(typeof(clientId) !== 'string') {
-      throw new Exception("Invalid or lacking argument for LiveClient. You must provide a Client Id. Check the dashboard.", 'user')
-    }
+  constructor(opts) {
 
     super()
 
-    this._clientId = clientId
-    this._endpoint = endpoint || 'https://api.flow.ai'
+    // Backwards compatibility
+    if(typeof(opts) === 'string') {
+      this._clientId = arguments[0]
+
+      if(arguments.length == 2) {
+        this._endpoint = arguments[1]
+      }
+    } else if(typeof(opts) === 'object') {
+      this._clientId = opts.clientId
+      this._endpoint = opts.endpoint
+
+      if(opts.storage === 'session') {
+        this._storage = 'session'
+      } else {
+        this._storage = 'local'
+      }
+    }
+
+    if(typeof(this._clientId) !== 'string') {
+      throw new Exception("Invalid or lacking argument for LiveClient. You must provide a Client Id. Check the dashboard.", 'user')
+    }
+
+    this._storage = this._storage || 'local'
+    this._endpoint = this._endpoint || 'https://api.flow.ai'
     this._rest = new Rest(this._endpoint)
     this._init()
 
@@ -51,7 +71,12 @@ class LiveClient extends EventEmitter {
   }
 
   set sessionId(value) {
-    this._session = new Unique(this._clientId, 'sessionId', value)
+    this._session = new Unique({
+      clientId: this._clientId,
+      key: 'sessionId',
+      value,
+      engine: this._storage
+    })
   }
 
   /**
@@ -68,7 +93,12 @@ class LiveClient extends EventEmitter {
 
   set threadId(value) {
     // Create a new Thread
-    this._thread = new Unique(this._clientId, 'threadId', value)
+    this._thread = new Unique({
+      clientId: this._clientId,
+      key: 'threadId',
+      value,
+      engine: this._storage
+    })
   }
 
   /**
@@ -233,7 +263,11 @@ class LiveClient extends EventEmitter {
    **/
   history(threadId) {
 
-    if(!threadId && !Unique.exists(this._clientId, 'threadId')) {
+    if(!threadId && !Unique.exists({
+      clientId: this._clientId,
+      label: 'threadId',
+      engine: this._storage
+    })) {
       return this.emit(LiveClient.NO_HISTORY)
     }
 
@@ -269,7 +303,11 @@ class LiveClient extends EventEmitter {
    **/
   noticed(threadId, instantly) {
 
-    if(!threadId && !Unique.exists(this._clientId, 'threadId')) {
+    if(!threadId && !Unique.exists({
+      clientId: this._clientId,
+      label: 'threadId',
+      engine: this._storage
+    })) {
       // Skip
       throw new Exception("Could not send noticed. No threadId", 'user')
     }
@@ -308,7 +346,11 @@ class LiveClient extends EventEmitter {
    **/
   checkUnnoticed(threadId) {
 
-    if(!threadId && !Unique.exists(this._clientId, 'threadId')) {
+    if(!threadId && !Unique.exists({
+      clientId: this._clientId,
+      label: 'threadId',
+      engine: this._storage
+    })) {
       return this.emit(LiveClient.CHECKED_UNNOTICED_MESSAGES, {
         unnoticed: false
       })
