@@ -261,7 +261,7 @@ Exception
 | --- | --- | --- |
 | message | <code>string</code> | Human friendly message |
 | type | <code>string</code> | Kind of error |
-| innerException | <code>[Exception](#Exception)</code> | Inner exception |
+| innerException | [<code>Exception</code>](#Exception) | Inner exception |
 
 <a name="new_Exception_new"></a>
 
@@ -273,7 +273,7 @@ Constructor
 | --- | --- | --- |
 | message | <code>string</code> | message - Human friendly message |
 | type | <code>string</code> | Kind of error |
-| innerException | <code>[Exception](#Exception)</code> | Optional inner exception |
+| innerException | [<code>Exception</code>](#Exception) | Optional inner exception |
 
 <a name="LiveClient"></a>
 
@@ -285,8 +285,8 @@ Live streaming websocket client extends EventEmitter
 * [LiveClient](#LiveClient)
     * [new LiveClient(opts)](#new_LiveClient_new)
     * _instance_
-        * [.sessionId](#LiveClient+sessionId) ⇒ <code>string</code> &#124; <code>null</code>
-        * [.threadId](#LiveClient+threadId) ⇒ <code>string</code> &#124; <code>null</code>
+        * [.sessionId](#LiveClient+sessionId) ⇒ <code>string</code> \| <code>null</code>
+        * [.threadId](#LiveClient+threadId) ⇒ <code>string</code> \| <code>null</code>
         * [.isConnected](#LiveClient+isConnected) ⇒ <code>bool</code>
         * [.start(threadId, sessionId)](#LiveClient+start)
         * [.stop()](#LiveClient+stop)
@@ -317,38 +317,38 @@ Constructor
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| opts | <code>string</code> &#124; <code>object</code> |  | Configuration options or shorthand for just clientId |
+| opts | <code>string</code> \| <code>object</code> |  | Configuration options or shorthand for just clientId |
 | opts.clientId | <code>string</code> |  | Mandatory Client token |
 | opts.storage | <code>string</code> | <code>&quot;local&quot;</code> | Optional, 'session' or 'local' for using sessionStorage or localStorage |
 | opts.endpoint | <code>string</code> |  | Optional, only for testing purposes |
 
 <a name="LiveClient+sessionId"></a>
 
-### liveClient.sessionId ⇒ <code>string</code> &#124; <code>null</code>
+### liveClient.sessionId ⇒ <code>string</code> \| <code>null</code>
 Session Id of the connection
 
-**Kind**: instance property of <code>[LiveClient](#LiveClient)</code>  
-**Returns**: <code>string</code> &#124; <code>null</code> - Null if no connection is active  
+**Kind**: instance property of [<code>LiveClient</code>](#LiveClient)  
+**Returns**: <code>string</code> \| <code>null</code> - Null if no connection is active  
 <a name="LiveClient+threadId"></a>
 
-### liveClient.threadId ⇒ <code>string</code> &#124; <code>null</code>
+### liveClient.threadId ⇒ <code>string</code> \| <code>null</code>
 Default Thread Id to be used for any messages being send
 
-**Kind**: instance property of <code>[LiveClient](#LiveClient)</code>  
-**Returns**: <code>string</code> &#124; <code>null</code> - Null if no connection is active  
+**Kind**: instance property of [<code>LiveClient</code>](#LiveClient)  
+**Returns**: <code>string</code> \| <code>null</code> - Null if no connection is active  
 <a name="LiveClient+isConnected"></a>
 
 ### liveClient.isConnected ⇒ <code>bool</code>
 Check if the connection is active
 
-**Kind**: instance property of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: instance property of [<code>LiveClient</code>](#LiveClient)  
 **Returns**: <code>bool</code> - True if the connection is active  
 <a name="LiveClient+start"></a>
 
 ### liveClient.start(threadId, sessionId)
 Start the client
 
-**Kind**: instance method of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: instance method of [<code>LiveClient</code>](#LiveClient)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -360,24 +360,24 @@ Start the client
 ### liveClient.stop()
 Use this method to temp disconnect a client
 
-**Kind**: instance method of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: instance method of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient+destroy"></a>
 
 ### liveClient.destroy()
 Close the connection and completely reset the client
 
-**Kind**: instance method of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: instance method of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient+send"></a>
 
 ### liveClient.send(message) ⇒
 This method triggers a `LiveClient.MESSAGE_SEND` event
 
-**Kind**: instance method of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: instance method of [<code>LiveClient</code>](#LiveClient)  
 **Returns**: Message - Message that was send  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| message | <code>[Message](#Message)</code> | Message to be send |
+| message | [<code>Message</code>](#Message) | Message to be send |
 
 <a name="LiveClient+merger"></a>
 
@@ -385,7 +385,7 @@ This method triggers a `LiveClient.MESSAGE_SEND` event
 Merge two threads from different channels.
 This methods is not yet publicy supported since we don't have a way yet to provide a mergerKey.
 
-**Kind**: instance method of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: instance method of [<code>LiveClient</code>](#LiveClient)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -398,7 +398,7 @@ This methods is not yet publicy supported since we don't have a way yet to provi
 ### liveClient.history(threadId)
 Request historic messages
 
-**Kind**: instance method of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: instance method of [<code>LiveClient</code>](#LiveClient)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -410,7 +410,7 @@ Request historic messages
 Call to mark a thread as noticed.
 The library automatically throttles the number of calls
 
-**Kind**: instance method of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: instance method of [<code>LiveClient</code>](#LiveClient)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -422,7 +422,7 @@ The library automatically throttles the number of calls
 ### liveClient.checkUnnoticed(threadId)
 Did we miss any messages?
 
-**Kind**: instance method of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: instance method of [<code>LiveClient</code>](#LiveClient)  
 
 | Param | Type |
 | --- | --- |
@@ -433,67 +433,67 @@ Did we miss any messages?
 ### LiveClient.ERROR : <code>string</code>
 Event that triggers when an error is received from the flow.ai platform
 
-**Kind**: static constant of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.CONNECTED"></a>
 
 ### LiveClient.CONNECTED : <code>string</code>
 Event that triggers when client is connected with platform
 
-**Kind**: static constant of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.RECONNECTING"></a>
 
 ### LiveClient.RECONNECTING : <code>string</code>
 Event that triggers when client tries to reconnect
 
-**Kind**: static constant of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.DISCONNECTED"></a>
 
 ### LiveClient.DISCONNECTED : <code>string</code>
 Event that triggers when the client gets disconnected
 
-**Kind**: static constant of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.REPLY_RECEIVED"></a>
 
 ### LiveClient.REPLY_RECEIVED : <code>string</code>
 Event that triggers when a new message is received from the platform
 
-**Kind**: static constant of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.MESSAGE_SEND"></a>
 
 ### LiveClient.MESSAGE_SEND : <code>string</code>
 Event that triggers when the client is sending a message to the platform
 
-**Kind**: static constant of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.MESSAGE_DELIVERED"></a>
 
 ### LiveClient.MESSAGE_DELIVERED : <code>string</code>
 Event that triggers when the send message has been received by the platform
 
-**Kind**: static constant of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.REQUESTING_HISTORY"></a>
 
 ### LiveClient.REQUESTING_HISTORY : <code>string</code>
 Event that triggers when a request is made to load historic messages
 
-**Kind**: static constant of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.NO_HISTORY"></a>
 
 ### LiveClient.NO_HISTORY : <code>string</code>
 Event that triggers when a request is made to load historic messages
 
-**Kind**: static constant of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.RECEIVED_HISTORY"></a>
 
 ### LiveClient.RECEIVED_HISTORY : <code>string</code>
 Event that triggers when historic messages are received
 
-**Kind**: static constant of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.CHECKED_UNNOTICED_MESSAGES"></a>
 
 ### LiveClient.CHECKED_UNNOTICED_MESSAGES : <code>string</code>
 Event that triggers when there are unnoticed messages
 
-**Kind**: static constant of <code>[LiveClient](#LiveClient)</code>  
+**Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="Message"></a>
 
 ## Message
@@ -505,9 +505,9 @@ Message being send to Flow.ai
 | Name | Type | Description |
 | --- | --- | --- |
 | speech | <code>string</code> | Text representing the Message |
-| sender | <code>[Originator](#Originator)</code> | Originator |
-| meta | <code>[Metadata](#Metadata)</code> | Meta data |
-| attachment | <code>[Attachment](#Attachment)</code> | Optional attachment |
+| sender | [<code>Originator</code>](#Originator) | Originator |
+| meta | [<code>Metadata</code>](#Metadata) | Meta data |
+| attachment | [<code>Attachment</code>](#Attachment) | Optional attachment |
 
 
 * [Message](#Message)
@@ -525,7 +525,7 @@ Constructor
 | options.traceId | <code>int</code> | Optional unique integer you can match messages with |
 | options.threadId | <code>string</code> | Optional unique id specific to this chat |
 | options.speech | <code>string</code> | Text representing the Message |
-| options.originator | <code>[Originator](#Originator)</code> | Originator |
+| options.originator | [<code>Originator</code>](#Originator) | Originator |
 | options.metadata | <code>object</code> | Meta data |
 | options.attachment | <code>object</code> | Attachment (optional) |
 
@@ -534,7 +534,7 @@ Constructor
 ### Message.build()
 Factory method
 
-**Kind**: static method of <code>[Message](#Message)</code>  
+**Kind**: static method of [<code>Message</code>](#Message)  
 <a name="Metadata"></a>
 
 ## Metadata
@@ -575,7 +575,7 @@ Reply being returned by Flow.ai
 | Name | Type | Description |
 | --- | --- | --- |
 | threadId | <code>string</code> | Unique id specific to this chat |
-| originator | <code>[Originator](#Originator)</code> | Originator |
+| originator | [<code>Originator</code>](#Originator) | Originator |
 | messages | <code>Array</code> | List of messages |
 | messages[].fallback | <code>string</code> | Textual representation of any responses |
 | messages[].replyTo | <code>string</code> | Optional replying to query |
