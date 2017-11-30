@@ -152,6 +152,9 @@ describe("Flow.ai SDK Client", () => {
         "role": "external",
         "profile": {
           "fullName": "John Doe"
+        },
+        "metadata": {
+          "userName": "Geeza"
         }
       },
       "attachment": {
@@ -191,6 +194,9 @@ describe("Flow.ai SDK Client", () => {
               "description": "Flow.ai",
               "locale": "en",
               "picture": "https://flow.ai/img/brains/flowai.svg"
+            },
+            "metadata": {
+              "userName": "Geeza"
             }
           },
           "actions": [],

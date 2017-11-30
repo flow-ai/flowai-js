@@ -5,17 +5,20 @@ debug('flowai:originator')
 /**
  * Originator of a Message
  * @class
- * @property {string} name - Name of a person or system originating the Message
- * @property {string} profile.fullName - First and surname of person
+ * @property {string} name - Name of a person or system originating the Message, default is Anonymous
+ * @property {string} role - The role of the person. You cannot set this, default is external
+ * @property {string} profile.fullName - First and surname combined
  * @property {string} profile.firstName - First name of the person
  * @property {string} profile.lastName - Last name of the person
  * @property {string} profile.picture - Profile picture (url)
  * @property {string} profile.locale - ISO code describing language and country (en-US)
  * @property {string} profile.gender - M for male, F for female or U for unknown / other
+ * @property {string} metadata - Optional object with custom metadata
  **/
 class Originator {
 
-  constructor(data) {
+  constructor(opts) {
+    const data = opts || {}
     this.name = data.name || 'Anonymous'
     this.role = data.role || 'external'
 
@@ -28,6 +31,8 @@ class Originator {
       locale: profile.locale || undefined,
       gender: profile.gender || undefined
     }
+
+    this.metadata = data.metadata || undefined
   }
 }
 

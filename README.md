@@ -556,13 +556,15 @@ Originator of a Message
 
 | Name | Type | Description |
 | --- | --- | --- |
-| name | <code>string</code> | Name of a person or system originating the Message |
-| profile.fullName | <code>string</code> | First and surname of person |
+| name | <code>string</code> | Name of a person or system originating the Message, default is Anonymous |
+| role | <code>string</code> | The role of the person. You cannot set this, default is external |
+| profile.fullName | <code>string</code> | First and surname combined |
 | profile.firstName | <code>string</code> | First name of the person |
 | profile.lastName | <code>string</code> | Last name of the person |
 | profile.picture | <code>string</code> | Profile picture (url) |
 | profile.locale | <code>string</code> | ISO code describing language and country (en-US) |
 | profile.gender | <code>string</code> | M for male, F for female or U for unknown / other |
+| metadata | <code>string</code> | Optional object with custom metadata |
 
 <a name="Reply"></a>
 
