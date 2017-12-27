@@ -37,8 +37,13 @@ export class Attachment {
 }
 
 /**
- * Event attachment
+ * Trigger events
  * @class
+ *
+ * @example
+ * const message = new Message({
+ *    attachment: new EventAttachment('BUY')
+ * })
  **/
 export class EventAttachment extends Attachment {
 
@@ -48,7 +53,7 @@ export class EventAttachment extends Attachment {
   constructor(payload) {
 
     if(typeof payload !== 'string') {
-      throw new Exception("payload should be a string", 'user')
+      throw new Exception("EventAttachment payload should be a string", 'user')
     }
 
     super('event', { name: payload })

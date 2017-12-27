@@ -52,7 +52,6 @@ class Message {
     this.traceId = traceId || undefined
     this.speech = speech || ""
     this.originator = originator || new Originator({})
-    this.attachment = null
     this.metadata = metadata || new Metadata({})
     this.attachment = attachment || undefined
 
