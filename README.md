@@ -185,7 +185,7 @@ The sessionId is mostly useful for connecting multiple clients. Each connection 
 <dt><a href="#Attachment">Attachment</a></dt>
 <dd></dd>
 <dt><a href="#EventAttachment">EventAttachment</a></dt>
-<dd><p>Event attachment</p>
+<dd><p>Trigger events</p>
 </dd>
 <dt><a href="#EventAttachment">EventAttachment</a></dt>
 <dd></dd>
@@ -232,7 +232,7 @@ Constructor
 <a name="EventAttachment"></a>
 
 ## EventAttachment
-Event attachment
+Trigger events
 
 **Kind**: global class  
 <a name="new_EventAttachment_new"></a>
