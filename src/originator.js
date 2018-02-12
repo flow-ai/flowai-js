@@ -10,8 +10,12 @@ debug('flowai:originator')
  * @property {string} profile.fullName - First and surname combined
  * @property {string} profile.firstName - First name of the person
  * @property {string} profile.lastName - Last name of the person
+ * @property {string} profile.email - E-mail address
+ * @property {string} profile.description - Description of this user
  * @property {string} profile.picture - Profile picture (url)
  * @property {string} profile.locale - ISO code describing language and country (en-US)
+ * @property {number} profile.timezone - Hours from GMT
+ * @property {string} profile.location - Location of the user
  * @property {string} profile.gender - M for male, F for female or U for unknown / other
  * @property {string} metadata - Optional object with custom metadata
  **/
@@ -27,8 +31,12 @@ class Originator {
       fullName: profile.fullName || undefined,
       firstName: profile.firstName || undefined,
       lastName: profile.lastName || undefined,
+      email: profile.email || undefined,
+      description: profile.description || undefined,
       picture: profile.picture || undefined,
       locale: profile.locale || undefined,
+      timezone: profile.timezone || undefined,
+      location: profile.location || undefined,
       gender: profile.gender || undefined
     }
 

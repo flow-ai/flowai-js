@@ -31,4 +31,21 @@ describe("Originator", () => {
     expect(o.profile.firstName).to.equal('Gijs')
     expect(o.metadata.userName).to.equal('Geeza')
   })
+
+  it("can have a rich profile", () => {
+    const o = new Originator({
+      name: 'Gijs van de Nieuwegiessen',
+      profile: {
+        email: 'gijs@flow.ai',
+        timezone: -2,
+        location: 'Toronto, Canada',
+        description: 'CEO and co-founder of Flow.ai'
+      }
+    })
+
+    expect(o.profile.email).to.equal('gijs@flow.ai')
+    expect(o.profile.timezone).to.equal(-2)
+    expect(o.profile.location).to.equal('Toronto, Canada')
+    expect(o.profile.description).to.equal('CEO and co-founder of Flow.ai')
+  })
 })

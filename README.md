@@ -561,8 +561,12 @@ Originator of a Message
 | profile.fullName | <code>string</code> | First and surname combined |
 | profile.firstName | <code>string</code> | First name of the person |
 | profile.lastName | <code>string</code> | Last name of the person |
+| profile.email | <code>string</code> | E-mail address |
+| profile.description | <code>string</code> | Description of this user |
 | profile.picture | <code>string</code> | Profile picture (url) |
 | profile.locale | <code>string</code> | ISO code describing language and country (en-US) |
+| profile.timezone | <code>number</code> | Hours from GMT |
+| profile.location | <code>string</code> | Location of the user |
 | profile.gender | <code>string</code> | M for male, F for female or U for unknown / other |
 | metadata | <code>string</code> | Optional object with custom metadata |
 
