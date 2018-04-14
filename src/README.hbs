@@ -20,7 +20,7 @@ const {
   LiveClient,
   Message,
   Originator
-} = require("../lib")
+} = require("flowai-js")
 
 // Create a new live client
 const client = new LiveClient('YOUR CLIENT ID HERE')
@@ -61,7 +61,7 @@ const {
   LiveClient,
   Message,
   Originator
-} = require("../lib")
+} = require("flowai-js")
 
 const client = new LiveClient('YOUR CLIENT ID HERE')
 
