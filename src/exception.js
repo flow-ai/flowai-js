@@ -12,22 +12,28 @@ class Exception {
    * @param {string} message - message - Human friendly message
    * @param {string} type - Kind of error
    * @param {Exception} innerException - Optional inner exception
+   * @param {bool} isFinal - Indicates if this exception prevents further execution
    **/
-  constructor(message, type, innerException) {
-    if(message instanceof Error) {
+  constructor(message, type, innerException, isFinal = false) {
+
+    if(!message) {
+      throw new Error('Message is mandatory to create a new Exception')
+    }
+
+    if(message && message instanceof Error) {
       const err = message
       this.message = err.message || "Unknown error"
-      this.type = type || "Generic exception"
-      this.innerException = err || null
+    } else if(typeof(message) === 'string') {
+      this.message = message
     } else if(message instanceof Exception) {
       return message
-    } else if(typeof(message) !== 'string') {
-      throw new Error('Empty error message for Exception')
     } else {
-      this.message = message || "Unknown error"
-      this.type = type || "Generic exception"
-      this.innerException = innerException || null
+      this.message = "Unknown error"
     }
+
+    this.innerException = innerException || null
+    this.type = type || "Generic exception"
+    this.isFinal = isFinal
   }
 }
 

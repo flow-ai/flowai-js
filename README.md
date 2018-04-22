@@ -23,7 +23,10 @@ const {
 } = require("flowai-js")
 
 // Create a new live client
-const client = new LiveClient('YOUR CLIENT ID HERE')
+const client = new LiveClient({
+  clientId: 'YOUR CLIENT ID HERE',
+  origin: 'https://my.site'
+})
 
 // Fired whenever the client connects
 client.on(LiveClient.CONNECTED, () => {
@@ -63,7 +66,14 @@ const {
   Originator
 } = require("flowai-js")
 
-const client = new LiveClient('YOUR CLIENT ID HERE')
+// Create a new live client
+const client = new LiveClient({
+  // Unique clientId copy & paste from Flow.ai dashboard
+  clientId: 'YOUR CLIENT ID HERE',
+
+  // When limiting to whitelisted domains, specify this
+  origin: 'https://my.site'
+})
 
 client.on(LiveClient.CONNECTED, () => {
   const originator = new Originator({
@@ -83,13 +93,13 @@ client.on(LiveClient.CONNECTED, () => {
   client.send(message)
 })
 
-client.on(LiveClient.MESSAGE_DELIVERED, (message) => {
+client.on(LiveClient.MESSAGE_DELIVERED, message => {
   // The message we have send has been delivered
   // check the traceId to see what message has been
   // delivered since it's an async method
 })
 
-client.on(LiveClient.REPLY_RECEIVED, (message) => {
+client.on(LiveClient.REPLY_RECEIVED, message => {
   // Called when a bot or human operator
   // sends a message or reply
   if(message.threadId === 'john') {
@@ -99,7 +109,7 @@ client.on(LiveClient.REPLY_RECEIVED, (message) => {
   }
 })
 
-client.on(LiveClient.ERROR, (err) => {
+client.on(LiveClient.ERROR, err => {
   // This handler will be fired whenever an error
   // occurs during the connection
   console.error('Something bad happened', err)
@@ -109,7 +119,7 @@ client.on(LiveClient.DISCONNECTED, () => {
   // The client has been disconnected
 })
 
-client.on(LiveClient.MESSAGE_SEND, (message) => {
+client.on(LiveClient.MESSAGE_SEND, message => {
   // Called whenever the client sends a message
 })
 
@@ -166,16 +176,16 @@ The SDK is pretty flexible with regard to how messages are delivered and grouped
 ![ThreadId](/media/unique-threadid.png)
 
 ### threadId
-A threadId is a unique token representing a channel, room, or user. If you have a single connection running for multiple clients, all using the same threadId, they will all receive the same message. It's important to note that sessionId completely disregared.
+A threadId is a unique key representing a channel, room, or user. If you have a single connection running for multiple clients, all using the same threadId, they will all receive the same messages.
 
 ![Unique sessionIds](/media/unique-sessionid.png)
 
 ### sessionId
-The sessionId is mostly useful for connecting multiple clients. Each connection is partly identified on our end using this key. Use the threadId to identify messages that belong to a certain user or chat room.
+The sessionId is used to identify connections from different devices like browsers or Node.js servers. Each connection is partly identified on our end using this key.
 
 ![Unique sessions and threadids](/media/unique-sessionid-threadid.png)
 
-# API Reference
+# Full API Reference
 ## Classes
 
 <dl>
@@ -265,15 +275,16 @@ Exception
 
 <a name="new_Exception_new"></a>
 
-### new Exception(message, type, innerException)
+### new Exception(message, type, innerException, isFinal)
 Constructor
 
 
-| Param | Type | Description |
-| --- | --- | --- |
-| message | <code>string</code> | message - Human friendly message |
-| type | <code>string</code> | Kind of error |
-| innerException | [<code>Exception</code>](#Exception) | Optional inner exception |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| message | <code>string</code> |  | message - Human friendly message |
+| type | <code>string</code> |  | Kind of error |
+| innerException | [<code>Exception</code>](#Exception) |  | Optional inner exception |
+| isFinal | <code>bool</code> | <code>false</code> | Indicates if this exception prevents further execution |
 
 <a name="LiveClient"></a>
 
@@ -321,7 +332,24 @@ Constructor
 | opts.clientId | <code>string</code> |  | Mandatory Client token |
 | opts.storage | <code>string</code> | <code>&quot;local&quot;</code> | Optional, 'session' or 'local' for using sessionStorage or localStorage |
 | opts.endpoint | <code>string</code> |  | Optional, only for testing purposes |
+| opts.origin | <code>string</code> |  | When running on Nodejs you MUST set the origin |
 
+**Example**  
+```js
+// Node.js
+const client = new LiveClient({
+  clientId: 'MY CLIENT ID',
+  origin: 'https://my.website'
+})
+```
+**Example**  
+```js
+// Web
+const client = new LiveClient({
+  clientId: 'MY CLIENT ID',
+  storage: 'session'
+})
+```
 <a name="LiveClient+sessionId"></a>
 
 ### liveClient.sessionId ⇒ <code>string</code> \| <code>null</code>
@@ -343,6 +371,12 @@ Check if the connection is active
 
 **Kind**: instance property of [<code>LiveClient</code>](#LiveClient)  
 **Returns**: <code>bool</code> - True if the connection is active  
+**Example**  
+```js
+if(client.isConnected) {
+  // Do something awesome
+}
+```
 <a name="LiveClient+start"></a>
 
 ### liveClient.start(threadId, sessionId)
@@ -355,18 +389,38 @@ Start the client
 | threadId | <code>string</code> | Optional. When assigned, this is the default threadId for all messages that are send |
 | sessionId | <code>string</code> | Optional. Must be unique for every connection |
 
+**Example**  
+```js
+// Start, will generate thread and sessionId
+client.start()
+```
+**Example**  
+```js
+// Start with your own custom threadId
+client.start('UNIQUE THREADID FOR USER')
+```
 <a name="LiveClient+stop"></a>
 
 ### liveClient.stop()
 Use this method to temp disconnect a client
 
 **Kind**: instance method of [<code>LiveClient</code>](#LiveClient)  
+**Example**  
+```js
+// Close the connection
+client.stop()
+```
 <a name="LiveClient+destroy"></a>
 
 ### liveClient.destroy()
 Close the connection and completely reset the client
 
 **Kind**: instance method of [<code>LiveClient</code>](#LiveClient)  
+**Example**  
+```js
+// Close the connection and reset the client
+client.destroy()
+```
 <a name="LiveClient+send"></a>
 
 ### liveClient.send(message) ⇒
@@ -379,6 +433,19 @@ This method triggers a `LiveClient.MESSAGE_SEND` event
 | --- | --- | --- |
 | message | [<code>Message</code>](#Message) | Message to be send |
 
+**Example**  
+```js
+const originator = new Originator({
+  name: "Jane"
+})
+
+const message = new Message({
+ speech: "Hi!",
+ originator
+})
+
+client.send(message)
+```
 <a name="LiveClient+merger"></a>
 
 ### liveClient.merger(mergerKey, threadId, sessionId)
@@ -402,8 +469,17 @@ Request historic messages
 
 | Param | Type | Description |
 | --- | --- | --- |
-| threadId | <code>string</code> | Optional. Specify the thread to retreive historic messages |
+| threadId | <code>string</code> | Optional. Specify the threadId to retreive historic messages |
 
+**Example**  
+```js
+// Load any messages if there is a threadId
+// usefull when using with JS in the browser
+client.history()
+
+// Load messages using a custom threadId
+client.history('MY CUSTOM THREAD ID')
+```
 <a name="LiveClient+noticed"></a>
 
 ### liveClient.noticed(threadId, instantly)
@@ -417,6 +493,14 @@ The library automatically throttles the number of calls
 | threadId | <code>string</code> | Optional. Specify the thread that is noticed |
 | instantly | <code>bool</code> | Optional. Instantly send notice. Default is false |
 
+**Example**  
+```js
+// Call that the client has seen all messages for the auto clientId
+client.noticed()
+
+// Mark messages based on a custom threadId
+client.noticed('MY CUSTOM THREAD ID')
+```
 <a name="LiveClient+checkUnnoticed"></a>
 
 ### liveClient.checkUnnoticed(threadId)

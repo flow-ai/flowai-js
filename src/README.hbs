@@ -23,7 +23,10 @@ const {
 } = require("flowai-js")
 
 // Create a new live client
-const client = new LiveClient('YOUR CLIENT ID HERE')
+const client = new LiveClient({
+  clientId: 'YOUR CLIENT ID HERE',
+  origin: 'https://my.site'
+})
 
 // Fired whenever the client connects
 client.on(LiveClient.CONNECTED, () => {
@@ -63,7 +66,14 @@ const {
   Originator
 } = require("flowai-js")
 
-const client = new LiveClient('YOUR CLIENT ID HERE')
+// Create a new live client
+const client = new LiveClient({
+  // Unique clientId copy & paste from Flow.ai dashboard
+  clientId: 'YOUR CLIENT ID HERE',
+
+  // When limiting to whitelisted domains, specify this
+  origin: 'https://my.site'
+})
 
 client.on(LiveClient.CONNECTED, () => {
   const originator = new Originator({
@@ -83,13 +93,13 @@ client.on(LiveClient.CONNECTED, () => {
   client.send(message)
 })
 
-client.on(LiveClient.MESSAGE_DELIVERED, (message) => {
+client.on(LiveClient.MESSAGE_DELIVERED, message => {
   // The message we have send has been delivered
   // check the traceId to see what message has been
   // delivered since it's an async method
 })
 
-client.on(LiveClient.REPLY_RECEIVED, (message) => {
+client.on(LiveClient.REPLY_RECEIVED, message => {
   // Called when a bot or human operator
   // sends a message or reply
   if(message.threadId === 'john') {
@@ -99,7 +109,7 @@ client.on(LiveClient.REPLY_RECEIVED, (message) => {
   }
 })
 
-client.on(LiveClient.ERROR, (err) => {
+client.on(LiveClient.ERROR, err => {
   // This handler will be fired whenever an error
   // occurs during the connection
   console.error('Something bad happened', err)
@@ -109,7 +119,7 @@ client.on(LiveClient.DISCONNECTED, () => {
   // The client has been disconnected
 })
 
-client.on(LiveClient.MESSAGE_SEND, (message) => {
+client.on(LiveClient.MESSAGE_SEND, message => {
   // Called whenever the client sends a message
 })
 
@@ -166,14 +176,14 @@ The SDK is pretty flexible with regard to how messages are delivered and grouped
 ![ThreadId](/media/unique-threadid.png)
 
 ### threadId
-A threadId is a unique token representing a channel, room, or user. If you have a single connection running for multiple clients, all using the same threadId, they will all receive the same message. It's important to note that sessionId completely disregared.
+A threadId is a unique key representing a channel, room, or user. If you have a single connection running for multiple clients, all using the same threadId, they will all receive the same messages.
 
 ![Unique sessionIds](/media/unique-sessionid.png)
 
 ### sessionId
-The sessionId is mostly useful for connecting multiple clients. Each connection is partly identified on our end using this key. Use the threadId to identify messages that belong to a certain user or chat room.
+The sessionId is used to identify connections from different devices like browsers or Node.js servers. Each connection is partly identified on our end using this key.
 
 ![Unique sessions and threadids](/media/unique-sessionid-threadid.png)
 
-# API Reference
+# Full API Reference
 {{>main~}}

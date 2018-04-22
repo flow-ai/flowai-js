@@ -22,7 +22,22 @@ class LiveClient extends EventEmitter {
  * @param {string} opts.clientId - Mandatory Client token
  * @param {string} opts.storage=local - Optional, 'session' or 'local' for using sessionStorage or localStorage
  * @param {string} opts.endpoint - Optional, only for testing purposes
+ * @param {string} opts.origin - When running on Nodejs you MUST set the origin
  * @returns {LiveClient}
+ *
+ * @example
+ * // Node.js
+ * const client = new LiveClient({
+ *   clientId: 'MY CLIENT ID',
+ *   origin: 'https://my.website'
+ * })
+ *
+ * @example
+ * // Web
+ * const client = new LiveClient({
+ *   clientId: 'MY CLIENT ID',
+ *   storage: 'session'
+ * })
  */
   constructor(opts) {
 
@@ -44,10 +59,14 @@ class LiveClient extends EventEmitter {
       } else {
         this._storage = 'local'
       }
+
+      if (typeof window === 'undefined') {
+        this._origin = opts.origin || undefined
+      }
     }
 
     if(typeof(this._clientId) !== 'string') {
-      throw new Exception("Invalid or lacking argument for LiveClient. You must provide a Client Id. Check the dashboard.", 'user')
+      throw new Exception("Invalid or lacking argument for LiveClient. You must provide a clientId. Check the dashboard", 'user')
     }
 
     this._storage = this._storage || 'local'
@@ -71,6 +90,7 @@ class LiveClient extends EventEmitter {
   }
 
   set sessionId(value) {
+    debug(`Creating a new sessionId with value '${value}'`)
     this._session = new Unique({
       clientId: this._clientId,
       key: 'sessionId',
@@ -92,6 +112,7 @@ class LiveClient extends EventEmitter {
   }
 
   set threadId(value) {
+    debug(`Creating a new threadId with value '${value}'`)
     // Create a new Thread
     this._thread = new Unique({
       clientId: this._clientId,
@@ -104,6 +125,11 @@ class LiveClient extends EventEmitter {
   /**
    * Check if the connection is active
    * @returns {bool} True if the connection is active
+   *
+   * @example
+   * if(client.isConnected) {
+   *   // Do something awesome
+   * }
    **/
   get isConnected() {
     const isConnected = (this._socket !== null)
@@ -117,6 +143,14 @@ class LiveClient extends EventEmitter {
    * Start the client
    * @param {string} threadId - Optional. When assigned, this is the default threadId for all messages that are send
    * @param {string} sessionId - Optional. Must be unique for every connection
+   *
+   * @example
+   * // Start, will generate thread and sessionId
+   * client.start()
+   *
+   * @example
+   * // Start with your own custom threadId
+   * client.start('UNIQUE THREADID FOR USER')
    **/
   start(threadId, sessionId) {
     try {
@@ -132,7 +166,10 @@ class LiveClient extends EventEmitter {
       debug(`Starting the client with sessionId ${sessionId} and threadId '${threadId}'`)
 
       // Create a new backoff policy
-      this._backoff = new Backoff({ min: 100, max: 20000 })
+      this._backoff = new Backoff({
+        min: 100,
+        max: 20000
+      })
 
       // Create a new Thread
       this.sessionId = sessionId
@@ -151,6 +188,10 @@ class LiveClient extends EventEmitter {
   /**
    * Stop the client
    * @desc Use this method to temp disconnect a client
+   *
+   * @example
+   * // Close the connection
+   * client.stop()
    **/
   stop() {
     try {
@@ -164,6 +205,10 @@ class LiveClient extends EventEmitter {
 
   /**
    * Close the connection and completely reset the client
+   *
+   * @example
+   * // Close the connection and reset the client
+   * client.destroy()
    **/
   destroy() {
     this._closeConnection()
@@ -175,6 +220,18 @@ class LiveClient extends EventEmitter {
    * @desc This method triggers a `LiveClient.MESSAGE_SEND` event
    * @param {Message} message - Message to be send
    * @returns Message - Message that was send
+   *
+   * @example
+   * const originator = new Originator({
+   *   name: "Jane"
+   * })
+   *
+   * const message = new Message({
+   *  speech: "Hi!",
+   *  originator
+   * })
+   *
+   * client.send(message)
    **/
   send(message) {
 
@@ -259,7 +316,15 @@ class LiveClient extends EventEmitter {
 
   /**
    * Request historic messages
-   * @param {string} threadId - Optional. Specify the thread to retreive historic messages
+   * @param {string} threadId - Optional. Specify the threadId to retreive historic messages
+   *
+   * @example
+   * // Load any messages if there is a threadId
+   * // usefull when using with JS in the browser
+   * client.history()
+   *
+   * // Load messages using a custom threadId
+   * client.history('MY CUSTOM THREAD ID')
    **/
   history(threadId) {
 
@@ -300,6 +365,13 @@ class LiveClient extends EventEmitter {
    * The library automatically throttles the number of calls
    * @param {string} threadId - Optional. Specify the thread that is noticed
    * @param {bool} instantly - Optional. Instantly send notice. Default is false
+   *
+   * @example
+   * // Call that the client has seen all messages for the auto clientId
+   * client.noticed()
+   *
+   * // Mark messages based on a custom threadId
+   * client.noticed('MY CUSTOM THREAD ID')
    **/
   noticed(threadId, instantly) {
 
@@ -420,12 +492,13 @@ class LiveClient extends EventEmitter {
       })
       .then(result => {
         if(result.status !== 'ok') {
-          throw new Error(`Unable to create get a socket URL, received a status other then "ok". ${result.payload.message}`)
+          throw new Exception(`Unable to get a socket URL": ${result.payload.message}`, 'connection')
         }
         this._handleConnection(result.payload)
       })
       .catch(err => {
         debug('Error while trying to connect', err)
+
         this._reconnect()
 
         this.emit(LiveClient.ERROR, new Exception(err, 'connection'))
@@ -441,7 +514,14 @@ class LiveClient extends EventEmitter {
 
     debug(`Opening the connection with endpoint '${endpoint}'`)
 
-    const socket = new w3cwebsocket(endpoint, null)
+    let socket
+
+    try {
+      socket = new w3cwebsocket(endpoint, null, this._origin)
+    } catch(err) {
+      // When you fail to connect, die!
+      throw new Exception('Error failed to connect to endpoint', 'connection', null, true)
+    }
 
     socket.onopen = () => {
       debug('Socket onopen')
@@ -455,19 +535,24 @@ class LiveClient extends EventEmitter {
       this._keepAliveInterval = this._keepAlive()
     }
 
-    socket.onerror = (err) => {
-      debug('Socket onerror', err)
-      this.emit(LiveClient.ERROR, new Exception(err, 'connection'))
+    socket.onerror = evt => {
+      debug('Socket onerror', evt)
+      this.emit(LiveClient.ERROR, new Exception('Error during connection', 'connection'))
     }
 
-    socket.onclose = () => {
-      debug('Socket onclose')
+    socket.onclose = evt => {
+      debug('Socket onclose', evt)
+
       this._socket = null
+
       this.emit(LiveClient.DISCONNECTED)
-      this._reconnect()
+
+      if(evt && evt.reason !== 'connection failed') {
+        this._reconnect()
+      }
     }
 
-    socket.onmessage = (evt) => {
+    socket.onmessage = evt => {
       debug('Socket onmessage')
 
       if (typeof evt.data !== 'string' || evt.data.length == 0) {
@@ -560,7 +645,7 @@ class LiveClient extends EventEmitter {
           }))
         }
       } catch(err) {
-        debug('Error while sending a keepalive ping', err)
+        console.error('Error while sending a keepalive ping', err)
       }
     }, 1000 * 25)
   }

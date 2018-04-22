@@ -9,7 +9,10 @@ const {
 
 const clientId = "YOUR CLIENT ID"
 
-const client = new LiveClient(clientId)
+const client = new LiveClient({
+  clientId,
+  origin: 'http://my.site'
+})
 
 client.on(LiveClient.CONNECTED, () => {
   console.log('--> Connected')
