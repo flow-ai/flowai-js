@@ -261,7 +261,7 @@ Send a file as attachment
 
 | Param | Type | Description |
 | --- | --- | --- |
-| data | <code>FormData</code> \| <code>ReadStream</code> | FormData in the browser, File object in Nodejs |
+| data | <code>File</code> \| <code>ReadStream</code> | File or Blob in the browser, ReadStream in Nodejs |
 
 **Example**  
 ```js
@@ -271,12 +271,10 @@ var originator = new Originator({
   name: 'Jane'
 })
 
-// HTML file input, chosen by user
-var formData = new FormData()
-formData.append("file", fileInputElement.files[0]);
+var file = fileInputElement.files[0]
 
 const message = new Message({
-  attachment: new FileAttachment(formData)
+  attachment: new FileAttachment(file)
 })
 
 client.send(message)
@@ -319,7 +317,7 @@ Constructor
 
 | Param | Type | Description |
 | --- | --- | --- |
-| data | <code>FormData</code> \| <code>ReadStream</code> | FormData in the browser, File object in Nodejs |
+| data | <code>File</code> \| <code>ReadStream</code> | File or Blob in the browser, ReadStream in Nodejs |
 
 **Example**  
 ```js
@@ -329,12 +327,10 @@ var originator = new Originator({
   name: 'Jane'
 })
 
-// HTML file input, chosen by user
-var formData = new FormData()
-formData.append("file", fileInputElement.files[0]);
+var file = fileInputElement.files[0]
 
 const message = new Message({
-  attachment: new FileAttachment(formData)
+  attachment: new FileAttachment(file)
 })
 
 client.send(message)
