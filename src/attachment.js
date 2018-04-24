@@ -81,14 +81,8 @@ export class FileAttachment extends Attachment {
     **/
   constructor(data) {
 
-    let formData = data
-    
-    if (typeof window !== 'undefined' && !(data instanceof FormData)) {
-      throw new Exception(`FileAttachment requires a FormData not ${typeof(data)}`, 'user')
-    } else {
-      formData = new FormData()
-      formData.append('file', data)
-    }
+    const formData = new FormData()
+    formData.append('file', data)
 
     super('file', {
       formData
