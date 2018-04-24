@@ -1,4 +1,5 @@
 import chai, { expect, assert } from 'chai'
+import { createReadStream } from 'fs'
 import chaiEventemitter from 'chai-eventemitter'
 import {
   LiveClient,
@@ -8,7 +9,10 @@ import Exception from '../lib/exception'
 import Message from '../lib/message'
 import Reply from '../lib/reply'
 import Attachment from '../lib/attachment/attachment'
-import { EventAttachment } from '../lib/attachment'
+import {
+  EventAttachment,
+  FileAttachment
+} from '../lib/attachment'
 
 chai.use(chaiEventemitter)
 
@@ -140,6 +144,12 @@ describe("Flow.ai SDK Client", () => {
 
   it("Cannot construct message with invalid attachment", () => {
     expect(() => new Message({ attachment: {}})).to.throw(Exception)
+  })
+
+  it("Can construct FileAttachment", () => {
+    const stream = createReadStream('../media/test.png')
+    const attachment = new FileAttachment(stream)
+    expect(attachment).to.be.not.null
   })
 
   it("Can construct message back with JSON", () => {

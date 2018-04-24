@@ -9,11 +9,11 @@ const client = new LiveClient('YOUR CLIENT ID')
 client.on(LiveClient.CONNECTED, () => {
 
   console.log('--> Connected')
-  const sender = new Originator({ name: "Boss" })
+  const originator = new Originator({ name: "Boss" })
 
   const message = new Message({
     speech: "Behold, I'm pure awesomeness!",
-    sender
+    originator
   })
 
   client.send(message)

@@ -194,6 +194,11 @@ The sessionId is used to identify connections from different devices like browse
 </dd>
 <dt><a href="#Attachment">Attachment</a></dt>
 <dd></dd>
+<dt><a href="#FileAttachment">FileAttachment</a></dt>
+<dd><p>Send a file as attachment</p>
+</dd>
+<dt><a href="#FileAttachment">FileAttachment</a></dt>
+<dd></dd>
 <dt><a href="#EventAttachment">EventAttachment</a></dt>
 <dd><p>Trigger events</p>
 </dd>
@@ -237,6 +242,124 @@ Constructor
 <a name="new_Attachment_new"></a>
 
 ### new Attachment()
+Constructor
+
+<a name="FileAttachment"></a>
+
+## FileAttachment
+Send a file as attachment
+
+**Kind**: global class  
+
+* [FileAttachment](#FileAttachment)
+    * [new exports.FileAttachment(data)](#new_FileAttachment_new)
+    * [new FileAttachment()](#new_FileAttachment_new)
+
+<a name="new_FileAttachment_new"></a>
+
+### new exports.FileAttachment(data)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| data | <code>FormData</code> \| <code>ReadStream</code> | FormData in the browser, File object in Nodejs |
+
+**Example**  
+```js
+// Web example
+
+var originator = new Originator({
+  name: 'Jane'
+})
+
+// HTML file input, chosen by user
+var formData = new FormData()
+formData.append("file", fileInputElement.files[0]);
+
+const message = new Message({
+  attachment: new FileAttachment(formData)
+})
+
+client.send(message)
+```
+**Example**  
+```js
+// Nodejs example
+import { createReadStream } from 'fs'
+
+const originator = new Originator({
+  name: 'Jane'
+})
+
+// Load ReadStream from file on disk
+const data = fs.createReadStream('/foo/bar.jpg')
+
+const message = new Message({
+  attachment: new FileAttachment(data)
+})
+
+client.send(message)
+```
+<a name="new_FileAttachment_new"></a>
+
+### new FileAttachment()
+Constructor
+
+<a name="FileAttachment"></a>
+
+## FileAttachment
+**Kind**: global class  
+
+* [FileAttachment](#FileAttachment)
+    * [new exports.FileAttachment(data)](#new_FileAttachment_new)
+    * [new FileAttachment()](#new_FileAttachment_new)
+
+<a name="new_FileAttachment_new"></a>
+
+### new exports.FileAttachment(data)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| data | <code>FormData</code> \| <code>ReadStream</code> | FormData in the browser, File object in Nodejs |
+
+**Example**  
+```js
+// Web example
+
+var originator = new Originator({
+  name: 'Jane'
+})
+
+// HTML file input, chosen by user
+var formData = new FormData()
+formData.append("file", fileInputElement.files[0]);
+
+const message = new Message({
+  attachment: new FileAttachment(formData)
+})
+
+client.send(message)
+```
+**Example**  
+```js
+// Nodejs example
+import { createReadStream } from 'fs'
+
+const originator = new Originator({
+  name: 'Jane'
+})
+
+// Load ReadStream from file on disk
+const data = fs.createReadStream('/foo/bar.jpg')
+
+const message = new Message({
+  attachment: new FileAttachment(data)
+})
+
+client.send(message)
+```
+<a name="new_FileAttachment_new"></a>
+
+### new FileAttachment()
 Constructor
 
 <a name="EventAttachment"></a>
@@ -508,9 +631,9 @@ Did we miss any messages?
 
 **Kind**: instance method of [<code>LiveClient</code>](#LiveClient)  
 
-| Param | Type |
-| --- | --- |
-| threadId | <code>string</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| threadId | <code>string</code> | Optional. Specify the thread to check unnoticed messags for |
 
 <a name="LiveClient.ERROR"></a>
 
@@ -589,7 +712,7 @@ Message being send to Flow.ai
 | Name | Type | Description |
 | --- | --- | --- |
 | speech | <code>string</code> | Text representing the Message |
-| sender | [<code>Originator</code>](#Originator) | Originator |
+| originator | [<code>Originator</code>](#Originator) | Originator |
 | meta | [<code>Metadata</code>](#Metadata) | Meta data |
 | attachment | [<code>Attachment</code>](#Attachment) | Optional attachment |
 
@@ -611,7 +734,7 @@ Constructor
 | options.speech | <code>string</code> | Text representing the Message |
 | options.originator | [<code>Originator</code>](#Originator) | Originator |
 | options.metadata | <code>object</code> | Meta data |
-| options.attachment | <code>object</code> | Attachment (optional) |
+| options.attachment | [<code>Attachment</code>](#Attachment) | Attachment (optional) |
 
 <a name="Message.build"></a>
 
@@ -652,7 +775,7 @@ Originator of a Message
 | profile.timezone | <code>number</code> | Hours from GMT |
 | profile.location | <code>string</code> | Location of the user |
 | profile.gender | <code>string</code> | M for male, F for female or U for unknown / other |
-| metadata | <code>string</code> | Optional object with custom metadata |
+| metadata | <code>object</code> | Optional object with custom metadata |
 
 <a name="Reply"></a>
 
@@ -666,16 +789,16 @@ Reply being returned by Flow.ai
 | --- | --- | --- |
 | threadId | <code>string</code> | Unique id specific to this chat |
 | originator | [<code>Originator</code>](#Originator) | Originator |
-| messages | <code>Array</code> | List of messages |
+| messages | <code>Array.&lt;ReplyMessage&gt;</code> | List of messages |
 | messages[].fallback | <code>string</code> | Textual representation of any responses |
 | messages[].replyTo | <code>string</code> | Optional replying to query |
 | messages[].contexts | <code>array</code> | Optional List of context names |
 | messages[].params | <code>array</code> | Optional key value pair of parameters |
 | messages[].intents | <code>array</code> | Optional list of intent names determined |
-| messages[].responses | <code>Array</code> | List of response templates |
-| messages[].responses[].type | <code>Array</code> | Template type |
-| messages[].responses[].payload | <code>Array</code> | Template payload |
-| messages[].responses[].delay | <code>Array</code> | Number of seconds the response is delayed |
+| messages[].responses | <code>Array.&lt;Response&gt;</code> | List of response templates |
+| messages[].responses[].type | <code>string</code> | Template type |
+| messages[].responses[].payload | <code>Object</code> | Template payload |
+| messages[].responses[].delay | <code>Number</code> | Number of seconds the response is delayed |
 
 <a name="new_Reply_new"></a>
 

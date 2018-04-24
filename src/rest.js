@@ -49,6 +49,31 @@ class Rest {
     return this._call(url, enveloppe, queryParams)
   }
 
+  upload(formData) {
+
+    debug('Uploading', formData)
+
+    const url = `${this._endpoint}/thread.upload`
+
+    return new Promise((resolve, reject) => {
+      const enveloppe = {
+        method: 'POST',
+        body: formData
+      }
+
+      debug(`Calling URL '${url}'`)
+
+      fetch(url, enveloppe)
+        .then(response => {
+          resolve(response.json())
+        })
+        .catch(err => {
+          debug('Failed with error', err)
+          reject(err)
+        })
+    })
+  }
+
   _createHeaders(token) {
     let headers = {
       'Content-Type': 'application/json'

@@ -10,9 +10,9 @@ debug('flowai:message')
  * Message being send to Flow.ai
  * @class
  * @property {string} speech - Text representing the Message
- * @property {Originator} sender - Originator
- * @property {Metadata} meta - Meta data
- * @property {Attachment} attachment - Optional attachment
+ * @property {Originator} originator - Originator
+ * @property {?Metadata} meta - Meta data
+ * @property {?Attachment} attachment - Optional attachment
  **/
 class Message {
 
@@ -22,8 +22,8 @@ class Message {
    * @param {string} options.threadId - Optional unique id specific to this chat
    * @param {string} options.speech - Text representing the Message
    * @param {Originator} options.originator - Originator
-   * @param {object} options.metadata - Meta data
-   * @param {object} options.attachment - Attachment (optional)
+   * @param {?object} options.metadata - Meta data
+   * @param {?Attachment} options.attachment - Attachment (optional)
    **/
   constructor(opts = {}) {
 

@@ -1,5 +1,6 @@
 import debug from 'debug'
 import Exception from './exception'
+import FormData from 'form-data'
 
 debug('flowai:attachment')
 
@@ -37,12 +38,71 @@ export class Attachment {
 }
 
 /**
+ * Send a file as attachment
+ * @param {FormData|ReadStream} data - FormData in the browser, File object in Nodejs
+ *
+ * @example
+ * // Web example
+ *
+ * var originator = new Originator({
+ *   name: 'Jane'
+ * })
+ *
+ * // HTML file input, chosen by user
+ * var formData = new FormData()
+ * formData.append("file", fileInputElement.files[0]);
+ *
+ * const message = new Message({
+ *   attachment: new FileAttachment(formData)
+ * })
+ *
+ * client.send(message)
+ *
+ * @example
+ * // Nodejs example
+ * import { createReadStream } from 'fs'
+ *
+ * const originator = new Originator({
+ *   name: 'Jane'
+ * })
+ *
+ * // Load ReadStream from file on disk
+ * const data = fs.createReadStream('/foo/bar.jpg')
+ *
+ * const message = new Message({
+ *   attachment: new FileAttachment(data)
+ * })
+ *
+ * client.send(message)
+ **/
+export class FileAttachment extends Attachment {
+   /**
+    * Constructor
+    **/
+  constructor(data) {
+
+    let formData = data
+    
+    if (typeof window !== 'undefined' && !(data instanceof FormData)) {
+      throw new Exception(`FileAttachment requires a FormData not ${typeof(data)}`, 'user')
+    } else {
+      formData = new FormData()
+      formData.append('file', data)
+    }
+
+    super('file', {
+      formData
+    })
+  }
+}
+
+/**
  * Trigger events
  * @class
  *
  * @example
  * const message = new Message({
- *    attachment: new EventAttachment('BUY')
+ *   attachment: new EventAttachment('BUY')
  * })
  **/
 export class EventAttachment extends Attachment {

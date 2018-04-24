@@ -2,7 +2,7 @@ const {
   LiveClient,
   Message,
   Originator
-} = require("flowai-js")
+} = require("../../lib")
 
 // On windows you might get a TLS rejected error while accessing a HTTPS/ WSS endpoint
 // process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';

@@ -8,16 +8,16 @@ debug('flowai:reply')
  * @class
  * @property {string} threadId - Unique id specific to this chat
  * @property {Originator} originator - Originator
- * @property {Array} messages - List of messages
+ * @property {ReplyMessage[]} messages - List of messages
  * @property {string} messages[].fallback - Textual representation of any responses
  * @property {?string} messages[].replyTo - Optional replying to query
  * @property {?array} messages[].contexts - Optional List of context names
  * @property {?array} messages[].params - Optional key value pair of parameters
  * @property {?array} messages[].intents - Optional list of intent names determined
- * @property {Array} messages[].responses - List of response templates
- * @property {Array} messages[].responses[].type - Template type
- * @property {Array} messages[].responses[].payload - Template payload
- * @property {Array} messages[].responses[].delay - Number of seconds the response is delayed
+ * @property {Response[]} messages[].responses - List of response templates
+ * @property {string} messages[].responses[].type - Template type
+ * @property {Object} messages[].responses[].payload - Template payload
+ * @property {Number} messages[].responses[].delay - Number of seconds the response is delayed
  **/
 class Reply {
 

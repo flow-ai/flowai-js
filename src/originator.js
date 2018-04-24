@@ -17,7 +17,7 @@ debug('flowai:originator')
  * @property {number} profile.timezone - Hours from GMT
  * @property {string} profile.location - Location of the user
  * @property {string} profile.gender - M for male, F for female or U for unknown / other
- * @property {string} metadata - Optional object with custom metadata
+ * @property {object} metadata - Optional object with custom metadata
  **/
 class Originator {
 

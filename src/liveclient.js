@@ -7,6 +7,7 @@ import Reply from './reply'
 import Rest from './rest'
 import Unique from './unique'
 import Exception from './exception'
+import { FileAttachment } from './attachment'
 
 debug('flowai:liveclient')
 
@@ -251,15 +252,46 @@ class LiveClient extends EventEmitter {
     // Update threadId
     this.threadId = message.threadId
 
-    const enveloppe = JSON.stringify({
-      type: 'message.send',
-      payload: message
-    })
-
-    debug(`Creating message enveloppe`, enveloppe)
-
     try {
       this.emit(LiveClient.MESSAGE_SEND, message)
+
+      if(message.attachment && message.attachment instanceof FileAttachment) {
+
+        const formData = message.attachment.payload.formData
+        formData.append('payload', JSON.stringify(Object.assign({},
+          message,
+          {
+            attachment: undefined,
+            clientId: this._clientId,
+            sessionId: this.sessionId
+          }
+        )))
+
+        debug('Uploading formData', formData)
+
+        this._rest.upload(formData)
+          .then(result => {
+            if(result.status !== 'ok') {
+              this.emit(LiveClient.ERROR, new Exception(new Error('Failed to upload file.'), 'connection'))
+            } else {
+              this.emit(LiveClient.MESSAGE_DELIVERED, message)
+            }
+          })
+          .catch(err => {
+            debug('Error while trying to upload a file', err)
+            this.emit(LiveClient.ERROR, new Exception(err, 'connection'))
+          })
+
+        return message
+      }
+
+      const enveloppe = JSON.stringify({
+        type: 'message.send',
+        payload: message
+      })
+
+      debug(`Creating message enveloppe`, enveloppe)
+
       setTimeout(() => {
         // We add a tiny delay because
         // messages instantly send after 'connection'
@@ -414,7 +446,7 @@ class LiveClient extends EventEmitter {
 
   /**
    * Did we miss any messages?
-   * @param {string} threadId
+   * @param {string} threadId - Optional. Specify the thread to check unnoticed messags for
    **/
   checkUnnoticed(threadId) {
 
