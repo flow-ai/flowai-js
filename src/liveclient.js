@@ -274,7 +274,7 @@ class LiveClient extends EventEmitter {
             if(result.status !== 'ok') {
               this.emit(LiveClient.ERROR, new Exception(new Error('Failed to upload file.'), 'connection'))
             } else {
-              this.emit(LiveClient.MESSAGE_DELIVERED, message)
+              this.emit(LiveClient.MESSAGE_DELIVERED, result.payload)
             }
           })
           .catch(err => {
