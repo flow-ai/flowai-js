@@ -729,7 +729,7 @@ Constructor
 | options.threadId | <code>string</code> | Optional unique id specific to this chat |
 | options.speech | <code>string</code> | Text representing the Message |
 | options.originator | [<code>Originator</code>](#Originator) | Originator |
-| options.metadata | <code>object</code> | Meta data |
+| options.metadata | [<code>Metadata</code>](#Metadata) | Meta data |
 | options.attachment | [<code>Attachment</code>](#Attachment) | Attachment (optional) |
 
 <a name="Message.build"></a>

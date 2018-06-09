@@ -90,11 +90,17 @@ export class FileAttachment extends Attachment {
 
 /**
  * Trigger events
- * @class
  *
  * @example
+ * // Event without any label
  * const message = new Message({
  *   attachment: new EventAttachment('BUY')
+ * })
+ *
+ * @example
+ * // Event with label to display user
+ * const message = new Message({
+ *   attachment: new EventAttachment('BUY', 'Buy dress')
  * })
  **/
 export class EventAttachment extends Attachment {
@@ -102,12 +108,23 @@ export class EventAttachment extends Attachment {
   /**
    * Constructor
    **/
-  constructor(payload) {
+  constructor(name, label) {
 
-    if(typeof payload !== 'string') {
+    if(!label && typeof name !== 'string') {
       throw new Exception("EventAttachment payload should be a string", 'user')
     }
 
-    super('event', { name: payload })
+    if(typeof name !== 'string') {
+      throw new Exception("EventAttachment event name should be a string", 'user')
+    }
+
+    if(label && typeof label !== 'string') {
+      throw new Exception("EventAttachment event label should be a string", 'user')
+    }
+
+    super('event', {
+      name,
+      label
+    })
   }
 }
