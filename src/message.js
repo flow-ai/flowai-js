@@ -18,11 +18,11 @@ class Message {
 
   /**
    * Constructor
-   * @param {int} options.traceId - Optional unique integer you can match messages with
+   * @param {?int} options.traceId - Optional unique integer you can match messages with
    * @param {string} options.threadId - Optional unique id specific to this chat
    * @param {string} options.speech - Text representing the Message
    * @param {Originator} options.originator - Originator
-   * @param {?object} options.metadata - Meta data
+   * @param {?Metadata} options.metadata - Meta data
    * @param {?Attachment} options.attachment - Attachment (optional)
    **/
   constructor(opts = {}) {

@@ -41,7 +41,7 @@
   },
   "scripts": {
     "preexample": "npm run build",
-    "example": "DEBUG=flowai:* node ./example/node/file.js",
+    "example": "DEBUG=flowai:* node ./example/node",
     "prebuild": "npm run docs",
     "build:dist": "NODE_ENV=production webpack --display-error-details --config ./webpack.config.js",
     "build:lib": "NODE_ENV=production babel ./src --out-dir ./lib",
