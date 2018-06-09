@@ -30,7 +30,7 @@ export class Attachment {
   static build({ type, payload}) {
     switch(type) {
       case 'event':
-        return new EventAttachment(payload.name)
+        return new EventAttachment(payload.name, payload.label)
       default:
         return new Attachment(type, payload)
     }
