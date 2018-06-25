@@ -5,11 +5,18 @@ debug('flowai:metadata')
 /**
  * Additional Message data
  * @class
+ * @property {?string} [language] - Language the message is ib
+ * @property {?number} [timezone] - UTC time offset in hours
+ * @property {?Object} [params] - Parameters to send with the message
+ * @property {Object} domain - Browser or server environment variables like origin
  **/
 class Metadata {
 
   /**
    * Constructor
+   * @param {?string} [language] - Specify the language of the message
+   * @param {?number} [timezone] - Specify the timezone of the message
+   * @param {?Object} [params] - Additional data to be send 
    **/
   constructor({ contexts, params, language, timezone }) {
     this.language = language || undefined
@@ -56,20 +63,12 @@ class Metadata {
     }
   }
 
-
-  /***
-   * Add a context
-   **/
-  addContext(context) {
-    if(typeof(context) !== 'string') {
-      throw new Exception(`Context must be a string not ${context}`, 'user')
-    }
-
-    this.contexts.push(context)
-  }
-
   /***
    * Add a variable with a key and value
+   * @param {string} key - Name of the param
+   * @param {string} value - List of values
+   * @example
+   * metadata.addParam('shopId', '1234')
    **/
   addParam(key, value) {
     if(typeof(key) !== 'string') {
@@ -81,6 +80,17 @@ class Metadata {
     }
 
     this.params[key] = value
+  }
+
+  /**
+   * @deprecated
+   **/
+  addContext(context) {
+    if(typeof(context) !== 'string') {
+      throw new Exception(`Context must be a string not ${context}`, 'user')
+    }
+
+    this.contexts.push(context)
   }
 
   static build(metadata){

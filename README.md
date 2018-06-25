@@ -744,11 +744,38 @@ Factory method
 Additional Message data
 
 **Kind**: global class  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| [language] | <code>string</code> | Language the message is ib |
+| [timezone] | <code>number</code> | UTC time offset in hours |
+| [params] | <code>Object</code> | Parameters to send with the message |
+| domain | <code>Object</code> | Browser or server environment variables like origin |
+
+
+* [Metadata](#Metadata)
+    * [new Metadata([language], [timezone], [params])](#new_Metadata_new)
+    * ~~[.addContext()](#Metadata+addContext)~~
+
 <a name="new_Metadata_new"></a>
 
-### new Metadata()
+### new Metadata([language], [timezone], [params])
 Constructor
 
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [language] | <code>string</code> | Specify the language of the message |
+| [timezone] | <code>number</code> | Specify the timezone of the message |
+| [params] | <code>Object</code> | Additional data to be send |
+
+<a name="Metadata+addContext"></a>
+
+### ~~metadata.addContext()~~
+***Deprecated***
+
+**Kind**: instance method of [<code>Metadata</code>](#Metadata)  
 <a name="Originator"></a>
 
 ## Originator
