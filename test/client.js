@@ -8,11 +8,9 @@ import {
 import Exception from '../lib/exception'
 import Message from '../lib/message'
 import Reply from '../lib/reply'
-import Attachment from '../lib/attachment/attachment'
-import {
-  EventAttachment,
-  FileAttachment
-} from '../lib/attachment'
+import Attachment from '../lib/attachment'
+import EventAttachment from '../lib/event-attachment'
+import FileAttachment from '../lib/file-attachment'
 
 chai.use(chaiEventemitter)
 

@@ -2,7 +2,8 @@ import debug from 'debug'
 import Exception from './exception'
 import Originator from './originator'
 import Metadata  from './metadata'
-import { Attachment } from './attachment'
+import Attachment from './attachment'
+import AttachmentFactory from './attachment-factory'
 
 debug('flowai:message')
 
@@ -68,7 +69,7 @@ class Message {
       speech,
       originator: new Originator(originator),
       metadata: Metadata.build(metadata),
-      attachment: (attachment) ? Attachment.build(attachment) : undefined
+      attachment: (attachment) ? AttachmentFactory.build(attachment) : undefined
     })
   }
 }

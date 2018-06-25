@@ -7,7 +7,7 @@ import Reply from './reply'
 import Rest from './rest'
 import Unique from './unique'
 import Exception from './exception'
-import { FileAttachment } from './attachment'
+import FileAttachment from './file-attachment'
 
 debug('flowai:liveclient')
 
@@ -483,6 +483,10 @@ class LiveClient extends EventEmitter {
       })
   }
 
+  /**
+   * Setup the client
+   * @private
+   **/
   _init() {
     this._session= null
     this._thread = null
@@ -493,6 +497,10 @@ class LiveClient extends EventEmitter {
     this._backoff = new Backoff({ min: 100, max: 20000 })
   }
 
+  /**
+   * Try to reconnect
+   * @private
+   **/
   _reconnect() {
     if(!this._isAutoReconnect) {
       debug('Auto reconnect is disabled')
@@ -508,6 +516,10 @@ class LiveClient extends EventEmitter {
     }, timeout)
   }
 
+  /**
+   * Try to open a connection
+   * @private
+   **/
   _openConnection() {
 
     this._isAutoReconnect = true
@@ -537,6 +549,10 @@ class LiveClient extends EventEmitter {
       })
   }
 
+  /**
+   * Handle a received endpoint
+   * @private
+   **/
   _handleConnection(payload) {
     if( !payload ) {
       throw new Error("Did not receive a valid response from the backend service")
@@ -629,16 +645,28 @@ class LiveClient extends EventEmitter {
     this._socket = socket
   }
 
+  /**
+   * Handle a received message
+   * @private
+   **/
   _handleReceived(payload) {
     debug('Handling reply payload', payload)
     this.emit(LiveClient.REPLY_RECEIVED, new Reply(payload))
   }
 
+  /**
+   * Handle a received delivery confirmation
+   * @private
+   **/
   _handleDelivered(payload) {
     debug('Handling delivered payload', payload)
     this.emit(LiveClient.MESSAGE_DELIVERED, Message.build(payload))
   }
 
+  /**
+   * Disconnnect
+   * @private
+   **/
   _closeConnection() {
     this._isAutoReconnect = false
 
@@ -667,6 +695,10 @@ class LiveClient extends EventEmitter {
     }
   }
 
+  /**
+   * Send pings to keep the connection alive
+   * @private
+   **/
   _keepAlive() {
     return setInterval(() => {
       try {

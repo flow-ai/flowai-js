@@ -189,23 +189,14 @@ The sessionId is used to identify connections from different devices like browse
 ## Classes
 
 <dl>
-<dt><a href="#Attachment">Attachment</a></dt>
-<dd><p>Base class to all attachments</p>
-</dd>
-<dt><a href="#Attachment">Attachment</a></dt>
-<dd></dd>
-<dt><a href="#FileAttachment">FileAttachment</a></dt>
-<dd><p>Send a file as attachment</p>
-</dd>
-<dt><a href="#FileAttachment">FileAttachment</a></dt>
-<dd></dd>
 <dt><a href="#EventAttachment">EventAttachment</a></dt>
 <dd><p>Trigger events</p>
 </dd>
-<dt><a href="#EventAttachment">EventAttachment</a></dt>
-<dd></dd>
 <dt><a href="#Exception">Exception</a></dt>
 <dd><p>Exception</p>
+</dd>
+<dt><a href="#FileAttachment">FileAttachment</a></dt>
+<dd><p>Send a file as attachment</p>
 </dd>
 <dt><a href="#LiveClient">LiveClient</a></dt>
 <dd><p>Live streaming websocket client extends EventEmitter</p>
@@ -224,140 +215,6 @@ The sessionId is used to identify connections from different devices like browse
 </dd>
 </dl>
 
-<a name="Attachment"></a>
-
-## Attachment
-Base class to all attachments
-
-**Kind**: global class  
-<a name="new_Attachment_new"></a>
-
-### new Attachment()
-Constructor
-
-<a name="Attachment"></a>
-
-## Attachment
-**Kind**: global class  
-<a name="new_Attachment_new"></a>
-
-### new Attachment()
-Constructor
-
-<a name="FileAttachment"></a>
-
-## FileAttachment
-Send a file as attachment
-
-**Kind**: global class  
-
-* [FileAttachment](#FileAttachment)
-    * [new exports.FileAttachment(data)](#new_FileAttachment_new)
-    * [new FileAttachment()](#new_FileAttachment_new)
-
-<a name="new_FileAttachment_new"></a>
-
-### new exports.FileAttachment(data)
-
-| Param | Type | Description |
-| --- | --- | --- |
-| data | <code>File</code> \| <code>ReadStream</code> | File or Blob in the browser, ReadStream in Nodejs |
-
-**Example**  
-```js
-// Web example
-
-var originator = new Originator({
-  name: 'Jane'
-})
-
-var file = fileInputElement.files[0]
-
-const message = new Message({
-  attachment: new FileAttachment(file)
-})
-
-client.send(message)
-```
-**Example**  
-```js
-// Nodejs example
-import { createReadStream } from 'fs'
-
-const originator = new Originator({
-  name: 'Jane'
-})
-
-// Load ReadStream from file on disk
-const data = fs.createReadStream('/foo/bar.jpg')
-
-const message = new Message({
-  attachment: new FileAttachment(data)
-})
-
-client.send(message)
-```
-<a name="new_FileAttachment_new"></a>
-
-### new FileAttachment()
-Constructor
-
-<a name="FileAttachment"></a>
-
-## FileAttachment
-**Kind**: global class  
-
-* [FileAttachment](#FileAttachment)
-    * [new exports.FileAttachment(data)](#new_FileAttachment_new)
-    * [new FileAttachment()](#new_FileAttachment_new)
-
-<a name="new_FileAttachment_new"></a>
-
-### new exports.FileAttachment(data)
-
-| Param | Type | Description |
-| --- | --- | --- |
-| data | <code>File</code> \| <code>ReadStream</code> | File or Blob in the browser, ReadStream in Nodejs |
-
-**Example**  
-```js
-// Web example
-
-var originator = new Originator({
-  name: 'Jane'
-})
-
-var file = fileInputElement.files[0]
-
-const message = new Message({
-  attachment: new FileAttachment(file)
-})
-
-client.send(message)
-```
-**Example**  
-```js
-// Nodejs example
-import { createReadStream } from 'fs'
-
-const originator = new Originator({
-  name: 'Jane'
-})
-
-// Load ReadStream from file on disk
-const data = fs.createReadStream('/foo/bar.jpg')
-
-const message = new Message({
-  attachment: new FileAttachment(data)
-})
-
-client.send(message)
-```
-<a name="new_FileAttachment_new"></a>
-
-### new FileAttachment()
-Constructor
-
 <a name="EventAttachment"></a>
 
 ## EventAttachment
@@ -366,18 +223,29 @@ Trigger events
 **Kind**: global class  
 <a name="new_EventAttachment_new"></a>
 
-### new EventAttachment()
+### new EventAttachment(name, [label])
 Constructor
 
-<a name="EventAttachment"></a>
 
-## EventAttachment
-**Kind**: global class  
-<a name="new_EventAttachment_new"></a>
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>string</code> | Name of the event to trigger |
+| [label] | <code>string</code> | Optional human readable label for the triggered event |
 
-### new EventAttachment()
-Constructor
-
+**Example**  
+```js
+// Event without any label
+const message = new Message({
+  attachment: new EventAttachment('BUY')
+})
+```
+**Example**  
+```js
+// Event with label to display user
+const message = new Message({
+  attachment: new EventAttachment('BUY', 'Buy dress')
+})
+```
 <a name="Exception"></a>
 
 ## Exception
@@ -405,6 +273,56 @@ Constructor
 | innerException | [<code>Exception</code>](#Exception) |  | Optional inner exception |
 | isFinal | <code>bool</code> | <code>false</code> | Indicates if this exception prevents further execution |
 
+<a name="FileAttachment"></a>
+
+## FileAttachment
+Send a file as attachment
+
+**Kind**: global class  
+<a name="new_FileAttachment_new"></a>
+
+### new FileAttachment(data)
+Constructor
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| data | <code>File</code> \| <code>ReadStream</code> | File or Blob in the browser, ReadStream in Nodejs |
+
+**Example**  
+```js
+// Web example
+
+var originator = new Originator({
+  name: 'Jane'
+})
+
+var file = fileInputElement.files[0]
+
+const message = new Message({
+  attachment: new FileAttachment(file)
+})
+
+client.send(message)
+```
+**Example**  
+```js
+// Nodejs example
+import { createReadStream } from 'fs'
+
+const originator = new Originator({
+  name: 'Jane'
+})
+
+// Load ReadStream from file on disk
+const data = fs.createReadStream('/foo/bar.jpg')
+
+const message = new Message({
+  attachment: new FileAttachment(data)
+})
+
+client.send(message)
+```
 <a name="LiveClient"></a>
 
 ## LiveClient
@@ -453,22 +371,6 @@ Constructor
 | opts.endpoint | <code>string</code> |  | Optional, only for testing purposes |
 | opts.origin | <code>string</code> |  | When running on Nodejs you MUST set the origin |
 
-**Example**  
-```js
-// Node.js
-const client = new LiveClient({
-  clientId: 'MY CLIENT ID',
-  origin: 'https://my.website'
-})
-```
-**Example**  
-```js
-// Web
-const client = new LiveClient({
-  clientId: 'MY CLIENT ID',
-  storage: 'session'
-})
-```
 <a name="LiveClient+sessionId"></a>
 
 ### liveClient.sessionId ⇒ <code>string</code> \| <code>null</code>
@@ -710,7 +612,7 @@ Message being send to Flow.ai
 | speech | <code>string</code> | Text representing the Message |
 | originator | [<code>Originator</code>](#Originator) | Originator |
 | meta | [<code>Metadata</code>](#Metadata) | Meta data |
-| attachment | [<code>Attachment</code>](#Attachment) | Optional attachment |
+| attachment | [<code>Attachment</code>](#new_Attachment_new) | Optional attachment |
 
 
 * [Message](#Message)
@@ -730,7 +632,7 @@ Constructor
 | options.speech | <code>string</code> | Text representing the Message |
 | options.originator | [<code>Originator</code>](#Originator) | Originator |
 | options.metadata | [<code>Metadata</code>](#Metadata) | Meta data |
-| options.attachment | [<code>Attachment</code>](#Attachment) | Attachment (optional) |
+| options.attachment | [<code>Attachment</code>](#new_Attachment_new) | Attachment (optional) |
 
 <a name="Message.build"></a>
 

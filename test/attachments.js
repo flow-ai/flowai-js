@@ -1,5 +1,5 @@
 import chai, { expect, assert } from 'chai'
-import { EventAttachment } from '../lib/attachment'
+import EventAttachment from '../lib/event-attachment'
 
 describe("Attachment", () => {
 
