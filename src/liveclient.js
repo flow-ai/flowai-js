@@ -541,9 +541,10 @@ class LiveClient extends EventEmitter {
         this._handleConnection(result.payload)
       })
       .catch(err => {
-        debug('Error while trying to connect', err)
-
-        this._reconnect()
+        console.error('LiveClient: Error while trying to connect', err)
+        if(err.status === undefined) {
+          this._reconnect()
+        }
 
         this.emit(LiveClient.ERROR, new Exception(err, 'connection'))
       })
@@ -720,7 +721,7 @@ class LiveClient extends EventEmitter {
  * @type {string}
  * @desc Event that triggers when an error is received from the flow.ai platform
  **/
-LiveClient.ERROR = 'error'
+LiveClient.ERROR = 'ERROR'
 
 /**
  * @constant

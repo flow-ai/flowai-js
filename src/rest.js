@@ -4,6 +4,32 @@ import fetch from 'fetch-everywhere'
 
 debug('flowai:rest')
 
+const checkStatus = response => {
+  if (response.status >= 200 && response.status < 300) {
+    return response
+  } else {
+    switch(response.status) {
+      case 400: {
+        console.error('It seems your clientId or configuration is invalid')
+        break
+      }
+      case 401:
+      case 403: {
+        console.error('It seems your domain is not whitelisted properly')
+        break
+      }
+      default: {
+        console.error('An error occurred at the Flow.ai API. Please contact us at slack.flow.ai')
+        break
+      }
+    }
+    
+    const error = new Error(response.statusText)
+    error.status = response.status
+    throw error
+  }
+}
+
 // Private class
 class Rest {
 
@@ -97,6 +123,7 @@ class Rest {
       debug(`Calling URL '${url}'`)
 
       fetch(url, enveloppe)
+        .then(checkStatus)
         .then(response => {
           resolve(response.json())
         })
