@@ -10,7 +10,7 @@ const checkStatus = response => {
   } else {
     switch(response.status) {
       case 400: {
-        console.error('It seems your clientId or configuration is invalid')
+        console.error('It seems your clientId, sessionId or configuration is invalid')
         break
       }
       case 401:
@@ -23,7 +23,7 @@ const checkStatus = response => {
         break
       }
     }
-    
+
     const error = new Error(response.statusText)
     error.status = response.status
     throw error

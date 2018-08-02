@@ -585,8 +585,8 @@ class LiveClient extends EventEmitter {
     }
 
     socket.onerror = evt => {
-      debug('Socket onerror', evt)
-      this.emit(LiveClient.ERROR, new Exception('Error during connection', 'connection'))
+      console.error('LiveClient: Error setting up WebSocket', evt)
+      this.emit(LiveClient.ERROR, new Exception('Error during connection', 'connection', evt))
     }
 
     socket.onclose = evt => {
