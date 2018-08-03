@@ -1,9 +1,29 @@
 {
-  "presets": [
-    ["env", {
-      "targets": {
-        "browsers": ["last 2 versions", "IE 11"]
-      }
-    }]
-  ]
+  "env": {
+    "dist": {
+      "presets": [
+        ["env", {
+          "targets": {
+            "browsers": ["last 2 versions", "IE 10"]
+          },
+          "debug": true
+        }]
+      ]
+     },
+    "lib": {
+      "presets": [
+        ["env", {
+          "targets": {
+            "node": "current",
+            "react": "16.4.2",
+            "react-native": "0.56",
+            "electron": "2.0.6"
+          },
+          "debug": true
+        }]
+      ]
+    }
+  }
+
+
 }

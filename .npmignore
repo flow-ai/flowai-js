@@ -2,3 +2,8 @@ src
 assets
 example
 media
+.eslintrc
+.eslintignore
+.babelrc
+.jsdoc
+webpack.config.js

@@ -20,11 +20,11 @@ const __ENDPOINT__ = 'http://localhost:6005'
 describe("Flow.ai SDK Client", () => {
 
   it("ClientId must be string", () => {
-    expect(() => new LiveClient({})).to.throw(Exception)
+    expect(() => new LiveClient({})).to.throw()
   })
 
   it("ClientId should not be undefined", () => {
-    expect(() => new LiveClient()).to.throw(Exception)
+    expect(() => new LiveClient()).to.throw()
   })
 
   it("Create legacy way", () => {
@@ -53,36 +53,36 @@ describe("Flow.ai SDK Client", () => {
 
   it("Throws not on invalid clientId", () => {
     const client = new LiveClient('asassaasassasaasassaas')
-    expect(() => client.start()).to.not.throw(Exception)
+    expect(() => client.start()).to.not.throw()
   })
 
   it("Throws on invalid sessionId", () => {
     const client = new LiveClient(__CLIENT_ID__)
-    expect(() => client.start(1)).to.throw(Exception)
+    expect(() => client.start(1)).to.throw()
   })
 
   it("Throws on invalid threadId", () => {
     const client = new LiveClient(__CLIENT_ID__)
-    expect(() => client.start('', 1)).to.throw(Exception)
+    expect(() => client.start('', 1)).to.throw()
   })
 
   it("Throws on sending empty", () => {
     const client = new LiveClient(__CLIENT_ID__, __ENDPOINT__)
-    expect(() => client.send()).to.throw(Exception)
+    expect(() => client.send()).to.throw()
   })
 
   it("Throws on sending invalid options", () => {
     const client = new LiveClient(__CLIENT_ID__, __ENDPOINT__)
-    expect(() => client.send({}, {})).to.throw(Exception)
+    expect(() => client.send({}, {})).to.throw()
   })
 
   it("Throws on sending when disconnection", () => {
     const client = new LiveClient(__CLIENT_ID__, __ENDPOINT__)
-    expect(() => client.send({})).to.throw(Exception)
+    expect(() => client.send({})).to.throw()
   })
 
   it("Cannot create empty exception", () => {
-    expect(() => new Exception()).to.throw(Error)
+    expect(() => new Exception()).to.throw()
   })
 
   it("Can create exception with string", () => {
@@ -141,7 +141,7 @@ describe("Flow.ai SDK Client", () => {
   })
 
   it("Cannot construct message with invalid attachment", () => {
-    expect(() => new Message({ attachment: {}})).to.throw(Exception)
+    expect(() => new Message({ attachment: {}})).to.throw()
   })
 
   it("Can construct FileAttachment", () => {
