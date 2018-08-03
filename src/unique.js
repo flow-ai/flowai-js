@@ -1,6 +1,8 @@
 import debug from 'debug'
 import uuid from 'uuid-v4'
 
+const reqqq = require
+
 debug('flowai:unique')
 
 // Private class
@@ -110,7 +112,7 @@ const createStorage = engine => {
     return memoryStore()
   } else {
     // Nodejs
-    const LocalStorage = require('node-localstorage').LocalStorage
+    const LocalStorage = reqqq('node-localstorage').LocalStorage
     return new LocalStorage('./unique')
   }
 }
