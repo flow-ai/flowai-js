@@ -259,6 +259,7 @@ Exception
 | message | <code>string</code> | Human friendly message |
 | type | <code>string</code> | Kind of error |
 | innerException | [<code>Exception</code>](#Exception) | Inner exception |
+| isFinal | <code>bool</code> | Prevent further execution |
 
 <a name="new_Exception_new"></a>
 

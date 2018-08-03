@@ -4,6 +4,7 @@
  * @property {string} message - Human friendly message
  * @property {string} type - Kind of error
  * @property {Exception} innerException - Inner exception
+ * @property {bool} isFinal - Prevent further execution
  **/
 class Exception {
 

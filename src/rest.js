@@ -1,31 +1,36 @@
 import debug from 'debug'
 import querystring from 'querystring'
 import fetch from 'fetch-everywhere'
-
+import Exception from './exception'
 debug('flowai:rest')
 
 const checkStatus = response => {
   if (response.status >= 200 && response.status < 300) {
     return response
   } else {
+    let error
     switch(response.status) {
+      case 500:
+      case 503:
       case 400: {
         console.error('It seems your clientId, sessionId or configuration is invalid')
+        error = new Exception('Failed to connect with API. Invalid clientId, sessionId or configuration', 'connection', new Error(response.status), true)
         break
       }
       case 401:
+      case 402:
       case 403: {
         console.error('It seems your domain is not whitelisted properly')
+        error = new Exception('Failed to connect with API. Your domain is not whitelisted', 'connection', new Error(response.status), true)
         break
       }
       default: {
         console.error('An error occurred at the Flow.ai API. Please contact us at slack.flow.ai')
+        error = new Exception('Failed to connect with API', 'connection', new Error(response.status))
         break
       }
     }
 
-    const error = new Error(response.statusText)
-    error.status = response.status
     throw error
   }
 }

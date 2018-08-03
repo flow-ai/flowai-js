@@ -542,7 +542,7 @@ class LiveClient extends EventEmitter {
       })
       .catch(err => {
         console.error('LiveClient: Error while trying to connect', err)
-        if(err.status === undefined) {
+        if(!err.isFinal) {
           this._reconnect()
         }
 
@@ -563,14 +563,7 @@ class LiveClient extends EventEmitter {
 
     debug(`Opening the connection with endpoint '${endpoint}'`)
 
-    let socket
-
-    try {
-      socket = new w3cwebsocket(endpoint, null, this._origin)
-    } catch(err) {
-      // When you fail to connect, die!
-      throw new Exception('Error failed to connect to endpoint', 'connection', null, true)
-    }
+    const socket = new w3cwebsocket(endpoint, null, this._origin)
 
     socket.onopen = () => {
       debug('Socket onopen')
@@ -585,8 +578,25 @@ class LiveClient extends EventEmitter {
     }
 
     socket.onerror = evt => {
-      console.error('LiveClient: Error setting up WebSocket', evt)
-      this.emit(LiveClient.ERROR, new Exception('Error during connection', 'connection', evt))
+      console.error('LiveClient: Error durring up WebSocket operation', evt)
+      switch(socket.readyState) {
+        case 0: {
+          this.emit(LiveClient.ERROR, new Exception('Could not connect', 'connection', evt, true))
+          break
+        }
+        case 1: {
+          this.emit(LiveClient.ERROR, new Exception('Error during socket connection', 'connection', evt))
+          break
+        }
+        case 2: {
+          this.emit(LiveClient.ERROR, new Exception('Error while closing socket connection', 'connection', evt), true)
+          break
+        }
+        default: {
+          this.emit(LiveClient.ERROR, new Exception('Unknown error while running socket connection', 'connection', evt), true)
+          break
+        }
+      }
     }
 
     socket.onclose = evt => {
