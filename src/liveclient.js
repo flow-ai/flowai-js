@@ -578,22 +578,26 @@ class LiveClient extends EventEmitter {
     }
 
     socket.onerror = evt => {
-      console.error('LiveClient: Error durring up WebSocket operation', evt)
+      const msg = "Failed socket operation."
       switch(socket.readyState) {
         case 0: {
-          this.emit(LiveClient.ERROR, new Exception('Could not connect', 'connection', evt, true))
+          this.emit(LiveClient.ERROR, new Exception(`${msg} Socket is busy connecting.`, 'connection'))
           break
         }
         case 1: {
-          this.emit(LiveClient.ERROR, new Exception('Error during socket connection', 'connection', evt))
+          this.emit(LiveClient.ERROR, new Exception(`${msg} Socket is connected.`, 'connection'))
           break
         }
         case 2: {
-          this.emit(LiveClient.ERROR, new Exception('Error while closing socket connection', 'connection', evt), true)
+          this.emit(LiveClient.ERROR, new Exception(`${msg} Connection is busy closing.`, 'connection'))
+          break
+        }
+        case 3: {
+          this.emit(LiveClient.ERROR, new Exception(`${msg} Connection is closed.`, 'connection'))
           break
         }
         default: {
-          this.emit(LiveClient.ERROR, new Exception('Unknown error while running socket connection', 'connection', evt), true)
+          this.emit(LiveClient.ERROR, new Exception(msg, 'connection'))
           break
         }
       }
@@ -604,10 +608,14 @@ class LiveClient extends EventEmitter {
 
       this._socket = null
 
-      this.emit(LiveClient.DISCONNECTED)
-
-      if(evt && evt.reason !== 'connection failed') {
+      if(evt && evt.code === 1006) {
+        this.emit(LiveClient.ERROR, new Exception('It seems your domain is not whitelisted', 'connection', null, true))
+        this.emit(LiveClient.DISCONNECTED)
+      } else if(evt && evt.reason !== 'connection failed') {
+        this.emit(LiveClient.DISCONNECTED)
         this._reconnect()
+      } else {
+        this.emit(LiveClient.DISCONNECTED)
       }
     }
 
