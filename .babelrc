@@ -6,7 +6,7 @@
           "targets": {
             "browsers": ["last 2 versions", "IE 10"]
           },
-          "debug": true
+          "debug": false
         }]
       ]
      },
@@ -19,7 +19,7 @@
             "react-native": "0.56",
             "electron": "2.0.6"
           },
-          "debug": true
+          "debug": false
         }]
       ]
     }

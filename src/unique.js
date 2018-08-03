@@ -35,9 +35,9 @@ class Unique {
     this._storage = createStorage(engine)
 
     debug(`Creating a new Unique with key '${key}' and value '${value}'`)
-
-
-    value && this._storage.setItem(this._storageKey, value)
+    if(value !== null && value !== undefined) {
+      this._storage.setItem(this._storageKey, value)
+    }
   }
 
   id() {
@@ -85,23 +85,45 @@ class Unique {
 
     const storage = createStorage(engine)
     const storageKey = `${clientId}.${key}`
-    return (storage && storage.getItem(storageKey) !== null)
+    return (storage.getItem(storageKey) !== null)
   }
 }
 
 
-const createStorage = (engine) => {
-  if (typeof localStorage === "undefined" || localStorage === null) {
-    // Server side storage
+const createStorage = engine => {
+  if (typeof document !== 'undefined') {
+    // Web
+
+    if (typeof localStorage === "undefined" || localStorage === null) {
+      // Very old browser?
+      return memoryStore()
+    }
+
+    if(engine === 'session') {
+      // Session store
+      return sessionStorage
+    }
+    return localStorage
+
+  } else if (typeof navigator != 'undefined' && navigator.product == 'ReactNative') {
+    // React native
+    return memoryStore()
+  } else {
+    // Nodejs
     const LocalStorage = require('node-localstorage').LocalStorage
     return new LocalStorage('./unique')
   }
+}
 
-  if(engine === 'session') {
-    return sessionStorage
-  }
+const __stored = {}
 
-  return localStorage
+const memoryStore = () => {
+  return ({
+    getItem: storageKey => __stored[storageKey] || null,
+    setItem: (storageKey, value) => {
+      __stored[storageKey] = value
+    }
+  })
 }
 
 export default Unique
