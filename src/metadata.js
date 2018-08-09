@@ -16,7 +16,7 @@ class Metadata {
    * Constructor
    * @param {?string} [language] - Specify the language of the message
    * @param {?number} [timezone] - Specify the timezone of the message
-   * @param {?Object} [params] - Additional data to be send 
+   * @param {?Object} [params] - Additional data to be send
    **/
   constructor({ contexts, params, language, timezone }) {
     this.language = language || undefined
@@ -94,13 +94,13 @@ class Metadata {
   }
 
   static build(metadata){
-    return new Metadata({
+    return new Metadata(Object.assign({}, metadata, {
       language: metadata.language || undefined,
       timezone: metadata.timezone || undefined,
       contexts: metadata.contexts,
       params: metadata.params,
       domain: metadata.domain
-    })
+    }))
   }
 }
 

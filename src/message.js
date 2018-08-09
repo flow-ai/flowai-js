@@ -42,7 +42,7 @@ class Message {
     }
 
     if(threadId && typeof threadId !== 'string') {
-      throw new Exception("threadId should be an string.", 'user')
+      throw new Exception("threadId should be a string.", 'user')
     }
 
     if(attachment && !(attachment instanceof Attachment) ) {
@@ -64,8 +64,11 @@ class Message {
   /**
    * Factory method
    **/
-  static build({ speech, originator, metadata, attachment }){
+  static build({ threadId, traceId, speech, originator, metadata, attachment }){
+    debug('Calling build', threadId, traceId, speech, originator, metadata, attachment)
     return new Message({
+      threadId,
+      traceId,
       speech,
       originator: new Originator(originator),
       metadata: Metadata.build(metadata),

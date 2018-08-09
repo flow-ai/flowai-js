@@ -27,18 +27,19 @@ class Reply {
   constructor({ threadId, originator, messages }) {
     this.threadId = threadId
     this.originator = new Originator(originator)
-    this.messages = messages.map((message) => new ReplyMessage(message))
+    this.messages = messages.map(message => new ReplyMessage(message))
   }
 }
 
 class ReplyMessage {
-  constructor({ fallback, replyTo, responses, contexts, params, intents }) {
+  constructor({ fallback, replyTo, responses, contexts, params, intents, createdAt }) {
     this.fallback = fallback
     this.replyTo = replyTo || null
-    this.responses = responses.map((response) => new Response(response))
+    this.responses = responses.map(response => new Response(response))
     this.contexts = contexts || []
     this.params = params || {}
     this.intents = intents || []
+    this.createdAt = createdAt || undefined
   }
 }
 

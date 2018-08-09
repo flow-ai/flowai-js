@@ -105,6 +105,25 @@ describe("Flow.ai SDK Client", () => {
     expect(m.metadata).to.be.not.null
   })
 
+  it("New message with attachment in it", () => {
+    const threadId = "string taken from cloud code payload.threadId"
+    const traceId = 23
+    const eventName = "event name"
+    const label = "event label"
+
+    const m = new Message({
+      threadId,
+      traceId,
+      attachment: new EventAttachment(eventName, label)
+    })
+
+    expect(m.threadId).to.equal(threadId)
+    expect(m.traceId).to.equal(traceId)
+    expect(m.attachment.payload.name).to.equal(eventName)
+    expect(m.attachment.payload.label).to.equal(label)
+    console.info(JSON.stringify(m))
+  })
+
   it("Can create attachment", () => {
     const attachment = new Attachment('event', { name: 'monkey' })
     expect(attachment).to.be.not.null
