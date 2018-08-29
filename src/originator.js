@@ -7,6 +7,7 @@ debug('flowai:originator')
  * @class
  * @property {string} name - Name of a person or system originating the Message, default is Anonymous
  * @property {string} role - The role of the person. You cannot set this, default is external
+ * @property {?Object} profile - Contains profile info
  * @property {string} profile.fullName - First and surname combined
  * @property {string} profile.firstName - First name of the person
  * @property {string} profile.lastName - Last name of the person
@@ -21,6 +22,24 @@ debug('flowai:originator')
  **/
 class Originator {
 
+  /**
+   * @constructor
+   * @param {Object} opts
+   * @param {string} opts.name - Name of a person or system originating the Message, default is Anonymous
+   * @param {string} opts.role - The role of the person. You cannot set this, default is external
+   * @param {?Object} opts.profile - Contains profile info
+   * @param {string} opts.profile.fullName - First and surname combined
+   * @param {string} opts.profile.firstName - First name of the person
+   * @param {string} opts.profile.lastName - Last name of the person
+   * @param {string} opts.profile.email - E-mail address
+   * @param {string} opts.profile.description - Description of this user
+   * @param {string} opts.profile.picture - Profile picture (url)
+   * @param {string} opts.profile.locale - ISO code describing language and country (en-US)
+   * @param {number} opts.profile.timezone - Hours from GMT
+   * @param {string} opts.profile.location - Location of the user
+   * @param {string} opts.profile.gender - M for male, F for female or U for unknown / other
+   * @param {object} opts.metadata - Optional object with custom metadata
+   **/
   constructor(opts) {
     const data = opts || {}
     this.name = data.name || 'Anonymous'

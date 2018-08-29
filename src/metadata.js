@@ -5,18 +5,19 @@ debug('flowai:metadata')
 /**
  * Additional Message data
  * @class
- * @property {?string} [language] - Language the message is ib
- * @property {?number} [timezone] - UTC time offset in hours
- * @property {?Object} [params] - Parameters to send with the message
+ * @property {?string} language - Language the message is ib
+ * @property {?number} timezone - UTC time offset in hours
+ * @property {?Object} params - Parameters to send with the message
  * @property {Object} domain - Browser or server environment variables like origin
  **/
 class Metadata {
 
   /**
    * Constructor
-   * @param {?string} [language] - Specify the language of the message
-   * @param {?number} [timezone] - Specify the timezone of the message
-   * @param {?Object} [params] - Additional data to be send
+   * @constructor
+   * @param {?string} language - Specify the language of the message
+   * @param {?number} timezone - Specify the timezone of the message
+   * @param {?Object} params - Additional data to be send
    **/
   constructor({ contexts, params, language, timezone }) {
     this.language = language || undefined
@@ -65,6 +66,7 @@ class Metadata {
 
   /***
    * Add a variable with a key and value
+   * @method
    * @param {string} key - Name of the param
    * @param {string} value - List of values
    * @example
@@ -83,6 +85,7 @@ class Metadata {
   }
 
   /**
+   * @method
    * @deprecated
    **/
   addContext(context) {
@@ -93,6 +96,12 @@ class Metadata {
     this.contexts.push(context)
   }
 
+  /**
+   * Create a Metadata object from raw data
+   * @static 
+   * @param {Object} metadata
+   * @returns {Metadata}
+   **/
   static build(metadata){
     return new Metadata(Object.assign({}, metadata, {
       language: metadata.language || undefined,

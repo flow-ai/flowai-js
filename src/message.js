@@ -8,23 +8,26 @@ import AttachmentFactory from './attachment-factory'
 debug('flowai:message')
 
 /**
- * Message being send to Flow.ai
+ * Message you send to Flow.ai
  * @class
  * @property {string} speech - Text representing the Message
  * @property {Originator} originator - Originator
- * @property {?Metadata} meta - Meta data
- * @property {?Attachment} attachment - Optional attachment
+ * @property {Metadata} meta - Meta data
+ * @property {Attachment} attachment - Optional attachment
+ * @member build
  **/
 class Message {
 
   /**
    * Constructor
-   * @param {?int} options.traceId - Optional unique integer you can match messages with
-   * @param {string} options.threadId - Optional unique id specific to this chat
-   * @param {string} options.speech - Text representing the Message
-   * @param {Originator} options.originator - Originator
-   * @param {?Metadata} options.metadata - Meta data
-   * @param {?Attachment} options.attachment - Attachment (optional)
+   * @constructor
+   * @param {?Object} opts
+   * @param {?number} opts.traceId - Optional unique integer you can match messages with
+   * @param {string} opts.threadId - Optional unique id specific to this chat
+   * @param {string} opts.speech - Text representing the Message
+   * @param {Originator} opts.originator - Originator
+   * @param {?Metadata} opts.metadata - Meta data
+   * @param {?Attachment} opts.attachment - Attachment (optional)
    **/
   constructor(opts = {}) {
 
@@ -63,6 +66,14 @@ class Message {
 
   /**
    * Factory method
+   * @param {object} opts
+   * @param {string} opts.threadId
+   * @param {string} opts.traceId
+   * @param {string} opts.speech
+   * @param {object} opts.originator
+   * @param {object} opts.metadata
+   * @param {object} opts.attachment
+   * @returns {Message}
    **/
   static build({ threadId, traceId, speech, originator, metadata, attachment }){
     debug('Calling build', threadId, traceId, speech, originator, metadata, attachment)

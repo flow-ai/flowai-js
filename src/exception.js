@@ -4,7 +4,7 @@
  * @property {string} message - Human friendly message
  * @property {string} type - Kind of error
  * @property {Exception} innerException - Inner exception
- * @property {bool} isFinal - Prevent further execution
+ * @property {boolean} isFinal - Prevent further execution
  **/
 class Exception {
 
@@ -13,7 +13,7 @@ class Exception {
    * @param {string} message - message - Human friendly message
    * @param {string} type - Kind of error
    * @param {Exception} innerException - Optional inner exception
-   * @param {bool} isFinal - Indicates if this exception prevents further execution
+   * @param {boolean} isFinal - Indicates if this exception prevents further execution
    **/
   constructor(message, type, innerException, isFinal = false) {
 

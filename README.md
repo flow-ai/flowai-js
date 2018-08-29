@@ -202,8 +202,7 @@ The sessionId is used to identify connections from different devices like browse
 <dd><p>Live streaming websocket client extends EventEmitter</p>
 </dd>
 <dt><a href="#Message">Message</a></dt>
-<dd><p>Message being send to Flow.ai</p>
-</dd>
+<dd></dd>
 <dt><a href="#Metadata">Metadata</a></dt>
 <dd><p>Additional Message data</p>
 </dd>
@@ -211,7 +210,15 @@ The sessionId is used to identify connections from different devices like browse
 <dd><p>Originator of a Message</p>
 </dd>
 <dt><a href="#Reply">Reply</a></dt>
-<dd><p>Reply being returned by Flow.ai</p>
+<dd><p>Reply you receive from Flow.ai</p>
+</dd>
+</dl>
+
+## Members
+
+<dl>
+<dt><a href="#build">build</a></dt>
+<dd><p>Message you send to Flow.ai</p>
 </dd>
 </dl>
 
@@ -259,7 +266,7 @@ Exception
 | message | <code>string</code> | Human friendly message |
 | type | <code>string</code> | Kind of error |
 | innerException | [<code>Exception</code>](#Exception) | Inner exception |
-| isFinal | <code>bool</code> | Prevent further execution |
+| isFinal | <code>boolean</code> | Prevent further execution |
 
 <a name="new_Exception_new"></a>
 
@@ -272,7 +279,7 @@ Constructor
 | message | <code>string</code> |  | message - Human friendly message |
 | type | <code>string</code> |  | Kind of error |
 | innerException | [<code>Exception</code>](#Exception) |  | Optional inner exception |
-| isFinal | <code>bool</code> | <code>false</code> | Indicates if this exception prevents further execution |
+| isFinal | <code>boolean</code> | <code>false</code> | Indicates if this exception prevents further execution |
 
 <a name="FileAttachment"></a>
 
@@ -334,13 +341,15 @@ Live streaming websocket client extends EventEmitter
 * [LiveClient](#LiveClient)
     * [new LiveClient(opts)](#new_LiveClient_new)
     * _instance_
-        * [.sessionId](#LiveClient+sessionId) ⇒ <code>string</code> \| <code>null</code>
-        * [.threadId](#LiveClient+threadId) ⇒ <code>string</code> \| <code>null</code>
-        * [.isConnected](#LiveClient+isConnected) ⇒ <code>bool</code>
+        * [.sessionId](#LiveClient+sessionId)
+        * [.threadId](#LiveClient+threadId) ⇒ <code>string</code>
+        * [.threadId](#LiveClient+threadId)
+        * [.isConnected](#LiveClient+isConnected) ⇒ <code>boolean</code>
+        * [.sessionId()](#LiveClient+sessionId) ⇒ <code>string</code>
         * [.start(threadId, sessionId)](#LiveClient+start)
         * [.stop()](#LiveClient+stop)
         * [.destroy()](#LiveClient+destroy)
-        * [.send(message)](#LiveClient+send) ⇒
+        * [.send(message)](#LiveClient+send) ⇒ <code>object</code>
         * [.merger(mergerKey, threadId, sessionId)](#LiveClient+merger)
         * [.history(threadId)](#LiveClient+history)
         * [.noticed(threadId, instantly)](#LiveClient+noticed)
@@ -364,41 +373,63 @@ Live streaming websocket client extends EventEmitter
 Constructor
 
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| opts | <code>string</code> \| <code>object</code> |  | Configuration options or shorthand for just clientId |
-| opts.clientId | <code>string</code> |  | Mandatory Client token |
-| opts.storage | <code>string</code> | <code>&quot;local&quot;</code> | Optional, 'session' or 'local' for using sessionStorage or localStorage |
-| opts.endpoint | <code>string</code> |  | Optional, only for testing purposes |
-| opts.origin | <code>string</code> |  | When running on Nodejs you MUST set the origin |
+| Param | Type | Description |
+| --- | --- | --- |
+| opts | <code>object</code> \| <code>string</code> | Configuration options or shorthand for just clientId |
+| opts.clientId | <code>string</code> | Mandatory Client token |
+| opts.storage | <code>string</code> | Optional, 'session' or 'local' for using sessionStorage or localStorage |
+| opts.endpoint | <code>string</code> | Optional, only for testing purposes |
+| opts.origin | <code>string</code> | When running on Nodejs you MUST set the origin |
 
 <a name="LiveClient+sessionId"></a>
 
-### liveClient.sessionId ⇒ <code>string</code> \| <code>null</code>
+### liveClient.sessionId
 Session Id of the connection
 
 **Kind**: instance property of [<code>LiveClient</code>](#LiveClient)  
-**Returns**: <code>string</code> \| <code>null</code> - Null if no connection is active  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>string</code> | Change the session ID |
+
 <a name="LiveClient+threadId"></a>
 
-### liveClient.threadId ⇒ <code>string</code> \| <code>null</code>
+### liveClient.threadId ⇒ <code>string</code>
 Default Thread Id to be used for any messages being send
 
 **Kind**: instance property of [<code>LiveClient</code>](#LiveClient)  
-**Returns**: <code>string</code> \| <code>null</code> - Null if no connection is active  
+**Returns**: <code>string</code> - Null if no connection is active  
+<a name="LiveClient+threadId"></a>
+
+### liveClient.threadId
+Session Id of the connection
+
+**Kind**: instance property of [<code>LiveClient</code>](#LiveClient)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>string</code> | Change the thread ID |
+
 <a name="LiveClient+isConnected"></a>
 
-### liveClient.isConnected ⇒ <code>bool</code>
+### liveClient.isConnected ⇒ <code>boolean</code>
 Check if the connection is active
 
 **Kind**: instance property of [<code>LiveClient</code>](#LiveClient)  
-**Returns**: <code>bool</code> - True if the connection is active  
+**Returns**: <code>boolean</code> - True if the connection is active  
 **Example**  
 ```js
 if(client.isConnected) {
   // Do something awesome
 }
 ```
+<a name="LiveClient+sessionId"></a>
+
+### liveClient.sessionId() ⇒ <code>string</code>
+Session Id of the connection
+
+**Kind**: instance method of [<code>LiveClient</code>](#LiveClient)  
+**Returns**: <code>string</code> - Null if no connection is active  
 <a name="LiveClient+start"></a>
 
 ### liveClient.start(threadId, sessionId)
@@ -445,15 +476,15 @@ client.destroy()
 ```
 <a name="LiveClient+send"></a>
 
-### liveClient.send(message) ⇒
+### liveClient.send(message) ⇒ <code>object</code>
 This method triggers a `LiveClient.MESSAGE_SEND` event
 
 **Kind**: instance method of [<code>LiveClient</code>](#LiveClient)  
-**Returns**: Message - Message that was send  
+**Returns**: <code>object</code> - Message that was send  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| message | [<code>Message</code>](#Message) | Message to be send |
+| message | <code>object</code> | Message you want to send |
 
 **Example**  
 ```js
@@ -513,7 +544,7 @@ The library automatically throttles the number of calls
 | Param | Type | Description |
 | --- | --- | --- |
 | threadId | <code>string</code> | Optional. Specify the thread that is noticed |
-| instantly | <code>bool</code> | Optional. Instantly send notice. Default is false |
+| instantly | <code>boolean</code> | Optional. Instantly send notice. Default is false |
 
 **Example**  
 ```js
@@ -603,44 +634,45 @@ Event that triggers when there are unnoticed messages
 <a name="Message"></a>
 
 ## Message
-Message being send to Flow.ai
-
 **Kind**: global class  
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| speech | <code>string</code> | Text representing the Message |
-| originator | [<code>Originator</code>](#Originator) | Originator |
-| meta | [<code>Metadata</code>](#Metadata) | Meta data |
-| attachment | [<code>Attachment</code>](#new_Attachment_new) | Optional attachment |
-
 
 * [Message](#Message)
-    * [new Message()](#new_Message_new)
-    * [.build()](#Message.build)
+    * [new Message(opts)](#new_Message_new)
+    * [.build(opts)](#Message.build) ⇒ [<code>Message</code>](#Message)
 
 <a name="new_Message_new"></a>
 
-### new Message()
+### new Message(opts)
 Constructor
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| options.traceId | <code>int</code> | Optional unique integer you can match messages with |
-| options.threadId | <code>string</code> | Optional unique id specific to this chat |
-| options.speech | <code>string</code> | Text representing the Message |
-| options.originator | [<code>Originator</code>](#Originator) | Originator |
-| options.metadata | [<code>Metadata</code>](#Metadata) | Meta data |
-| options.attachment | [<code>Attachment</code>](#new_Attachment_new) | Attachment (optional) |
+| opts | <code>Object</code> |  |
+| opts.traceId | <code>number</code> | Optional unique integer you can match messages with |
+| opts.threadId | <code>string</code> | Optional unique id specific to this chat |
+| opts.speech | <code>string</code> | Text representing the Message |
+| opts.originator | [<code>Originator</code>](#Originator) | Originator |
+| opts.metadata | [<code>Metadata</code>](#Metadata) | Meta data |
+| opts.attachment | [<code>Attachment</code>](#new_Attachment_new) | Attachment (optional) |
 
 <a name="Message.build"></a>
 
-### Message.build()
+### Message.build(opts) ⇒ [<code>Message</code>](#Message)
 Factory method
 
 **Kind**: static method of [<code>Message</code>](#Message)  
+
+| Param | Type |
+| --- | --- |
+| opts | <code>object</code> | 
+| opts.threadId | <code>string</code> | 
+| opts.traceId | <code>string</code> | 
+| opts.speech | <code>string</code> | 
+| opts.originator | <code>object</code> | 
+| opts.metadata | <code>object</code> | 
+| opts.attachment | <code>object</code> | 
+
 <a name="Metadata"></a>
 
 ## Metadata
@@ -651,27 +683,30 @@ Additional Message data
 
 | Name | Type | Description |
 | --- | --- | --- |
-| [language] | <code>string</code> | Language the message is ib |
-| [timezone] | <code>number</code> | UTC time offset in hours |
-| [params] | <code>Object</code> | Parameters to send with the message |
+| language | <code>string</code> | Language the message is ib |
+| timezone | <code>number</code> | UTC time offset in hours |
+| params | <code>Object</code> | Parameters to send with the message |
 | domain | <code>Object</code> | Browser or server environment variables like origin |
 
 
 * [Metadata](#Metadata)
-    * [new Metadata([language], [timezone], [params])](#new_Metadata_new)
-    * ~~[.addContext()](#Metadata+addContext)~~
+    * [new Metadata(language, timezone, params)](#new_Metadata_new)
+    * _instance_
+        * ~~[.addContext()](#Metadata+addContext)~~
+    * _static_
+        * [.build(metadata)](#Metadata.build) ⇒ [<code>Metadata</code>](#Metadata)
 
 <a name="new_Metadata_new"></a>
 
-### new Metadata([language], [timezone], [params])
+### new Metadata(language, timezone, params)
 Constructor
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [language] | <code>string</code> | Specify the language of the message |
-| [timezone] | <code>number</code> | Specify the timezone of the message |
-| [params] | <code>Object</code> | Additional data to be send |
+| language | <code>string</code> | Specify the language of the message |
+| timezone | <code>number</code> | Specify the timezone of the message |
+| params | <code>Object</code> | Additional data to be send |
 
 <a name="Metadata+addContext"></a>
 
@@ -679,6 +714,17 @@ Constructor
 ***Deprecated***
 
 **Kind**: instance method of [<code>Metadata</code>](#Metadata)  
+<a name="Metadata.build"></a>
+
+### Metadata.build(metadata) ⇒ [<code>Metadata</code>](#Metadata)
+Create a Metadata object from raw data
+
+**Kind**: static method of [<code>Metadata</code>](#Metadata)  
+
+| Param | Type |
+| --- | --- |
+| metadata | <code>Object</code> | 
+
 <a name="Originator"></a>
 
 ## Originator
@@ -691,6 +737,7 @@ Originator of a Message
 | --- | --- | --- |
 | name | <code>string</code> | Name of a person or system originating the Message, default is Anonymous |
 | role | <code>string</code> | The role of the person. You cannot set this, default is external |
+| profile | <code>Object</code> | Contains profile info |
 | profile.fullName | <code>string</code> | First and surname combined |
 | profile.firstName | <code>string</code> | First name of the person |
 | profile.lastName | <code>string</code> | Last name of the person |
@@ -703,10 +750,32 @@ Originator of a Message
 | profile.gender | <code>string</code> | M for male, F for female or U for unknown / other |
 | metadata | <code>object</code> | Optional object with custom metadata |
 
+<a name="new_Originator_new"></a>
+
+### new Originator(opts)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| opts | <code>Object</code> |  |
+| opts.name | <code>string</code> | Name of a person or system originating the Message, default is Anonymous |
+| opts.role | <code>string</code> | The role of the person. You cannot set this, default is external |
+| opts.profile | <code>Object</code> | Contains profile info |
+| opts.profile.fullName | <code>string</code> | First and surname combined |
+| opts.profile.firstName | <code>string</code> | First name of the person |
+| opts.profile.lastName | <code>string</code> | Last name of the person |
+| opts.profile.email | <code>string</code> | E-mail address |
+| opts.profile.description | <code>string</code> | Description of this user |
+| opts.profile.picture | <code>string</code> | Profile picture (url) |
+| opts.profile.locale | <code>string</code> | ISO code describing language and country (en-US) |
+| opts.profile.timezone | <code>number</code> | Hours from GMT |
+| opts.profile.location | <code>string</code> | Location of the user |
+| opts.profile.gender | <code>string</code> | M for male, F for female or U for unknown / other |
+| opts.metadata | <code>object</code> | Optional object with custom metadata |
+
 <a name="Reply"></a>
 
 ## Reply
-Reply being returned by Flow.ai
+Reply you receive from Flow.ai
 
 **Kind**: global class  
 **Properties**
@@ -730,4 +799,19 @@ Reply being returned by Flow.ai
 
 ### new Reply()
 Constructor
+
+<a name="build"></a>
+
+## build
+Message you send to Flow.ai
+
+**Kind**: global variable  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| speech | <code>string</code> | Text representing the Message |
+| originator | [<code>Originator</code>](#Originator) | Originator |
+| meta | [<code>Metadata</code>](#Metadata) | Meta data |
+| attachment | [<code>Attachment</code>](#new_Attachment_new) | Optional attachment |
 

@@ -17,11 +17,12 @@ debug('flowai:liveclient')
  **/
 class LiveClient extends EventEmitter {
 
-/**
+  /**
  * Constructor
- * @param {string|object} opts - Configuration options or shorthand for just clientId
+ * @constructor
+ * @param {(object|string)} opts - Configuration options or shorthand for just clientId
  * @param {string} opts.clientId - Mandatory Client token
- * @param {string} opts.storage=local - Optional, 'session' or 'local' for using sessionStorage or localStorage
+ * @param {string} opts.storage - Optional, 'session' or 'local' for using sessionStorage or localStorage
  * @param {string} opts.endpoint - Optional, only for testing purposes
  * @param {string} opts.origin - When running on Nodejs you MUST set the origin
  * @returns {LiveClient}
@@ -80,7 +81,8 @@ class LiveClient extends EventEmitter {
 
   /**
    * Session Id of the connection
-   * @returns {string|null} Null if no connection is active
+   * @method
+   * @returns {?string} Null if no connection is active
    **/
   get sessionId() {
     const sessionId = (this._session) ? this._session.id() : null
@@ -90,6 +92,10 @@ class LiveClient extends EventEmitter {
     return sessionId
   }
 
+  /**
+   * Session Id of the connection
+   * @param {?string} value - Change the session ID
+   **/
   set sessionId(value) {
     debug(`Creating a new sessionId with value '${value}'`)
     this._session = new Unique({
@@ -102,7 +108,7 @@ class LiveClient extends EventEmitter {
 
   /**
    * Default Thread Id to be used for any messages being send
-   * @returns {string|null} Null if no connection is active
+   * @returns {?string} Null if no connection is active
    **/
   get threadId() {
     const threadId = (this._thread) ? this._thread.id() : null
@@ -112,6 +118,10 @@ class LiveClient extends EventEmitter {
     return threadId
   }
 
+  /**
+   * Session Id of the connection
+   * @param {?string} value - Change the thread ID
+   **/
   set threadId(value) {
     debug(`Creating a new threadId with value '${value}'`)
     // Create a new Thread
@@ -125,12 +135,12 @@ class LiveClient extends EventEmitter {
 
   /**
    * Check if the connection is active
-   * @returns {bool} True if the connection is active
    *
    * @example
    * if(client.isConnected) {
    *   // Do something awesome
    * }
+   * @returns {boolean} True if the connection is active
    **/
   get isConnected() {
     const isConnected = (this._socket !== null)
@@ -142,6 +152,7 @@ class LiveClient extends EventEmitter {
 
   /**
    * Start the client
+   * @method
    * @param {string} threadId - Optional. When assigned, this is the default threadId for all messages that are send
    * @param {string} sessionId - Optional. Must be unique for every connection
    *
@@ -219,8 +230,7 @@ class LiveClient extends EventEmitter {
   /**
    * Send a Message
    * @desc This method triggers a `LiveClient.MESSAGE_SEND` event
-   * @param {Message} message - Message to be send
-   * @returns Message - Message that was send
+   * @param {object} message - Message you want to send
    *
    * @example
    * const originator = new Originator({
@@ -233,6 +243,7 @@ class LiveClient extends EventEmitter {
    * })
    *
    * client.send(message)
+   * @returns {object} Message that was send
    **/
   send(message) {
 
@@ -396,7 +407,7 @@ class LiveClient extends EventEmitter {
    * Call to mark a thread as noticed.
    * The library automatically throttles the number of calls
    * @param {string} threadId - Optional. Specify the thread that is noticed
-   * @param {bool} instantly - Optional. Instantly send notice. Default is false
+   * @param {boolean} instantly - Optional. Instantly send notice. Default is false
    *
    * @example
    * // Call that the client has seen all messages for the auto clientId
@@ -667,6 +678,7 @@ class LiveClient extends EventEmitter {
   /**
    * Handle a received message
    * @private
+   * @param {object} payload
    **/
   _handleReceived(payload) {
     debug('Handling reply payload', payload)
@@ -676,6 +688,7 @@ class LiveClient extends EventEmitter {
   /**
    * Handle a received delivery confirmation
    * @private
+   * @param {object} payload
    **/
   _handleDelivered(payload) {
     debug('Handling delivered payload', payload)

@@ -4,7 +4,7 @@ import Originator from './originator'
 debug('flowai:reply')
 
 /**
- * Reply being returned by Flow.ai
+ * Reply you receive from Flow.ai
  * @class
  * @property {string} threadId - Unique id specific to this chat
  * @property {Originator} originator - Originator

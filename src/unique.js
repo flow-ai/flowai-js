@@ -5,7 +5,11 @@ const reqqq = require
 
 debug('flowai:unique')
 
-// Private class
+/**
+ * Generates and stores a unique ID
+ * @class
+ * @private
+ **/
 class Unique {
 
   constructor(opts) {
@@ -42,6 +46,10 @@ class Unique {
     }
   }
 
+  /**
+   * Get a unique ID that is stored or generate a new one and store it
+   * @returns {string}
+   **/
   id() {
     let uniqueId = this._storage.getItem(this._storageKey)
     if(!uniqueId) {
@@ -60,6 +68,7 @@ class Unique {
 
   /**
    * See if a key exists in storageKey
+   * @returns {boolean}
    **/
   static exists(opts) {
 
