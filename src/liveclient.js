@@ -620,8 +620,11 @@ class LiveClient extends EventEmitter {
       this._socket = null
 
       if(evt && evt.code === 1006) {
-        this.emit(LiveClient.ERROR, new Exception('It seems your domain is not whitelisted', 'connection', null, true))
+        this.emit(LiveClient.ERROR, new Exception('The connection closed abnormally', 'connection', null, true))
         this.emit(LiveClient.DISCONNECTED)
+
+        // DIRTY FIX? Need to check this in the future
+        this._reconnect()
       } else if(evt && evt.reason !== 'connection failed') {
         this.emit(LiveClient.DISCONNECTED)
         this._reconnect()
