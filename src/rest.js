@@ -11,7 +11,8 @@ const checkStatus = response => {
     let error
     switch(response.status) {
       case 500:
-      case 503:
+      // DIRTY FIX!
+      // case 503:
       case 400: {
         console.error('It seems your clientId, sessionId or configuration is invalid')
         error = new Exception('Failed to connect with API. Invalid clientId, sessionId or configuration', 'connection', new Error(response.status), true)
