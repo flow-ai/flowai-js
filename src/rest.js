@@ -97,6 +97,12 @@ class Rest {
 
       fetch(url, enveloppe)
         .then(response => {
+          // Checking the response status
+          if(response.status == 403) {
+            throw new Error('Upload is too large')
+          } else if(response.status >= 400) {
+            throw new Error('Failed to upload files')
+          }
           resolve(response.json())
         })
         .catch(err => {
