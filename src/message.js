@@ -14,7 +14,6 @@ debug('flowai:message')
  * @property {Originator} originator - Originator
  * @property {Metadata} meta - Meta data
  * @property {Attachment} attachment - Optional attachment
- * @member build
  **/
 class Message {
 

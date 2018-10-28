@@ -14,7 +14,8 @@
 <dd><p>Live streaming websocket client extends EventEmitter</p>
 </dd>
 <dt><a href="#Message">Message</a></dt>
-<dd></dd>
+<dd><p>Message you send to Flow.ai</p>
+</dd>
 <dt><a href="#Metadata">Metadata</a></dt>
 <dd><p>Additional Message data</p>
 </dd>
@@ -26,14 +27,6 @@
 </dd>
 </dl>
 
-## Members
-
-<dl>
-<dt><a href="#build">build</a></dt>
-<dd><p>Message you send to Flow.ai</p>
-</dd>
-</dl>
-
 <a name="EventAttachment"></a>
 
 ## EventAttachment
@@ -42,21 +35,11 @@ Trigger events
 <a name="new_EventAttachment_new"></a>
 
 ### new EventAttachment(name, [label])
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>name</td><td><code>string</code></td><td><p>Name of the event to trigger</p>
-</td>
-    </tr><tr>
-    <td>[label]</td><td><code>string</code></td><td><p>Optional human readable label for the triggered event</p>
-</td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>string</code> | Name of the event to trigger |
+| [label] | <code>string</code> | Optional human readable label for the triggered event |
 
 Constructor
 
@@ -79,54 +62,25 @@ const message = new Message({
 ## Exception
 **Properties**
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>message</td><td><code>string</code></td><td><p>Human friendly message</p>
-</td>
-    </tr><tr>
-    <td>type</td><td><code>string</code></td><td><p>Kind of error</p>
-</td>
-    </tr><tr>
-    <td>innerException</td><td><code><a href="#Exception">Exception</a></code></td><td><p>Inner exception</p>
-</td>
-    </tr><tr>
-    <td>isFinal</td><td><code>boolean</code></td><td><p>Prevent further execution</p>
-</td>
-    </tr>  </tbody>
-</table>
+| Name | Type | Description |
+| --- | --- | --- |
+| message | <code>string</code> | Human friendly message |
+| type | <code>string</code> | Kind of error |
+| innerException | [<code>Exception</code>](#Exception) | Inner exception |
+| isFinal | <code>boolean</code> | Prevent further execution |
 
 Exception
 
 <a name="new_Exception_new"></a>
 
 ### new Exception(message, type, innerException, isFinal)
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th><th>Default</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>message</td><td><code>string</code></td><td></td><td><p>message - Human friendly message</p>
-</td>
-    </tr><tr>
-    <td>type</td><td><code>string</code></td><td></td><td><p>Kind of error</p>
-</td>
-    </tr><tr>
-    <td>innerException</td><td><code><a href="#Exception">Exception</a></code></td><td></td><td><p>Optional inner exception</p>
-</td>
-    </tr><tr>
-    <td>isFinal</td><td><code>boolean</code></td><td><code>false</code></td><td><p>Indicates if this exception prevents further execution</p>
-</td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| message | <code>string</code> |  | message - Human friendly message |
+| type | <code>string</code> |  | Kind of error |
+| innerException | [<code>Exception</code>](#Exception) |  | Optional inner exception |
+| isFinal | <code>boolean</code> | <code>false</code> | Indicates if this exception prevents further execution |
 
 Constructor
 
@@ -138,18 +92,10 @@ Send a file as attachment
 <a name="new_FileAttachment_new"></a>
 
 ### new FileAttachment(data)
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>data</td><td><code>File</code> | <code>ReadStream</code></td><td><p>File or Blob in the browser, ReadStream in Nodejs</p>
-</td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type | Description |
+| --- | --- | --- |
+| data | <code>File</code> \| <code>ReadStream</code> | File or Blob in the browser, ReadStream in Nodejs |
 
 Constructor
 
@@ -251,30 +197,14 @@ Live streaming websocket client extends EventEmitter
 <a name="new_LiveClient_new"></a>
 
 ### new LiveClient(opts)
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>opts</td><td><code>object</code> | <code>string</code></td><td><p>Configuration options or shorthand for just clientId</p>
-</td>
-    </tr><tr>
-    <td>opts.clientId</td><td><code>string</code></td><td><p>Mandatory Client token</p>
-</td>
-    </tr><tr>
-    <td>opts.storage</td><td><code>string</code></td><td><p>Optional, &#39;session&#39; for using sessionStorage, &#39;local&#39; for localStorage or <code>memory</code> for a simple memory store</p>
-</td>
-    </tr><tr>
-    <td>opts.endpoint</td><td><code>string</code></td><td><p>Optional, only for testing purposes</p>
-</td>
-    </tr><tr>
-    <td>opts.origin</td><td><code>string</code></td><td><p>When running on Nodejs you MUST set the origin</p>
-</td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type | Description |
+| --- | --- | --- |
+| opts | <code>object</code> \| <code>string</code> | Configuration options or shorthand for just clientId |
+| opts.clientId | <code>string</code> | Mandatory Client token |
+| opts.storage | <code>string</code> | Optional, 'session' for using sessionStorage, 'local' for localStorage or `memory` for a simple memory store |
+| opts.endpoint | <code>string</code> | Optional, only for testing purposes |
+| opts.origin | <code>string</code> | When running on Nodejs you MUST set the origin |
 
 Constructor
 
@@ -301,18 +231,10 @@ const client = new LiveClient({
 <a name="LiveClient+sessionId"></a>
 
 ### *liveClient*.sessionId
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>value</td><td><code>string</code></td><td><p>Change the session ID</p>
-</td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>string</code> | Change the session ID |
 
 Session Id of the connection
 
@@ -325,18 +247,10 @@ Default Thread Id to be used for any messages being send
 <a name="LiveClient+threadId"></a>
 
 ### *liveClient*.threadId
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>value</td><td><code>string</code></td><td><p>Change the thread ID</p>
-</td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>string</code> | Change the thread ID |
 
 Session Id of the connection
 
@@ -361,21 +275,11 @@ Session Id of the connection
 <a name="LiveClient+start"></a>
 
 ### *liveClient*.start(threadId, sessionId)
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>threadId</td><td><code>string</code></td><td><p>Optional. When assigned, this is the default threadId for all messages that are send</p>
-</td>
-    </tr><tr>
-    <td>sessionId</td><td><code>string</code></td><td><p>Optional. Must be unique for every connection</p>
-</td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type | Description |
+| --- | --- | --- |
+| threadId | <code>string</code> | Optional. When assigned, this is the default threadId for all messages that are send |
+| sessionId | <code>string</code> | Optional. Must be unique for every connection |
 
 Start the client
 
@@ -412,18 +316,10 @@ client.destroy()
 <a name="LiveClient+send"></a>
 
 ### *liveClient*.send(message)
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>message</td><td><code>object</code></td><td><p>Message you want to send</p>
-</td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type | Description |
+| --- | --- | --- |
+| message | <code>object</code> | Message you want to send |
 
 This method triggers a `LiveClient.MESSAGE_SEND` event
 
@@ -444,24 +340,12 @@ client.send(message)
 <a name="LiveClient+merger"></a>
 
 ### *liveClient*.merger(mergerKey, threadId, sessionId)
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>mergerKey</td><td><code>string</code></td><td><p>Unique token representing merge Request</p>
-</td>
-    </tr><tr>
-    <td>threadId</td><td><code>string</code></td><td><p>Optional. The threadId to merge</p>
-</td>
-    </tr><tr>
-    <td>sessionId</td><td><code>string</code></td><td><p>Optional. The sessionId to assign to the thread</p>
-</td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type | Description |
+| --- | --- | --- |
+| mergerKey | <code>string</code> | Unique token representing merge Request |
+| threadId | <code>string</code> | Optional. The threadId to merge |
+| sessionId | <code>string</code> | Optional. The sessionId to assign to the thread |
 
 Merge two threads from different channels.
 This methods is not yet publicy supported since we don't have a way yet to provide a mergerKey.
@@ -469,18 +353,10 @@ This methods is not yet publicy supported since we don't have a way yet to provi
 <a name="LiveClient+history"></a>
 
 ### *liveClient*.history(threadId)
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>threadId</td><td><code>string</code></td><td><p>Optional. Specify the threadId to retreive historic messages</p>
-</td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type | Description |
+| --- | --- | --- |
+| threadId | <code>string</code> | Optional. Specify the threadId to retreive historic messages |
 
 Request historic messages
 
@@ -496,21 +372,11 @@ client.history('MY CUSTOM THREAD ID')
 <a name="LiveClient+noticed"></a>
 
 ### *liveClient*.noticed(threadId, instantly)
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>threadId</td><td><code>string</code></td><td><p>Optional. Specify the thread that is noticed</p>
-</td>
-    </tr><tr>
-    <td>instantly</td><td><code>boolean</code></td><td><p>Optional. Instantly send notice. Default is false</p>
-</td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type | Description |
+| --- | --- | --- |
+| threadId | <code>string</code> | Optional. Specify the thread that is noticed |
+| instantly | <code>boolean</code> | Optional. Instantly send notice. Default is false |
 
 Call to mark a thread as noticed.
 The library automatically throttles the number of calls
@@ -526,18 +392,10 @@ client.noticed('MY CUSTOM THREAD ID')
 <a name="LiveClient+checkUnnoticed"></a>
 
 ### *liveClient*.checkUnnoticed(threadId)
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>threadId</td><td><code>string</code></td><td><p>Optional. Specify the thread to check unnoticed messags for</p>
-</td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type | Description |
+| --- | --- | --- |
+| threadId | <code>string</code> | Optional. Specify the thread to check unnoticed messags for |
 
 Did we miss any messages?
 
@@ -599,6 +457,17 @@ Event that triggers when there are unnoticed messages
 <a name="Message"></a>
 
 ## Message
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| speech | <code>string</code> | Text representing the Message |
+| originator | [<code>Originator</code>](#Originator) | Originator |
+| meta | [<code>Metadata</code>](#Metadata) | Meta data |
+| attachment | [<code>Attachment</code>](#new_Attachment_new) | Optional attachment |
+
+Message you send to Flow.ai
+
 
 * [Message](#Message)
 
@@ -610,64 +479,32 @@ Event that triggers when there are unnoticed messages
 <a name="new_Message_new"></a>
 
 ### new Message(opts)
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>opts</td><td><code>Object</code></td><td></td>
-    </tr><tr>
-    <td>opts.traceId</td><td><code>number</code></td><td><p>Optional unique integer you can match messages with</p>
-</td>
-    </tr><tr>
-    <td>opts.threadId</td><td><code>string</code></td><td><p>Optional unique id specific to this chat</p>
-</td>
-    </tr><tr>
-    <td>opts.speech</td><td><code>string</code></td><td><p>Text representing the Message</p>
-</td>
-    </tr><tr>
-    <td>opts.originator</td><td><code><a href="#Originator">Originator</a></code></td><td><p>Originator</p>
-</td>
-    </tr><tr>
-    <td>opts.metadata</td><td><code><a href="#Metadata">Metadata</a></code></td><td><p>Meta data</p>
-</td>
-    </tr><tr>
-    <td>opts.attachment</td><td><code><a href="#new_Attachment_new">Attachment</a></code></td><td><p>Attachment (optional)</p>
-</td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type | Description |
+| --- | --- | --- |
+| opts | <code>Object</code> |  |
+| opts.traceId | <code>number</code> | Optional unique integer you can match messages with |
+| opts.threadId | <code>string</code> | Optional unique id specific to this chat |
+| opts.speech | <code>string</code> | Text representing the Message |
+| opts.originator | [<code>Originator</code>](#Originator) | Originator |
+| opts.metadata | [<code>Metadata</code>](#Metadata) | Meta data |
+| opts.attachment | [<code>Attachment</code>](#new_Attachment_new) | Attachment (optional) |
 
 Constructor
 
 <a name="Message.build"></a>
 
 ### *Message*.build(opts)
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>opts</td><td><code>object</code></td>
-    </tr><tr>
-    <td>opts.threadId</td><td><code>string</code></td>
-    </tr><tr>
-    <td>opts.traceId</td><td><code>string</code></td>
-    </tr><tr>
-    <td>opts.speech</td><td><code>string</code></td>
-    </tr><tr>
-    <td>opts.originator</td><td><code>object</code></td>
-    </tr><tr>
-    <td>opts.metadata</td><td><code>object</code></td>
-    </tr><tr>
-    <td>opts.attachment</td><td><code>object</code></td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type |
+| --- | --- |
+| opts | <code>object</code> | 
+| opts.threadId | <code>string</code> | 
+| opts.traceId | <code>string</code> | 
+| opts.speech | <code>string</code> | 
+| opts.originator | <code>object</code> | 
+| opts.metadata | <code>object</code> | 
+| opts.attachment | <code>object</code> | 
 
 Factory method
 
@@ -676,27 +513,12 @@ Factory method
 ## Metadata
 **Properties**
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>language</td><td><code>string</code></td><td><p>Language the message is ib</p>
-</td>
-    </tr><tr>
-    <td>timezone</td><td><code>number</code></td><td><p>UTC time offset in hours</p>
-</td>
-    </tr><tr>
-    <td>params</td><td><code>Object</code></td><td><p>Parameters to send with the message</p>
-</td>
-    </tr><tr>
-    <td>domain</td><td><code>Object</code></td><td><p>Browser or server environment variables like origin</p>
-</td>
-    </tr>  </tbody>
-</table>
+| Name | Type | Description |
+| --- | --- | --- |
+| language | <code>string</code> | Language the message is ib |
+| timezone | <code>number</code> | UTC time offset in hours |
+| params | <code>Object</code> | Parameters to send with the message |
+| domain | <code>Object</code> | Browser or server environment variables like origin |
 
 Additional Message data
 
@@ -706,8 +528,8 @@ Additional Message data
     * [new Metadata(language, timezone, params)](#new_Metadata_new)
 
     * _instance_
-        * <del>[.addContext()](#Metadata+addContext)
-</del>
+        * ~~[.addContext()](#Metadata+addContext)
+~~
     * _static_
         * [.build(metadata)](#Metadata.build)
 
@@ -715,46 +537,27 @@ Additional Message data
 <a name="new_Metadata_new"></a>
 
 ### new Metadata(language, timezone, params)
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>language</td><td><code>string</code></td><td><p>Specify the language of the message</p>
-</td>
-    </tr><tr>
-    <td>timezone</td><td><code>number</code></td><td><p>Specify the timezone of the message</p>
-</td>
-    </tr><tr>
-    <td>params</td><td><code>Object</code></td><td><p>Additional data to be send</p>
-</td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type | Description |
+| --- | --- | --- |
+| language | <code>string</code> | Specify the language of the message |
+| timezone | <code>number</code> | Specify the timezone of the message |
+| params | <code>Object</code> | Additional data to be send |
 
 Constructor
 
 <a name="Metadata+addContext"></a>
 
-### <del>*metadata*.addContext()</del>
+### ~~*metadata*.addContext()~~
 ***Deprecated***
 
 <a name="Metadata.build"></a>
 
 ### *Metadata*.build(metadata)
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>metadata</td><td><code>Object</code></td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type |
+| --- | --- |
+| metadata | <code>Object</code> | 
 
 Create a Metadata object from raw data
 
@@ -763,167 +566,66 @@ Create a Metadata object from raw data
 ## Originator
 **Properties**
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>name</td><td><code>string</code></td><td><p>Name of a person or system originating the Message, default is Anonymous</p>
-</td>
-    </tr><tr>
-    <td>role</td><td><code>string</code></td><td><p>The role of the person. You cannot set this, default is external</p>
-</td>
-    </tr><tr>
-    <td>profile</td><td><code>Object</code></td><td><p>Contains profile info</p>
-</td>
-    </tr><tr>
-    <td>profile.fullName</td><td><code>string</code></td><td><p>First and surname combined</p>
-</td>
-    </tr><tr>
-    <td>profile.firstName</td><td><code>string</code></td><td><p>First name of the person</p>
-</td>
-    </tr><tr>
-    <td>profile.lastName</td><td><code>string</code></td><td><p>Last name of the person</p>
-</td>
-    </tr><tr>
-    <td>profile.email</td><td><code>string</code></td><td><p>E-mail address</p>
-</td>
-    </tr><tr>
-    <td>profile.description</td><td><code>string</code></td><td><p>Description of this user</p>
-</td>
-    </tr><tr>
-    <td>profile.picture</td><td><code>string</code></td><td><p>Profile picture (url)</p>
-</td>
-    </tr><tr>
-    <td>profile.locale</td><td><code>string</code></td><td><p>ISO code describing language and country (en-US)</p>
-</td>
-    </tr><tr>
-    <td>profile.timezone</td><td><code>number</code></td><td><p>Hours from GMT</p>
-</td>
-    </tr><tr>
-    <td>profile.location</td><td><code>string</code></td><td><p>Location of the user</p>
-</td>
-    </tr><tr>
-    <td>profile.gender</td><td><code>string</code></td><td><p>M for male, F for female or U for unknown / other</p>
-</td>
-    </tr><tr>
-    <td>metadata</td><td><code>object</code></td><td><p>Optional object with custom metadata</p>
-</td>
-    </tr>  </tbody>
-</table>
+| Name | Type | Description |
+| --- | --- | --- |
+| name | <code>string</code> | Name of a person or system originating the Message, default is Anonymous |
+| role | <code>string</code> | The role of the person. You cannot set this, default is external |
+| profile | <code>Object</code> | Contains profile info |
+| profile.fullName | <code>string</code> | First and surname combined |
+| profile.firstName | <code>string</code> | First name of the person |
+| profile.lastName | <code>string</code> | Last name of the person |
+| profile.email | <code>string</code> | E-mail address |
+| profile.description | <code>string</code> | Description of this user |
+| profile.picture | <code>string</code> | Profile picture (url) |
+| profile.locale | <code>string</code> | ISO code describing language and country (en-US) |
+| profile.timezone | <code>number</code> | Hours from GMT |
+| profile.location | <code>string</code> | Location of the user |
+| profile.gender | <code>string</code> | M for male, F for female or U for unknown / other |
+| metadata | <code>object</code> | Optional object with custom metadata |
 
 Originator of a Message
 
 <a name="new_Originator_new"></a>
 
 ### new Originator(opts)
-<table>
-  <thead>
-    <tr>
-      <th>Param</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>opts</td><td><code>Object</code></td><td></td>
-    </tr><tr>
-    <td>opts.name</td><td><code>string</code></td><td><p>Name of a person or system originating the Message, default is Anonymous</p>
-</td>
-    </tr><tr>
-    <td>opts.role</td><td><code>string</code></td><td><p>The role of the person. You cannot set this, default is external</p>
-</td>
-    </tr><tr>
-    <td>opts.profile</td><td><code>Object</code></td><td><p>Contains profile info</p>
-</td>
-    </tr><tr>
-    <td>opts.profile.fullName</td><td><code>string</code></td><td><p>First and surname combined</p>
-</td>
-    </tr><tr>
-    <td>opts.profile.firstName</td><td><code>string</code></td><td><p>First name of the person</p>
-</td>
-    </tr><tr>
-    <td>opts.profile.lastName</td><td><code>string</code></td><td><p>Last name of the person</p>
-</td>
-    </tr><tr>
-    <td>opts.profile.email</td><td><code>string</code></td><td><p>E-mail address</p>
-</td>
-    </tr><tr>
-    <td>opts.profile.description</td><td><code>string</code></td><td><p>Description of this user</p>
-</td>
-    </tr><tr>
-    <td>opts.profile.picture</td><td><code>string</code></td><td><p>Profile picture (url)</p>
-</td>
-    </tr><tr>
-    <td>opts.profile.locale</td><td><code>string</code></td><td><p>ISO code describing language and country (en-US)</p>
-</td>
-    </tr><tr>
-    <td>opts.profile.timezone</td><td><code>number</code></td><td><p>Hours from GMT</p>
-</td>
-    </tr><tr>
-    <td>opts.profile.location</td><td><code>string</code></td><td><p>Location of the user</p>
-</td>
-    </tr><tr>
-    <td>opts.profile.gender</td><td><code>string</code></td><td><p>M for male, F for female or U for unknown / other</p>
-</td>
-    </tr><tr>
-    <td>opts.metadata</td><td><code>object</code></td><td><p>Optional object with custom metadata</p>
-</td>
-    </tr>  </tbody>
-</table>
+
+| Param | Type | Description |
+| --- | --- | --- |
+| opts | <code>Object</code> |  |
+| opts.name | <code>string</code> | Name of a person or system originating the Message, default is Anonymous |
+| opts.role | <code>string</code> | The role of the person. You cannot set this, default is external |
+| opts.profile | <code>Object</code> | Contains profile info |
+| opts.profile.fullName | <code>string</code> | First and surname combined |
+| opts.profile.firstName | <code>string</code> | First name of the person |
+| opts.profile.lastName | <code>string</code> | Last name of the person |
+| opts.profile.email | <code>string</code> | E-mail address |
+| opts.profile.description | <code>string</code> | Description of this user |
+| opts.profile.picture | <code>string</code> | Profile picture (url) |
+| opts.profile.locale | <code>string</code> | ISO code describing language and country (en-US) |
+| opts.profile.timezone | <code>number</code> | Hours from GMT |
+| opts.profile.location | <code>string</code> | Location of the user |
+| opts.profile.gender | <code>string</code> | M for male, F for female or U for unknown / other |
+| opts.metadata | <code>object</code> | Optional object with custom metadata |
 
 <a name="Reply"></a>
 
 ## Reply
 **Properties**
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>threadId</td><td><code>string</code></td><td><p>Unique id specific to this chat</p>
-</td>
-    </tr><tr>
-    <td>originator</td><td><code><a href="#Originator">Originator</a></code></td><td><p>Originator</p>
-</td>
-    </tr><tr>
-    <td>messages</td><td><code>Array.&lt;ReplyMessage&gt;</code></td><td><p>List of messages</p>
-</td>
-    </tr><tr>
-    <td>messages[].fallback</td><td><code>string</code></td><td><p>Textual representation of any responses</p>
-</td>
-    </tr><tr>
-    <td>messages[].replyTo</td><td><code>string</code></td><td><p>Optional replying to query</p>
-</td>
-    </tr><tr>
-    <td>messages[].contexts</td><td><code>array</code></td><td><p>Optional List of context names</p>
-</td>
-    </tr><tr>
-    <td>messages[].params</td><td><code>array</code></td><td><p>Optional key value pair of parameters</p>
-</td>
-    </tr><tr>
-    <td>messages[].intents</td><td><code>array</code></td><td><p>Optional list of intent names determined</p>
-</td>
-    </tr><tr>
-    <td>messages[].responses</td><td><code>Array.&lt;Response&gt;</code></td><td><p>List of response templates</p>
-</td>
-    </tr><tr>
-    <td>messages[].responses[].type</td><td><code>string</code></td><td><p>Template type</p>
-</td>
-    </tr><tr>
-    <td>messages[].responses[].payload</td><td><code>Object</code></td><td><p>Template payload</p>
-</td>
-    </tr><tr>
-    <td>messages[].responses[].delay</td><td><code>Number</code></td><td><p>Number of seconds the response is delayed</p>
-</td>
-    </tr>  </tbody>
-</table>
+| Name | Type | Description |
+| --- | --- | --- |
+| threadId | <code>string</code> | Unique id specific to this chat |
+| originator | [<code>Originator</code>](#Originator) | Originator |
+| messages | <code>Array.&lt;ReplyMessage&gt;</code> | List of messages |
+| messages[].fallback | <code>string</code> | Textual representation of any responses |
+| messages[].replyTo | <code>string</code> | Optional replying to query |
+| messages[].contexts | <code>array</code> | Optional List of context names |
+| messages[].params | <code>array</code> | Optional key value pair of parameters |
+| messages[].intents | <code>array</code> | Optional list of intent names determined |
+| messages[].responses | <code>Array.&lt;Response&gt;</code> | List of response templates |
+| messages[].responses[].type | <code>string</code> | Template type |
+| messages[].responses[].payload | <code>Object</code> | Template payload |
+| messages[].responses[].delay | <code>Number</code> | Number of seconds the response is delayed |
 
 Reply you receive from Flow.ai
 
@@ -931,33 +633,4 @@ Reply you receive from Flow.ai
 
 ### new Reply()
 Constructor
-
-<a name="build"></a>
-
-## build
-**Properties**
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th><th>Type</th><th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-<tr>
-    <td>speech</td><td><code>string</code></td><td><p>Text representing the Message</p>
-</td>
-    </tr><tr>
-    <td>originator</td><td><code><a href="#Originator">Originator</a></code></td><td><p>Originator</p>
-</td>
-    </tr><tr>
-    <td>meta</td><td><code><a href="#Metadata">Metadata</a></code></td><td><p>Meta data</p>
-</td>
-    </tr><tr>
-    <td>attachment</td><td><code><a href="#new_Attachment_new">Attachment</a></code></td><td><p>Optional attachment</p>
-</td>
-    </tr>  </tbody>
-</table>
-
-Message you send to Flow.ai
 

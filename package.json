@@ -56,6 +56,6 @@
     "eslint": "eslint ./src --fix",
     "prepublish": "npm run build",
     "docs": "jsdoc2md -c .jsdoc ./src/**/*.js --plugin dmd-clear --template ./src/README.hbs > README.md",
-    "docs:reference": "jsdoc2md -c .jsdoc ./src/**/*.js --plugin dmd-clear --heading-depth=2 --no-gfm > REFERENCE.md"
+    "docs:reference": "jsdoc2md -c .jsdoc ./src/**/*.js --plugin dmd-clear --heading-depth=2 > REFERENCE.md"
   }
 }

@@ -202,7 +202,8 @@ The sessionId is used to identify connections from different devices like browse
 <dd><p>Live streaming websocket client extends EventEmitter</p>
 </dd>
 <dt><a href="#Message">Message</a></dt>
-<dd></dd>
+<dd><p>Message you send to Flow.ai</p>
+</dd>
 <dt><a href="#Metadata">Metadata</a></dt>
 <dd><p>Additional Message data</p>
 </dd>
@@ -211,14 +212,6 @@ The sessionId is used to identify connections from different devices like browse
 </dd>
 <dt><a href="#Reply">Reply</a></dt>
 <dd><p>Reply you receive from Flow.ai</p>
-</dd>
-</dl>
-
-## Members
-
-<dl>
-<dt><a href="#build">build</a></dt>
-<dd><p>Message you send to Flow.ai</p>
 </dd>
 </dl>
 
@@ -652,6 +645,17 @@ Event that triggers when there are unnoticed messages
 <a name="Message"></a>
 
 ## Message
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| speech | <code>string</code> | Text representing the Message |
+| originator | [<code>Originator</code>](#Originator) | Originator |
+| meta | [<code>Metadata</code>](#Metadata) | Meta data |
+| attachment | [<code>Attachment</code>](#new_Attachment_new) | Optional attachment |
+
+Message you send to Flow.ai
+
 
 * [Message](#Message)
 
@@ -817,18 +821,4 @@ Reply you receive from Flow.ai
 
 ### new Reply()
 Constructor
-
-<a name="build"></a>
-
-## build
-**Properties**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| speech | <code>string</code> | Text representing the Message |
-| originator | [<code>Originator</code>](#Originator) | Originator |
-| meta | [<code>Metadata</code>](#Metadata) | Meta data |
-| attachment | [<code>Attachment</code>](#new_Attachment_new) | Optional attachment |
-
-Message you send to Flow.ai
 
