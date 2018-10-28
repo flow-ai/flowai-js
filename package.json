@@ -32,6 +32,7 @@
     "babel-loader": "^8.0.4",
     "chai": "^4.2.0",
     "chai-eventemitter": "^1.1.1",
+    "dmd-clear": "^0.1.2",
     "eslint": "^5.8.0",
     "eslint-loader": "^2.1.1",
     "eslint-plugin-import": "^2.14.0",
@@ -54,6 +55,7 @@
     "test": "BABEL_ENV=lib mocha --recursive --reporter spec --compilers js:@babel/register --require @babel/polyfill --watch",
     "eslint": "eslint ./src --fix",
     "prepublish": "npm run build",
-    "docs": "jsdoc2md -c .jsdoc ./src/**/*.js --template ./src/README.hbs > README.md"
+    "docs": "jsdoc2md -c .jsdoc ./src/**/*.js --plugin dmd-clear --template ./src/README.hbs > README.md",
+    "docs:reference": "jsdoc2md -c .jsdoc ./src/**/*.js --plugin dmd-clear --heading-depth=2 --no-gfm > REFERENCE.md"
   }
 }
