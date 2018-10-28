@@ -377,10 +377,30 @@ Constructor
 | --- | --- | --- |
 | opts | <code>object</code> \| <code>string</code> | Configuration options or shorthand for just clientId |
 | opts.clientId | <code>string</code> | Mandatory Client token |
-| opts.storage | <code>string</code> | Optional, 'session' or 'local' for using sessionStorage or localStorage |
+| opts.storage | <code>string</code> | Optional, 'session' for using sessionStorage, 'local' for localStorage or `memory` for a simple memory store |
 | opts.endpoint | <code>string</code> | Optional, only for testing purposes |
 | opts.origin | <code>string</code> | When running on Nodejs you MUST set the origin |
 
+**Example**  
+```js
+// Node.js
+const client = new LiveClient({
+  clientId: 'MY CLIENT ID',
+  origin: 'https://my.website'
+})
+
+// Web
+const client = new LiveClient({
+  clientId: 'MY CLIENT ID',
+  storage: 'session'
+})
+
+// Lambda function
+const client = new LiveClient({
+  clientId: 'MY CLIENT ID',
+  storage: 'memory'
+})
+```
 <a name="LiveClient+sessionId"></a>
 
 ### liveClient.sessionId
@@ -591,43 +611,43 @@ Event that triggers when the client gets disconnected
 **Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.REPLY_RECEIVED"></a>
 
-### LiveClient.REPLY_RECEIVED : <code>string</code>
+### LiveClient.REPLY\_RECEIVED : <code>string</code>
 Event that triggers when a new message is received from the platform
 
 **Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.MESSAGE_SEND"></a>
 
-### LiveClient.MESSAGE_SEND : <code>string</code>
+### LiveClient.MESSAGE\_SEND : <code>string</code>
 Event that triggers when the client is sending a message to the platform
 
 **Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.MESSAGE_DELIVERED"></a>
 
-### LiveClient.MESSAGE_DELIVERED : <code>string</code>
+### LiveClient.MESSAGE\_DELIVERED : <code>string</code>
 Event that triggers when the send message has been received by the platform
 
 **Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.REQUESTING_HISTORY"></a>
 
-### LiveClient.REQUESTING_HISTORY : <code>string</code>
+### LiveClient.REQUESTING\_HISTORY : <code>string</code>
 Event that triggers when a request is made to load historic messages
 
 **Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.NO_HISTORY"></a>
 
-### LiveClient.NO_HISTORY : <code>string</code>
+### LiveClient.NO\_HISTORY : <code>string</code>
 Event that triggers when a request is made to load historic messages
 
 **Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.RECEIVED_HISTORY"></a>
 
-### LiveClient.RECEIVED_HISTORY : <code>string</code>
+### LiveClient.RECEIVED\_HISTORY : <code>string</code>
 Event that triggers when historic messages are received
 
 **Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  
 <a name="LiveClient.CHECKED_UNNOTICED_MESSAGES"></a>
 
-### LiveClient.CHECKED_UNNOTICED_MESSAGES : <code>string</code>
+### LiveClient.CHECKED\_UNNOTICED\_MESSAGES : <code>string</code>
 Event that triggers when there are unnoticed messages
 
 **Kind**: static constant of [<code>LiveClient</code>](#LiveClient)  

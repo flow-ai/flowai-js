@@ -102,9 +102,13 @@ class Unique {
 
 
 const createStorage = engine => {
+  if (engine === 'memory') {
+    // Simple use a memory store
+    return memoryStore()
+  }
+
   if (typeof document !== 'undefined') {
     // Web
-
     if (typeof localStorage === "undefined" || localStorage === null) {
       // Very old browser?
       return memoryStore()
@@ -114,6 +118,7 @@ const createStorage = engine => {
       // Session store
       return sessionStorage
     }
+
     return localStorage
 
   } else if (typeof navigator != 'undefined' && navigator.product == 'ReactNative') {

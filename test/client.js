@@ -121,7 +121,7 @@ describe("Flow.ai SDK Client", () => {
     expect(m.traceId).to.equal(traceId)
     expect(m.attachment.payload.name).to.equal(eventName)
     expect(m.attachment.payload.label).to.equal(label)
-    console.info(JSON.stringify(m))
+    // console.info(JSON.stringify(m))
   })
 
   it("Can create attachment", () => {

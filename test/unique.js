@@ -49,6 +49,36 @@ describe("Unique", () => {
     })).to.be.false
   })
 
+
+  it("Check if unique exists in memory store", () => {
+    new Unique({
+      clientId: 'abc',
+      key: 'key',
+      value: 'value',
+      engine: 'memory'
+    })
+
+    expect(Unique.exists({
+      clientId: 'abc',
+      key: 'key',
+      engine: 'memory'
+    })).to.be.true
+  })
+
+  it("Check if unique does not exist in memory store", () => {
+    new Unique({
+      clientId: 'abc',
+      key: 'key',
+      value: 'value',
+      engine: 'memory'
+    })
+    expect(Unique.exists({
+      clientId: 'abc2',
+      key: 'key2',
+      engine: 'memory'
+    })).to.be.false
+  })
+
   it("Unique exists throws with invalid arguments", () => {
     expect(() => Unique.exists()).to.throw(Error)
     expect(() => Unique.exists({ clientId: null, key: null })).to.throw(Error)

@@ -2,7 +2,7 @@
   "env": {
     "dist": {
       "presets": [
-        ["env", {
+        ["@babel/preset-env", {
           "targets": {
             "browsers": ["last 2 versions", "IE 10"]
           },
@@ -12,7 +12,7 @@
      },
     "lib": {
       "presets": [
-        ["env", {
+        ["@babel/preset-env", {
           "targets": {
             "node": "current",
             "react": "16.4.2",
@@ -24,6 +24,4 @@
       ]
     }
   }
-
-
 }

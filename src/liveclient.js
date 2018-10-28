@@ -14,6 +14,24 @@ debug('flowai:liveclient')
 /**
  * Live streaming websocket client extends EventEmitter
  * @class
+ * @example
+ * // Node.js
+ * const client = new LiveClient({
+ *   clientId: 'MY CLIENT ID',
+ *   origin: 'https://my.website'
+ * })
+ *
+ * // Web
+ * const client = new LiveClient({
+ *   clientId: 'MY CLIENT ID',
+ *   storage: 'session'
+ * })
+ *
+ * // Lambda function
+ * const client = new LiveClient({
+ *   clientId: 'MY CLIENT ID',
+ *   storage: 'memory'
+ * })
  **/
 class LiveClient extends EventEmitter {
 
@@ -22,24 +40,11 @@ class LiveClient extends EventEmitter {
  * @constructor
  * @param {(object|string)} opts - Configuration options or shorthand for just clientId
  * @param {string} opts.clientId - Mandatory Client token
- * @param {string} opts.storage - Optional, 'session' or 'local' for using sessionStorage or localStorage
+ * @param {string} opts.storage - Optional, 'session' for using sessionStorage, 'local' for localStorage or `memory` for a simple memory store
  * @param {string} opts.endpoint - Optional, only for testing purposes
  * @param {string} opts.origin - When running on Nodejs you MUST set the origin
  * @returns {LiveClient}
  *
- * @example
- * // Node.js
- * const client = new LiveClient({
- *   clientId: 'MY CLIENT ID',
- *   origin: 'https://my.website'
- * })
- *
- * @example
- * // Web
- * const client = new LiveClient({
- *   clientId: 'MY CLIENT ID',
- *   storage: 'session'
- * })
  */
   constructor(opts) {
 
