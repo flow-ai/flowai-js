@@ -4,6 +4,7 @@ import Metadata from './metadata'
 import LiveClient from './liveclient'
 import EventAttachment from './event-attachment'
 import FileAttachment from './file-attachment'
+import Attachment from './attachment'
 
 export {
   LiveClient,
@@ -11,5 +12,6 @@ export {
   Originator,
   Metadata,
   EventAttachment,
-  FileAttachment
+  FileAttachment,
+  Attachment
 }
