@@ -77,7 +77,7 @@ class LiveClient extends EventEmitter {
     }
 
     this._storage = this._storage || 'local'
-    this._endpoint = this._endpoint || 'https://api.flow.ai'
+    this._endpoint = this._endpoint || 'https://sdk.flow.ai'
     this._rest = new Rest(this._endpoint)
     this._init()
 

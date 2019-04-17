@@ -1,25 +1,26 @@
 <html>
   <head>
     <title>Demo API</title>
-    <meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-      html, body {
+      html,
+      body {
         height: 100%;
-        width: 100%
+        width: 100%;
       }
     </style>
   </head>
   <body>
     <script src="flowai-js.min.js"></script>
     <script type="text/javascript">
-      document.addEventListener('DOMContentLoaded', function() {
-        var { LiveClient, Message, Originator } = Flowai
-        var client = new LiveClient('YOUR CLIENT ID', 'https://api.flow.ai');
-        client.on(LiveClient.RECONNECTING, () => console.info('Reconnecting'));
-        client.on(LiveClient.ERROR, (err) => console.error(err));
-        client.on(LiveClient.CONNECTED, function(){
+      document.addEventListener("DOMContentLoaded", function() {
+        var { LiveClient, Message, Originator } = Flowai;
+        var client = new LiveClient("YOUR CLIENT ID", "https://sdk.flow.ai");
+        client.on(LiveClient.RECONNECTING, () => console.info("Reconnecting"));
+        client.on(LiveClient.ERROR, err => console.error(err));
+        client.on(LiveClient.CONNECTED, function() {
           var originator = new Originator({
             name: "John Doo"
           });
@@ -30,9 +31,9 @@
           });
 
           client.send(message);
-        })
+        });
         client.start();
-      })
+      });
     </script>
   </body>
 </html>
