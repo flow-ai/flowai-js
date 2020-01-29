@@ -404,7 +404,10 @@ class LiveClient extends EventEmitter {
       })
       .catch(err => {
         debug('Error while trying to fetch the history', err)
-        this.emit(LiveClient.ERROR, new Exception(err, 'history'))
+        this.emit(LiveClient.ERROR, new Exception(
+          new Error('Error while trying to fetch the history'),
+          'history'
+        ))
       })
   }
 
@@ -495,7 +498,10 @@ class LiveClient extends EventEmitter {
       })
       .catch(err => {
         debug('Error while trying to find out unnoticed messages', err)
-        this.emit(LiveClient.ERROR, new Exception(err, 'connection'))
+        this.emit(LiveClient.ERROR, new Exception(
+          new Error('Error while trying to find out unnoticed messages'),
+          'unnoticed'
+        ))
       })
   }
 
