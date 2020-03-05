@@ -14,7 +14,7 @@ class Unique {
 
   constructor(opts) {
 
-    if(typeof opts !== 'object') {
+    if (typeof opts !== 'object') {
       throw new Error('Required options must be an object')
     }
 
@@ -25,23 +25,24 @@ class Unique {
       engine
     } = opts
 
-    if(typeof clientId !== 'string' || !clientId.length) {
+    if (typeof clientId !== 'string' || !clientId.length) {
       throw new Error('Invalid clientId provided')
     }
 
-    if(typeof key !== 'string' || key.length < 2) {
+    if (typeof key !== 'string' || key.length < 2) {
       throw new Error('Invalid key provided')
     }
 
-    if(typeof engine !== 'string') {
+    if (typeof engine !== 'string') {
       throw new Error('Storage engine must be provided, either local or session')
     }
 
+    this._clientId = clientId
     this._storageKey = `${clientId}.${key}`
     this._storage = createStorage(engine)
 
     debug(`Creating a new Unique with key '${key}' and value '${value}'`)
-    if(value !== null && value !== undefined) {
+    if (value !== null && value !== undefined) {
       this._storage.setItem(this._storageKey, value)
     }
   }
@@ -52,13 +53,15 @@ class Unique {
    **/
   id() {
     let uniqueId = this._storage.getItem(this._storageKey)
-    if(!uniqueId) {
+    if (!uniqueId) {
       // Remove dashes
       uniqueId = uuid().replace(/-/g, '')
 
       debug(`Creating a new uniqueId '${uniqueId}'`)
 
-      this._storage.setItem(this._storageKey, uniqueId)
+      const channelId = (atob(this._clientId)).split('|')[1]
+
+      this._storage.setItem(this._storageKey, `${uniqueId}|${channelId}`)
     }
 
     debug(`Returning uniqueId '${uniqueId}'`)
@@ -72,7 +75,7 @@ class Unique {
    **/
   static exists(opts) {
 
-    if(typeof opts !== 'object') {
+    if (typeof opts !== 'object') {
       throw new Error('Required options must be an object')
     }
 
@@ -82,15 +85,15 @@ class Unique {
       engine
     } = opts
 
-    if(typeof clientId !== 'string' || !clientId.length) {
+    if (typeof clientId !== 'string' || !clientId.length) {
       throw new Error('Invalid clientId provided')
     }
 
-    if(typeof key !== 'string' || !key.length) {
+    if (typeof key !== 'string' || !key.length) {
       throw new Error('Invalid key provided')
     }
 
-    if(typeof engine !== 'string') {
+    if (typeof engine !== 'string') {
       throw new Error('Storage engine must be provided, either local or session')
     }
 
@@ -114,7 +117,7 @@ const createStorage = engine => {
       return memoryStore()
     }
 
-    if(engine === 'session') {
+    if (engine === 'session') {
       // Session store
       return sessionStorage
     }
