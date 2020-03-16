@@ -38,6 +38,7 @@ class Unique {
     }
 
     this._clientId = clientId
+    this._key = key
     this._storageKey = `${clientId}.${key}`
     this._storage = createStorage(engine)
 
@@ -57,11 +58,14 @@ class Unique {
       // Remove dashes
       uniqueId = uuid().replace(/-/g, '')
 
+      if(this._key === 'threadId') {
+        const channelId = (atob(this._clientId)).split('|')[1]
+        uniqueId = `${uniqueId}|${channelId}`
+      }
+
       debug(`Creating a new uniqueId '${uniqueId}'`)
 
-      const channelId = (atob(this._clientId)).split('|')[1]
-
-      this._storage.setItem(this._storageKey, `${uniqueId}|${channelId}`)
+      this._storage.setItem(this._storageKey, uniqueId)
     }
 
     debug(`Returning uniqueId '${uniqueId}'`)
