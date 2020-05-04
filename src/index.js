@@ -3,6 +3,7 @@ import Originator from './originator'
 import Metadata from './metadata'
 import LiveClient from './liveclient'
 import EventAttachment from './event-attachment'
+import OpeningAttachment from './opening-attachment'
 import FileAttachment from './file-attachment'
 import Attachment from './attachment'
 
@@ -12,6 +13,7 @@ export {
   Originator,
   Metadata,
   EventAttachment,
+  OpeningAttachment,
   FileAttachment,
   Attachment
 }
