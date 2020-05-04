@@ -207,6 +207,9 @@ The sessionId is used to identify connections from different devices like browse
 <dt><a href="#Metadata">Metadata</a></dt>
 <dd><p>Additional Message data</p>
 </dd>
+<dt><a href="#OpeningAttachment">OpeningAttachment</a></dt>
+<dd><p>Trigger opening events</p>
+</dd>
 <dt><a href="#Originator">Originator</a></dt>
 <dd><p>Originator of a Message</p>
 </dd>
@@ -749,6 +752,36 @@ Constructor
 
 Create a Metadata object from raw data
 
+<a name="OpeningAttachment"></a>
+
+## OpeningAttachment
+Trigger opening events
+
+<a name="new_OpeningAttachment_new"></a>
+
+### new OpeningAttachment(name, [label])
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>string</code> | Name of the event to trigger |
+| [label] | <code>string</code> | Optional human readable label for the triggered event |
+
+Constructor
+
+**Example**  
+```js
+// Opening event without any label
+const message = new Message({
+  attachment: new OpeningAttachment('BUY')
+})
+```
+**Example**  
+```js
+// Opening event with label to display user
+const message = new Message({
+  attachment: new OpeningAttachment('BUY', 'Buy dress')
+})
+```
 <a name="Originator"></a>
 
 ## Originator
