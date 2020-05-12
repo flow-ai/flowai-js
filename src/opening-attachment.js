@@ -27,15 +27,15 @@ class OpeningAttachment extends Attachment {
   constructor(name, label) {
 
     if(!label && typeof name !== 'string') {
-      throw new Exception("EventAttachment payload should be a string", 'user')
+      throw new Exception("OpeningAttachment payload should be a string", 'user')
     }
 
     if(typeof name !== 'string') {
-      throw new Exception("EventAttachment event name should be a string", 'user')
+      throw new Exception("OpeningAttachment event name should be a string", 'user')
     }
 
     if(label && typeof label !== 'string') {
-      throw new Exception("EventAttachment event label should be a string", 'user')
+      throw new Exception("OpeningAttachment event label should be a string", 'user')
     }
 
     super('event', {
