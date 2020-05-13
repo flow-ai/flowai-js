@@ -36,16 +36,16 @@ debug('flowai:liveclient')
 class LiveClient extends EventEmitter {
 
   /**
- * Constructor
- * @constructor
- * @param {(object|string)} opts - Configuration options or shorthand for just clientId
- * @param {string} opts.clientId - Mandatory Client token
- * @param {string} opts.storage - Optional, 'session' for using sessionStorage, 'local' for localStorage or `memory` for a simple memory store
- * @param {string} opts.endpoint - Optional, only for testing purposes
- * @param {string} opts.origin - When running on Nodejs you MUST set the origin
- * @returns {LiveClient}
- *
- */
+   * Constructor
+   * @constructor
+   * @param {(object|string)} opts - Configuration options or shorthand for just clientId
+   * @param {string} opts.clientId - Mandatory Client token
+   * @param {string} opts.storage - Optional, 'session' for using sessionStorage, 'local' for localStorage or `memory` for a simple memory store
+   * @param {string} opts.endpoint - Optional, only for testing purposes
+   * @param {string} opts.origin - When running on Nodejs you MUST set the origin
+   * @returns {LiveClient}
+   *
+   */
   constructor(opts) {
 
     super()
@@ -322,6 +322,38 @@ class LiveClient extends EventEmitter {
     return message
   }
 
+  sendUserTypingActivity(params) {
+    debug(`Sending user typing activity`)
+
+    if(!this.isConnected) {
+      throw new Exception("Could not send the user typing activity. The socket connection is disconnected.", 'user')
+    }
+
+    try {
+      const originator = (params && params.originator) || {}
+
+      const enveloppe = JSON.stringify({
+        type: 'activity.user.typing',
+        payload: {
+          clientId: this._clientId,
+          threadId: this.threadId,
+          originator
+        }
+      })
+
+      debug(`Creating user typing activity enveloppe`, enveloppe)
+
+      setTimeout(() => {
+        // We add a tiny delay because
+        // messages instantly send after 'connection'
+        // event get lost
+        this._socket.send(enveloppe)
+      }, 50)
+
+    } catch(err) {
+      this.emit(LiveClient.ERROR, new Exception(err))
+    }
+  }
   /**
    * Merge two threads from different channels.
    * This methods is not yet publicy supported since we don't have a way yet to provide a mergerKey.
@@ -665,6 +697,10 @@ class LiveClient extends EventEmitter {
           // Ignore pongs
           break
 
+        case 'agent.typing':
+          this._handleReceivedAgentTyping(payload)
+          break
+
         case 'message.received':
         case 'activities.created':
           this._handleReceived(payload)
@@ -697,6 +733,11 @@ class LiveClient extends EventEmitter {
   _handleReceived(payload) {
     debug('Handling reply payload', payload)
     this.emit(LiveClient.REPLY_RECEIVED, new Reply(payload))
+  }
+
+  _handleReceivedAgentTyping(payload) {
+    debug('Handling agent typing payload', payload)
+    this.emit(LiveClient.AGENT_TYPING_RECEIVED, payload)
   }
 
   /**
@@ -795,6 +836,13 @@ LiveClient.DISCONNECTED = 'disconnected'
  * @desc Event that triggers when a new message is received from the platform
  **/
 LiveClient.REPLY_RECEIVED = 'message.received'
+
+/**
+ * @constant
+ * @type {string}
+ * @desc Event that triggers when start busy typing received from the platform
+ **/
+LiveClient.AGENT_TYPING_RECEIVED = 'agent.typing'
 
 /**
  * @constant
