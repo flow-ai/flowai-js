@@ -372,6 +372,8 @@ Live streaming websocket client extends EventEmitter
 
         * [.REPLY_RECEIVED](#LiveClient.REPLY_RECEIVED)
 
+        * [.AGENT_TYPING_RECEIVED](#LiveClient.AGENT_TYPING_RECEIVED)
+
         * [.MESSAGE_SEND](#LiveClient.MESSAGE_SEND)
 
         * [.MESSAGE_DELIVERED](#LiveClient.MESSAGE_DELIVERED)
@@ -614,6 +616,11 @@ Event that triggers when the client gets disconnected
 
 ### *LiveClient*.REPLY_RECEIVED
 Event that triggers when a new message is received from the platform
+
+<a name="LiveClient.AGENT_TYPING_RECEIVED"></a>
+
+### *LiveClient*.AGENT_TYPING_RECEIVED
+Event that triggers when start busy typing received from the platform
 
 <a name="LiveClient.MESSAGE_SEND"></a>
 
