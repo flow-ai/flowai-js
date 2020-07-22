@@ -398,6 +398,7 @@ Live streaming websocket client extends EventEmitter
 | opts.storage | <code>string</code> | Optional, 'session' for using sessionStorage, 'local' for localStorage or `memory` for a simple memory store |
 | opts.endpoint | <code>string</code> | Optional, only for testing purposes |
 | opts.origin | <code>string</code> | When running on Nodejs you MUST set the origin |
+| opts.silent | <code>boolean</code> | Optional, console.errors will not be shown |
 
 Constructor
 

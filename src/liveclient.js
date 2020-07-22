@@ -43,6 +43,7 @@ class LiveClient extends EventEmitter {
    * @param {string} opts.storage - Optional, 'session' for using sessionStorage, 'local' for localStorage or `memory` for a simple memory store
    * @param {string} opts.endpoint - Optional, only for testing purposes
    * @param {string} opts.origin - When running on Nodejs you MUST set the origin
+   * @param {boolean} opts.silent - Optional, console.errors will not be shown
    * @returns {LiveClient}
    *
    */
@@ -67,6 +68,12 @@ class LiveClient extends EventEmitter {
         this._storage = 'local'
       }
 
+      if(typeof opts.silent === 'boolean') {
+        this._silent = opts.silent
+      } else {
+        this._silent = false
+      }
+
       if (typeof window === 'undefined') {
         this._origin = opts.origin || undefined
       }
@@ -78,7 +85,7 @@ class LiveClient extends EventEmitter {
 
     this._storage = this._storage || 'local'
     this._endpoint = this._endpoint || 'https://sdk.flow.ai'
-    this._rest = new Rest(this._endpoint)
+    this._rest = new Rest(this._endpoint, this._silent)
     this._init()
 
     debug('Constructed a new LiveClient', this)
@@ -595,7 +602,10 @@ class LiveClient extends EventEmitter {
         this._handleConnection(result.payload)
       })
       .catch(err => {
-        console.error('LiveClient: Error while trying to connect', err)
+        if(this._silent !== true) {
+          console.error('LiveClient: Error while trying to connect', err)
+        }
+
         if(!err.isFinal) {
           this._reconnect()
         }
@@ -796,7 +806,9 @@ class LiveClient extends EventEmitter {
           }))
         }
       } catch(err) {
-        console.error('Error while sending a keepalive ping', err)
+        if(this._silent !== true) {
+          console.error('Error while sending a keepalive ping', err)
+        }
       }
     }, 1000 * 25)
   }

@@ -4,7 +4,7 @@ import fetch from 'fetch-everywhere'
 import Exception from './exception'
 debug('flowai:rest')
 
-const checkStatus = response => {
+const checkStatus = (silent) => (response) => {
   if (response.status >= 200 && response.status < 300) {
     return response
   } else {
@@ -14,19 +14,28 @@ const checkStatus = response => {
       // DIRTY FIX!
       // case 503:
       case 400: {
-        console.error('It seems your clientId, sessionId or configuration is invalid')
+        if(silent !== true) {
+          console.error('It seems your clientId, sessionId or configuration is invalid')
+        }
+
         error = new Exception('Failed to connect with API. Invalid clientId, sessionId or configuration', 'connection', new Error(response.status), true)
         break
       }
       case 401:
       case 402:
       case 403: {
-        console.error('It seems your domain is not whitelisted properly')
+        if(silent !== true) {
+          console.error('It seems your domain is not whitelisted properly')
+        }
+
         error = new Exception('Failed to connect with API. Your domain is not whitelisted', 'connection', new Error(response.status), true)
         break
       }
       default: {
-        console.error('An error occurred at the Flow.ai API. Please contact us at slack.flow.ai')
+        if(silent !== true) {
+          console.error('An error occurred at the Flow.ai API. Please contact us at slack.flow.ai')
+        }
+
         error = new Exception('Failed to connect with API', 'connection', new Error(response.status))
         break
       }
@@ -39,9 +48,10 @@ const checkStatus = response => {
 // Private class
 class Rest {
 
-  constructor(endpoint) {
+  constructor(endpoint, silent) {
     debug(`Creating a new REST service with endpoint '${endpoint}'`)
     this._endpoint = endpoint
+    this._silent = silent
   }
 
   get(options) {
@@ -135,7 +145,7 @@ class Rest {
       debug(`Calling URL '${url}'`)
 
       fetch(url, enveloppe)
-        .then(checkStatus)
+        .then(checkStatus(this._silent))
         .then(response => {
           resolve(response.json())
         })
