@@ -1,6 +1,5 @@
 import Exception from './exception'
 import Attachment from './attachment'
-import EventTypes from './eventTypes'
 
 /**
  * Trigger opening events
@@ -41,7 +40,7 @@ class OpeningAttachment extends Attachment {
     super('event', {
       name,
       label,
-      eventType: EventTypes.OPENING_EVENT_TYPE
+      eventType: 'OPENING'
     })
   }
 }
