@@ -66,7 +66,15 @@ class Rest {
 
     debug(`GET call to url '${url}' with headers and queryParams`, headers, queryParams)
 
-    return this._call(url, { headers }, queryParams)
+    return this._call(
+      url,
+      {
+        headers: {
+          ...headers,
+          ...options.headers
+        }},
+      queryParams
+    )
   }
 
   post(options) {

@@ -430,8 +430,10 @@ class LiveClient extends EventEmitter {
     this._rest
       .get({
         path: 'thread.history',
+        headers: {
+          'x-flowai-clientId': this._clientId
+        },
         queryParams: {
-          clientId: this._clientId,
           threadId: this.threadId
         }
       })
@@ -523,8 +525,10 @@ class LiveClient extends EventEmitter {
     this._rest
       .get({
         path: 'thread.unnoticed',
+        headers: {
+          'x-flowai-clientId': this._clientId
+        },
         queryParams: {
-          clientId: this._clientId,
           threadId: this.threadId
         }
       })
@@ -589,8 +593,10 @@ class LiveClient extends EventEmitter {
     this._rest
       .get({
         path: 'socket.info',
+        headers: {
+          'x-flowai-clientId': this._clientId
+        },
         queryParams: {
-          clientId: this._clientId,
           sessionId: this.sessionId,
           threadId: this.threadId
         }
