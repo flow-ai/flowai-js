@@ -146,6 +146,26 @@ class LiveClient extends EventEmitter {
   }
 
   /**
+   * Secret
+   * @returns {?string}
+   **/
+  get secret() {
+    debug(`secret is '${this._secret}'`)
+
+    return this._secret
+  }
+
+  /**
+   * Secret
+   * @param {?string} value - Change the Secret
+   **/
+  set secret(value) {
+    debug(`Setting a new secret with value '${value}'`)
+
+    this._secret = value
+  }
+
+  /**
    * Check if the connection is active
    *
    * @example
@@ -431,10 +451,8 @@ class LiveClient extends EventEmitter {
       .get({
         path: 'thread.history',
         headers: {
-          'x-flowai-clientid': this._clientId
-        },
-        queryParams: {
-          threadId: this.threadId
+          'x-flowai-clientid': this._clientId,
+          'x-flowai-threadid': this.threadId
         }
       })
       .then(result => {
@@ -526,10 +544,8 @@ class LiveClient extends EventEmitter {
       .get({
         path: 'thread.unnoticed',
         headers: {
-          'x-flowai-clientid': this._clientId
-        },
-        queryParams: {
-          threadId: this.threadId
+          'x-flowai-clientid': this._clientId,
+          'x-flowai-threadid': this.threadId
         }
       })
       .then(result => {
@@ -555,6 +571,7 @@ class LiveClient extends EventEmitter {
   _init() {
     this._session= null
     this._thread = null
+    this._secret = null
     this._socket = null
     this._keepAliveInterval = null
     this._reconnectTimeout = null
@@ -594,17 +611,20 @@ class LiveClient extends EventEmitter {
       .get({
         path: 'socket.info',
         headers: {
-          'x-flowai-clientid': this._clientId
-        },
-        queryParams: {
-          sessionId: this.sessionId,
-          threadId: this.threadId
+          'x-flowai-clientid': this._clientId,
+          'x-flowai-sessionid': this.sessionId,
+          'x-flowai-threadid': this.threadId
         }
       })
       .then(result => {
         if(result.status !== 'ok') {
           throw new Exception(`Unable to get a socket URL": ${result.payload.message}`, 'connection')
         }
+
+        if(typeof result.secret === 'string') {
+          this.secret = result.secret
+        }
+
         this._handleConnection(result.payload)
       })
       .catch(err => {

@@ -341,6 +341,10 @@ Live streaming websocket client extends EventEmitter
 
         * [.threadId](#LiveClient+threadId)
 
+        * [.secret](#LiveClient+secret)
+
+        * [.secret](#LiveClient+secret)
+
         * [.isConnected](#LiveClient+isConnected)
 
         * [.sessionId()](#LiveClient+sessionId)
@@ -447,6 +451,21 @@ Default Thread Id to be used for any messages being send
 | value | <code>string</code> | Change the thread ID |
 
 Session Id of the connection
+
+<a name="LiveClient+secret"></a>
+
+### *liveClient*.secret
+Secret
+
+<a name="LiveClient+secret"></a>
+
+### *liveClient*.secret
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>string</code> | Change the Secret |
+
+Secret
 
 <a name="LiveClient+isConnected"></a>
 
