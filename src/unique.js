@@ -105,6 +105,39 @@ class Unique {
     const storageKey = `${clientId}.${key}`
     return (storage.getItem(storageKey) !== null)
   }
+
+  /**
+   * get data from storage
+   * @returns {any}
+   **/
+  static get(opts) {
+
+    if (typeof opts !== 'object') {
+      throw new Error('Required options must be an object')
+    }
+
+    const {
+      clientId,
+      key,
+      engine
+    } = opts
+
+    if (typeof clientId !== 'string' || !clientId.length) {
+      throw new Error('Invalid clientId provided')
+    }
+
+    if (typeof key !== 'string' || !key.length) {
+      throw new Error('Invalid key provided')
+    }
+
+    if (typeof engine !== 'string') {
+      throw new Error('Storage engine must be provided, either local or session')
+    }
+
+    const storage = createStorage(engine)
+    const storageKey = `${clientId}.${key}`
+    return storage.getItem(storageKey)
+  }
 }
 
 

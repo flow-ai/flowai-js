@@ -99,7 +99,7 @@ class Rest {
     return this._call(url, enveloppe, queryParams)
   }
 
-  upload(formData) {
+  upload(formData, headers) {
 
     debug('Uploading', formData)
 
@@ -109,6 +109,10 @@ class Rest {
       const enveloppe = {
         method: 'POST',
         body: formData
+      }
+
+      if(typeof headers === 'object') {
+        enveloppe.headers = headers
       }
 
       debug(`Calling URL '${url}'`)

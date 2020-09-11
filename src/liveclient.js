@@ -150,9 +150,17 @@ class LiveClient extends EventEmitter {
    * @returns {?string}
    **/
   get secret() {
-    debug(`secret is '${this._secret}'`)
+    let secret = this._secret
 
-    return this._secret
+    if(typeof secret !== 'string') {
+      secret = Unique.get({
+        clientId: this._clientId,
+        key: 'secret',
+        engine: this._storage
+      })
+    }
+
+    return secret
   }
 
   /**
@@ -162,7 +170,12 @@ class LiveClient extends EventEmitter {
   set secret(value) {
     debug(`Setting a new secret with value '${value}'`)
 
-    this._secret = value
+    this._secret = new Unique({
+      clientId: this._clientId,
+      key: 'secret',
+      value,
+      engine: this._storage
+    })
   }
 
   /**
@@ -312,7 +325,11 @@ class LiveClient extends EventEmitter {
 
         debug('Uploading formData', formData)
 
-        this._rest.upload(formData)
+        const headers = {
+          'x-flowai-secret': this.secret
+        }
+
+        this._rest.upload(formData, headers)
           .then(result => {
             if(result.status !== 'ok') {
               this.emit(LiveClient.ERROR, new Exception(new Error('Failed to upload file.'), 'connection'))
@@ -403,6 +420,9 @@ class LiveClient extends EventEmitter {
     this._rest
       .post({
         path: 'thread.merger',
+        headers: {
+          'x-flowai-secret': this.secret
+        },
         payload: {
           clientId: this._clientId,
           threadId: threadId || this.threadId,
@@ -452,7 +472,8 @@ class LiveClient extends EventEmitter {
         path: 'thread.history',
         headers: {
           'x-flowai-clientid': this._clientId,
-          'x-flowai-threadid': this.threadId
+          'x-flowai-threadid': this.threadId,
+          'x-flowai-secret': this.secret
         }
       })
       .then(result => {
@@ -545,7 +566,8 @@ class LiveClient extends EventEmitter {
         path: 'thread.unnoticed',
         headers: {
           'x-flowai-clientid': this._clientId,
-          'x-flowai-threadid': this.threadId
+          'x-flowai-threadid': this.threadId,
+          'x-flowai-secret': this.secret
         }
       })
       .then(result => {
@@ -613,7 +635,8 @@ class LiveClient extends EventEmitter {
         headers: {
           'x-flowai-clientid': this._clientId,
           'x-flowai-sessionid': this.sessionId,
-          'x-flowai-threadid': this.threadId
+          'x-flowai-threadid': this.threadId,
+          'x-flowai-secret': this.secret
         }
       })
       .then(result => {
