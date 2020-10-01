@@ -345,6 +345,10 @@ class LiveClient extends EventEmitter {
         return message
       }
 
+      if(typeof this.secret === 'string') {
+        message.nonce = this.secret
+      }
+
       const enveloppe = JSON.stringify({
         type: 'message.send',
         payload: message
@@ -773,6 +777,13 @@ class LiveClient extends EventEmitter {
         case 'activities.delivered':
           this._handleDelivered(payload)
           break
+
+        case 'secret.generated': {
+          if(typeof message.secret === 'string') {
+            this.secret = message.secret
+          }
+          break
+        }
 
         default: {
           debug('Unknow message received with type and payload', type, payload)
