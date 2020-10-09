@@ -785,6 +785,11 @@ class LiveClient extends EventEmitter {
           break
         }
 
+        case 'interruption.occurred': {
+          this._handleInterruptionOccurred()
+          break
+        }
+
         default: {
           debug('Unknow message received with type and payload', type, payload)
           this.emit(LiveClient.ERROR, new Exception(`Unknown message received ${evt.data}`, 'connection'))
@@ -803,6 +808,15 @@ class LiveClient extends EventEmitter {
   _handleReceived(payload) {
     debug('Handling reply payload', payload)
     this.emit(LiveClient.REPLY_RECEIVED, new Reply(payload))
+  }
+
+  /**
+   * Handle a interruption occurred message
+   * @private
+   * @param {object} payload
+   **/
+  _handleInterruptionOccurred() {
+    this.emit(LiveClient.INTERRUPTION_OCCURRED, {})
   }
 
   _handleReceivedAgentTyping(payload) {
@@ -957,5 +971,12 @@ LiveClient.RECEIVED_HISTORY = 'received.history'
  * @desc Event that triggers when there are unnoticed messages
  **/
 LiveClient.CHECKED_UNNOTICED_MESSAGES = 'unnoticed.messages'
+
+/**
+ * @constant
+ * @type {string}
+ * @desc Event that triggers when there are unnoticed messages
+ **/
+LiveClient.INTERRUPTION_OCCURRED = 'interruption.occurred'
 
 export default LiveClient

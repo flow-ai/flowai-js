@@ -390,6 +390,8 @@ Live streaming websocket client extends EventEmitter
 
         * [.CHECKED_UNNOTICED_MESSAGES](#LiveClient.CHECKED_UNNOTICED_MESSAGES)
 
+        * [.INTERRUPTION_OCCURRED](#LiveClient.INTERRUPTION_OCCURRED)
+
 
 <a name="new_LiveClient_new"></a>
 
@@ -670,6 +672,11 @@ Event that triggers when historic messages are received
 <a name="LiveClient.CHECKED_UNNOTICED_MESSAGES"></a>
 
 ### *LiveClient*.CHECKED_UNNOTICED_MESSAGES
+Event that triggers when there are unnoticed messages
+
+<a name="LiveClient.INTERRUPTION_OCCURRED"></a>
+
+### *LiveClient*.INTERRUPTION_OCCURRED
 Event that triggers when there are unnoticed messages
 
 <a name="Message"></a>
