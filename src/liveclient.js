@@ -360,7 +360,7 @@ class LiveClient extends EventEmitter {
         // We add a tiny delay because
         // messages instantly send after 'connection'
         // event get lost
-        this._socket.send(enveloppe)
+        if(this._socket) this._socket.send(enveloppe)
       }, 50)
 
     } catch(err) {
@@ -395,7 +395,7 @@ class LiveClient extends EventEmitter {
         // We add a tiny delay because
         // messages instantly send after 'connection'
         // event get lost
-        this._socket.send(enveloppe)
+        if(this._socket) this._socket.send(enveloppe)
       }, 50)
 
     } catch(err) {
@@ -540,7 +540,7 @@ class LiveClient extends EventEmitter {
 
       debug(`Creating notice enveloppe`, enveloppe)
       try {
-        this._socket.send(enveloppe)
+        if(this._socket) this._socket.send(enveloppe)
       } catch(err) {
         this.emit(LiveClient.ERROR, new Exception(err))
       }
