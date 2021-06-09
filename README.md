@@ -1,9 +1,9 @@
-# The flow.ai Javascript SDK
-Access the [flow.ai](https://flow.ai) platform from your Node.js or javascript app. This library lets you build on the flow.ai Webclient API.
+# The khoros flow.ai Javascript SDK
+Access the [khoros flow.ai](https://flow.ai) platform from your Node.js or javascript app. This library lets you build on the khoros flow.ai Webclient API.
 
 ## What can you do?
 
-*	A simple way to connect with [flow.ai](https://flow.ai)
+*	A simple way to connect with [khoros flow.ai](https://flow.ai)
 * Auto reconnect and event binding
 *	Send and receive messages
 *	Trigger actions and interact with AI bots
