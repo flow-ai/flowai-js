@@ -44,6 +44,7 @@ class LiveClient extends EventEmitter {
    * @param {string} opts.endpoint - Optional, only for testing purposes
    * @param {string} opts.origin - When running on Nodejs you MUST set the origin
    * @param {boolean} opts.silent - Optional, console.errors will not be shown
+   * @param {string} opts.ott - Optional, console.errors will not be shown
    * @returns {LiveClient}
    *
    */
@@ -72,6 +73,12 @@ class LiveClient extends EventEmitter {
         this._silent = opts.silent
       } else {
         this._silent = false
+      }
+
+      if(opts.ott && typeof opts.ott === 'string') {
+        this._ott = opts.ott
+      } else {
+        this._ott = null
       }
 
       if (typeof window === 'undefined') {
@@ -640,7 +647,8 @@ class LiveClient extends EventEmitter {
           'x-flowai-clientid': this._clientId,
           'x-flowai-sessionid': this.sessionId,
           'x-flowai-threadid': this.threadId,
-          'x-flowai-secret': this.secret
+          'x-flowai-secret': this.secret,
+          'x-flowai-ott': this._ott
         }
       })
       .then(result => {

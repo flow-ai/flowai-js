@@ -1,9 +1,9 @@
-# The khoros flow.ai Javascript SDK
-Access the [khoros flow.ai](https://flow.ai) platform from your Node.js or javascript app. This library lets you build on the khoros flow.ai Webclient API.
+# The flow.ai Javascript SDK
+Access the [flow.ai](https://flow.ai) platform from your Node.js or javascript app. This library lets you build on the flow.ai Webclient API.
 
 ## What can you do?
 
-*	A simple way to connect with [khoros flow.ai](https://flow.ai)
+*	A simple way to connect with [flow.ai](https://flow.ai)
 * Auto reconnect and event binding
 *	Send and receive messages
 *	Trigger actions and interact with AI bots
@@ -405,6 +405,7 @@ Live streaming websocket client extends EventEmitter
 | opts.endpoint | <code>string</code> | Optional, only for testing purposes |
 | opts.origin | <code>string</code> | When running on Nodejs you MUST set the origin |
 | opts.silent | <code>boolean</code> | Optional, console.errors will not be shown |
+| opts.ott | <code>string</code> | Optional, console.errors will not be shown |
 
 Constructor
 
