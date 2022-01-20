@@ -28,7 +28,7 @@ const checkStatus = (silent) => (response) => {
           console.error('It seems your domain is not whitelisted properly')
         }
 
-        error = new Exception('Failed to connect with API. Your domain is not whitelisted', 'connection', new Error(response.status), true)
+        error = new Exception('Unauthorized Error', 'connection', new Error(response.status), true)
         break
       }
       default: {
