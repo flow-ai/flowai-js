@@ -198,6 +198,9 @@ The sessionId is used to identify connections from different devices like browse
 <dt><a href="#FileAttachment">FileAttachment</a></dt>
 <dd><p>Send a file as attachment</p>
 </dd>
+<dt><a href="#FlowAttachment">FlowAttachment</a></dt>
+<dd><p>Trigger flows</p>
+</dd>
 <dt><a href="#LiveClient">LiveClient</a></dt>
 <dd><p>Live streaming websocket client extends EventEmitter</p>
 </dd>
@@ -215,6 +218,9 @@ The sessionId is used to identify connections from different devices like browse
 </dd>
 <dt><a href="#Reply">Reply</a></dt>
 <dd><p>Reply you receive from Flow.ai</p>
+</dd>
+<dt><a href="#StepAttachment">StepAttachment</a></dt>
+<dd><p>Trigger steps</p>
 </dd>
 </dl>
 
@@ -323,6 +329,27 @@ const message = new Message({
 })
 
 client.send(message)
+```
+<a name="FlowAttachment"></a>
+
+## FlowAttachment
+Trigger flows
+
+<a name="new_FlowAttachment_new"></a>
+
+### new FlowAttachment(flowImmutableId)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| flowImmutableId | <code>string</code> | Immutable flowId of the flow to trigger |
+
+Constructor
+
+**Example**  
+```js
+const message = new Message({
+  attachment: new FlowAttachment(flowImmutableId)
+})
 ```
 <a name="LiveClient"></a>
 
@@ -890,3 +917,24 @@ Reply you receive from Flow.ai
 ### new Reply()
 Constructor
 
+<a name="StepAttachment"></a>
+
+## StepAttachment
+Trigger steps
+
+<a name="new_StepAttachment_new"></a>
+
+### new StepAttachment(stepId)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| stepId | <code>string</code> | Immutable stepId of the step to trigger |
+
+Constructor
+
+**Example**  
+```js
+const message = new Message({
+  attachment: new StepAttachment(stepId)
+})
+```
