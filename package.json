@@ -38,7 +38,7 @@
     "eslint-plugin-import": "^2.14.0",
     "jsdoc-strip-async-await": "^0.1.0",
     "jsdoc-to-markdown": "^4.0.1",
-    "mocha": "^5.2.0",
+    "mocha": "^10.1.0",
     "sinon": "^7.1.0",
     "uglify-js": "^3.4.9",
     "webpack": "^4.35.3",
