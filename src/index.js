@@ -6,6 +6,8 @@ import EventAttachment from './event-attachment'
 import OpeningAttachment from './opening-attachment'
 import FileAttachment from './file-attachment'
 import Attachment from './attachment'
+import FlowAttachment from './flow-attachment'
+import StepAttachment from './step-attachment'
 
 export {
   LiveClient,
@@ -15,5 +17,7 @@ export {
   EventAttachment,
   OpeningAttachment,
   FileAttachment,
-  Attachment
+  Attachment,
+  FlowAttachment,
+  StepAttachment
 }
