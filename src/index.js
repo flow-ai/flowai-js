@@ -8,6 +8,7 @@ import FileAttachment from './file-attachment'
 import Attachment from './attachment'
 import FlowAttachment from './flow-attachment'
 import StepAttachment from './step-attachment'
+import OpeningFlowAttachment from './opening-flow-attachment'
 
 export {
   LiveClient,
@@ -19,5 +20,6 @@ export {
   FileAttachment,
   Attachment,
   FlowAttachment,
-  StepAttachment
+  StepAttachment,
+  OpeningFlowAttachment
 }

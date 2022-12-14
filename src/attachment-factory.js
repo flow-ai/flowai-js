@@ -1,6 +1,6 @@
 import EventAttachment from './event-attachment'
 import FileAttachment from './file-attachment'
-
+import FlowAttachment from './flow-attachment'
 /**
  * Base class to all attachments
  * @private
@@ -14,6 +14,8 @@ class AttachmentFactory {
     switch(type) {
       case 'event':
         return new EventAttachment(payload.name, payload.label)
+      case 'flow':
+        return new FlowAttachment(payload.flowImmutableId)
       default:
         return new Attachment(type, payload)
     }
