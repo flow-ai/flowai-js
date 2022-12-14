@@ -213,6 +213,9 @@ The sessionId is used to identify connections from different devices like browse
 <dt><a href="#OpeningAttachment">OpeningAttachment</a></dt>
 <dd><p>Trigger opening events</p>
 </dd>
+<dt><a href="#OpeningFlowAttachment">OpeningFlowAttachment</a></dt>
+<dd><p>Trigger flow as opening events</p>
+</dd>
 <dt><a href="#Originator">Originator</a></dt>
 <dd><p>Originator of a Message</p>
 </dd>
@@ -844,6 +847,29 @@ const message = new Message({
   attachment: new OpeningAttachment('BUY', 'Buy dress')
 })
 ```
+<a name="OpeningFlowAttachment"></a>
+
+## OpeningFlowAttachment
+Trigger flow as opening events
+
+<a name="new_OpeningFlowAttachment_new"></a>
+
+### new OpeningFlowAttachment(flowImmutableId, [label])
+
+| Param | Type | Description |
+| --- | --- | --- |
+| flowImmutableId | <code>string</code> | FlowImmutableId of the flow to trigger |
+| [label] | <code>string</code> | Optional human readable label for the triggered event |
+
+Constructor
+
+**Example**  
+```js
+// Opening event without any label
+const message = new Message({
+  attachment: new OpeningFlowAttachment(flowImmutableId)
+})
+```
 <a name="Originator"></a>
 
 ## Originator
@@ -899,13 +925,13 @@ Originator of a Message
 | --- | --- | --- |
 | threadId | <code>string</code> | Unique id specific to this chat |
 | originator | [<code>Originator</code>](#Originator) | Originator |
-| messages | <code>Array.&lt;ReplyMessage&gt;</code> | List of messages |
+| messages | <code>[ &#x27;Array&#x27; ].&lt;ReplyMessage&gt;</code> | List of messages |
 | messages[].fallback | <code>string</code> | Textual representation of any responses |
 | messages[].replyTo | <code>string</code> | Optional replying to query |
 | messages[].contexts | <code>array</code> | Optional List of context names |
 | messages[].params | <code>array</code> | Optional key value pair of parameters |
 | messages[].intents | <code>array</code> | Optional list of intent names determined |
-| messages[].responses | <code>Array.&lt;Response&gt;</code> | List of response templates |
+| messages[].responses | <code>[ &#x27;Array&#x27; ].&lt;Response&gt;</code> | List of response templates |
 | messages[].responses[].type | <code>string</code> | Template type |
 | messages[].responses[].payload | <code>Object</code> | Template payload |
 | messages[].responses[].delay | <code>Number</code> | Number of seconds the response is delayed |
