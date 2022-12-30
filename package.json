@@ -34,15 +34,15 @@
     "chai-eventemitter": "^1.1.1",
     "dmd-clear": "^0.1.2",
     "eslint": "^5.8.0",
-    "eslint-loader": "^2.1.1",
+    "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.14.0",
     "jsdoc-strip-async-await": "^0.1.0",
     "jsdoc-to-markdown": "^4.0.1",
     "mocha": "^5.2.0",
     "sinon": "^7.1.0",
     "uglify-js": "^3.4.9",
-    "webpack": "^4.35.3",
-    "webpack-cli": "^3.1.2",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
     "webpack-node-externals": "^1.7.2"
   },
   "scripts": {
