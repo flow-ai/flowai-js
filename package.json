@@ -2,7 +2,7 @@
   "name": "flowai-js",
   "description": "The flow.ai Javascript SDK",
   "main": "./lib/index.js",
-  "version": "1.9.0",
+  "version": "1.9.1-pre",
   "author": "Gijs van de Nieuwegiessen",
   "contributors": [
     "Maksym Domariev <max@flow.ai>",
