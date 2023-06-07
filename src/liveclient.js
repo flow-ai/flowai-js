@@ -133,8 +133,6 @@ class LiveClient extends EventEmitter {
   get threadId() {
     const threadId = (this._thread) ? this._thread.id() : null
 
-    this.log(`Getting threadId. threadId=${threadId}, this.threadId=${this.threadId}`)
-
     debug(`threadId is '${threadId}'`)
 
     return threadId
@@ -146,7 +144,7 @@ class LiveClient extends EventEmitter {
    **/
   set threadId(value) {
     debug(`Creating a new threadId with value '${value}'`)
-    this.log(`Setting threadId=${value}, this.threadId=${this.threadId}`)
+    this.log(`Setting threadId=${value}`)
     // Create a new Thread
     this._thread = new Unique({
       clientId: this._clientId,
