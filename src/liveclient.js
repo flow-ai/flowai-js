@@ -118,7 +118,7 @@ class LiveClient extends EventEmitter {
    **/
   set sessionId(value) {
     debug(`Creating a new sessionId with value '${value}'`)
-    this.log(`Setting sessionId=${sessionId}`)
+    this.log(`Setting sessionId=${value}`)
     this._session = new Unique({
       clientId: this._clientId,
       key: 'sessionId',
