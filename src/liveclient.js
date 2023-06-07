@@ -53,29 +53,29 @@ class LiveClient extends EventEmitter {
     super()
 
     // Backwards compatibility
-    if(typeof(opts) === 'string') {
+    if (typeof (opts) === 'string') {
       this._clientId = arguments[0]
 
-      if(arguments.length == 2) {
+      if (arguments.length == 2) {
         this._endpoint = arguments[1]
       }
-    } else if(typeof(opts) === 'object') {
+    } else if (typeof (opts) === 'object') {
       this._clientId = opts.clientId
       this._endpoint = opts.endpoint
 
-      if(opts.storage === 'session') {
+      if (opts.storage === 'session') {
         this._storage = 'session'
       } else {
         this._storage = 'local'
       }
 
-      if(typeof opts.silent === 'boolean') {
+      if (typeof opts.silent === 'boolean') {
         this._silent = opts.silent
       } else {
         this._silent = false
       }
 
-      if(opts.ott && typeof opts.ott === 'string') {
+      if (opts.ott && typeof opts.ott === 'string') {
         this._ott = opts.ott
       } else {
         this._ott = null
@@ -86,7 +86,7 @@ class LiveClient extends EventEmitter {
       }
     }
 
-    if(typeof(this._clientId) !== 'string') {
+    if (typeof (this._clientId) !== 'string') {
       throw new Exception("Invalid or lacking argument for LiveClient. You must provide a clientId. Check the dashboard", 'user')
     }
 
@@ -118,6 +118,7 @@ class LiveClient extends EventEmitter {
    **/
   set sessionId(value) {
     debug(`Creating a new sessionId with value '${value}'`)
+    this.log(`Setting sessionId=${sessionId}`)
     this._session = new Unique({
       clientId: this._clientId,
       key: 'sessionId',
@@ -162,7 +163,7 @@ class LiveClient extends EventEmitter {
   get secret() {
     let secret = this._secret
 
-    if(typeof secret !== 'string') {
+    if (typeof secret !== 'string') {
       secret = Unique.get({
         clientId: this._clientId,
         key: 'secret',
@@ -222,11 +223,11 @@ class LiveClient extends EventEmitter {
   start(threadId, sessionId) {
     try {
 
-      if(sessionId && typeof(sessionId) !== 'string') {
+      if (sessionId && typeof (sessionId) !== 'string') {
         throw new Exception("sessionId must be a string", 'user')
       }
 
-      if(threadId && typeof(threadId) !== 'string') {
+      if (threadId && typeof (threadId) !== 'string') {
         throw new Exception("threadId must be a string", 'user')
       }
 
@@ -247,7 +248,7 @@ class LiveClient extends EventEmitter {
 
       this._openConnection()
 
-    } catch(err) {
+    } catch (err) {
       // Wrap the error
       throw new Exception(`Failed to start the client ${err}`, 'connection', err)
     }
@@ -265,7 +266,7 @@ class LiveClient extends EventEmitter {
     try {
       debug(`Stopping the client`)
       this._closeConnection()
-    } catch(err) {
+    } catch (err) {
       // Wrap the error
       throw new Exception("Failed to stop the client", 'connection', err)
     }
@@ -305,11 +306,11 @@ class LiveClient extends EventEmitter {
 
     debug(`Sending message`, message)
 
-    if(!this.isConnected) {
+    if (!this.isConnected) {
       throw new Exception("Could not send the message. The socket connection is disconnected.", 'user')
     }
 
-    if(!(message instanceof Message)) {
+    if (!(message instanceof Message)) {
       throw new Exception("Could not send the message. You should send a valid Message object.", 'user')
     }
 
@@ -323,7 +324,7 @@ class LiveClient extends EventEmitter {
     try {
       this.emit(LiveClient.MESSAGE_SEND, message)
 
-      if(message.attachment && message.attachment instanceof FileAttachment) {
+      if (message.attachment && message.attachment instanceof FileAttachment) {
 
         const formData = message.attachment.payload.formData
         formData.append('payload', JSON.stringify(Object.assign({},
@@ -343,7 +344,7 @@ class LiveClient extends EventEmitter {
 
         this._rest.upload(formData, headers)
           .then(result => {
-            if(result.status !== 'ok') {
+            if (result.status !== 'ok') {
               this.emit(LiveClient.ERROR, new Exception(new Error('Failed to upload file.'), 'connection'))
             } else {
               this.emit(LiveClient.MESSAGE_DELIVERED, result.payload)
@@ -357,7 +358,7 @@ class LiveClient extends EventEmitter {
         return message
       }
 
-      if(typeof this.secret === 'string') {
+      if (typeof this.secret === 'string') {
         message.nonce = this.secret
       }
 
@@ -372,10 +373,10 @@ class LiveClient extends EventEmitter {
         // We add a tiny delay because
         // messages instantly send after 'connection'
         // event get lost
-        if(this._socket) this._socket.send(enveloppe)
+        if (this._socket) this._socket.send(enveloppe)
       }, 50)
 
-    } catch(err) {
+    } catch (err) {
       this.emit(LiveClient.ERROR, new Exception(err))
     }
 
@@ -385,7 +386,7 @@ class LiveClient extends EventEmitter {
   sendUserTypingActivity(params) {
     debug(`Sending user typing activity`)
 
-    if(!this.isConnected) {
+    if (!this.isConnected) {
       throw new Exception("Could not send the user typing activity. The socket connection is disconnected.", 'user')
     }
 
@@ -407,10 +408,10 @@ class LiveClient extends EventEmitter {
         // We add a tiny delay because
         // messages instantly send after 'connection'
         // event get lost
-        if(this._socket) this._socket.send(enveloppe)
+        if (this._socket) this._socket.send(enveloppe)
       }, 50)
 
-    } catch(err) {
+    } catch (err) {
       this.emit(LiveClient.ERROR, new Exception(err))
     }
   }
@@ -425,11 +426,11 @@ class LiveClient extends EventEmitter {
 
     debug(`Merging threads '${mergerKey}', threadId '${threadId}'`)
 
-    if(!this.isConnected) {
+    if (!this.isConnected) {
       throw new Exception("Could merge anything, the connection is down.", 'user')
     }
 
-    if(typeof mergerKey !== 'string' || mergerKey.length === 0) {
+    if (typeof mergerKey !== 'string' || mergerKey.length === 0) {
       throw new Exception("Could not merge. You should privide a mergerKey.", 'user')
     }
 
@@ -447,7 +448,7 @@ class LiveClient extends EventEmitter {
         }
       })
       .then(result => {
-        if(result.status !== 'ok') {
+        if (result.status !== 'ok') {
           throw new Error(`Unable to merge, received a status other then "ok". ${result.payload.message}`)
         }
       })
@@ -470,7 +471,7 @@ class LiveClient extends EventEmitter {
    * client.history('MY CUSTOM THREAD ID')
    **/
   history(threadId) {
-    if(!threadId && !Unique.exists({
+    if (!threadId && !Unique.exists({
       clientId: this._clientId,
       key: 'threadId',
       engine: this._storage
@@ -493,7 +494,7 @@ class LiveClient extends EventEmitter {
         }
       })
       .then(result => {
-        if(result.status !== 'ok') {
+        if (result.status !== 'ok') {
           throw new Error(`Unable to fetch historic messages, received a status other then "ok". ${result.payload.message}`)
         }
         this.emit(LiveClient.RECEIVED_HISTORY, result.payload)
@@ -522,7 +523,7 @@ class LiveClient extends EventEmitter {
    **/
   noticed(threadId, instantly) {
 
-    if(!threadId && !Unique.exists({
+    if (!threadId && !Unique.exists({
       clientId: this._clientId,
       key: 'threadId',
       engine: this._storage
@@ -531,7 +532,7 @@ class LiveClient extends EventEmitter {
       throw new Exception("Could not send noticed. No threadId", 'user')
     }
 
-    if(this._noticedTimeout) {
+    if (this._noticedTimeout) {
       // Skip this call (already one running)
       return
     }
@@ -539,7 +540,7 @@ class LiveClient extends EventEmitter {
     this._noticedTimeout = setTimeout(() => {
       this._noticedTimeout = null
 
-      if(!this.isConnected) {
+      if (!this.isConnected) {
         throw new Exception("Could not send noticed message. The socket connection is disconnected.", 'user')
       }
 
@@ -552,8 +553,8 @@ class LiveClient extends EventEmitter {
 
       debug(`Creating notice enveloppe`, enveloppe)
       try {
-        if(this._socket) this._socket.send(enveloppe)
-      } catch(err) {
+        if (this._socket) this._socket.send(enveloppe)
+      } catch (err) {
         this.emit(LiveClient.ERROR, new Exception(err))
       }
     }, (instantly) ? 1 : 5000)
@@ -565,7 +566,7 @@ class LiveClient extends EventEmitter {
    **/
   checkUnnoticed(threadId) {
 
-    if(!threadId && !Unique.exists({
+    if (!threadId && !Unique.exists({
       clientId: this._clientId,
       key: 'threadId',
       engine: this._storage
@@ -588,7 +589,7 @@ class LiveClient extends EventEmitter {
         }
       })
       .then(result => {
-        if(result.status !== 'ok') {
+        if (result.status !== 'ok') {
           throw new Error(`Unable to check unnoticed messages, received a status other then "ok". ${result.payload.message}`)
         }
 
@@ -606,7 +607,7 @@ class LiveClient extends EventEmitter {
   /**
    * 
    * @param {string} text 
-   */  
+   */
   log(text) {
     if (!this.isConnected || !this.debugLogs) {
       return
@@ -618,7 +619,8 @@ class LiveClient extends EventEmitter {
         text,
         threadId: this.threadId,
         clientId: this._clientId,
-        previousThreadId: this._prevThreadId
+        previousThreadId: this._prevThreadId,
+        sessionId: this.sessionId
       }
     })
 
@@ -628,7 +630,7 @@ class LiveClient extends EventEmitter {
       // We add a tiny delay because
       // messages instantly send after 'connection'
       // event get lost
-      if(this._socket) this._socket.send(enveloppe)
+      if (this._socket) this._socket.send(enveloppe)
     }, 50)
   }
 
@@ -652,7 +654,7 @@ class LiveClient extends EventEmitter {
    * @private
    **/
   _reconnect() {
-    if(!this._isAutoReconnect) {
+    if (!this._isAutoReconnect) {
       debug('Auto reconnect is disabled')
       return
     }
@@ -686,22 +688,22 @@ class LiveClient extends EventEmitter {
         }
       })
       .then(result => {
-        if(result.status !== 'ok') {
+        if (result.status !== 'ok') {
           throw new Exception(`Unable to get a socket URL": ${result.payload.message}`, 'connection')
         }
 
-        if(typeof result.secret === 'string') {
+        if (typeof result.secret === 'string') {
           this.secret = result.secret
         }
 
         this._handleConnection(result.payload)
       })
       .catch(err => {
-        if(this._silent !== true) {
+        if (this._silent !== true) {
           console.error('LiveClient: Error while trying to connect', err)
         }
 
-        if(!err.isFinal) {
+        if (!err.isFinal) {
           this._reconnect()
         }
 
@@ -714,7 +716,7 @@ class LiveClient extends EventEmitter {
    * @private
    **/
   _handleConnection(payload) {
-    if( !payload ) {
+    if (!payload) {
       throw new Error("Did not receive a valid response from the backend service")
     }
 
@@ -745,7 +747,7 @@ class LiveClient extends EventEmitter {
 
     socket.onerror = evt => {
       const msg = "Failed socket operation."
-      switch(socket.readyState) {
+      switch (socket.readyState) {
         case 0: {
           this.emit(LiveClient.ERROR, new Exception(`${msg} Socket is busy connecting.`, 'connection'))
           break
@@ -776,13 +778,13 @@ class LiveClient extends EventEmitter {
 
       this._socket = null
 
-      if(evt && evt.code === 1006) {
+      if (evt && evt.code === 1006) {
         this.emit(LiveClient.ERROR, new Exception('The connection closed abnormally', 'connection', null, true))
         this.emit(LiveClient.DISCONNECTED)
 
         // DIRTY FIX? Need to check this in the future
         this._reconnect()
-      } else if(evt && evt.reason !== 'connection failed') {
+      } else if (evt && evt.reason !== 'connection failed') {
         this.emit(LiveClient.DISCONNECTED)
         this._reconnect()
       } else {
@@ -806,7 +808,7 @@ class LiveClient extends EventEmitter {
 
       debug('Message received with type and payload', type, payload, message)
 
-      switch(type) {
+      switch (type) {
         case 'pong':
           // Ignore pongs
           break
@@ -830,7 +832,7 @@ class LiveClient extends EventEmitter {
           break
 
         case 'secret.generated': {
-          if(typeof message.secret === 'string') {
+          if (typeof message.secret === 'string') {
             this.secret = message.secret
           }
           break
@@ -893,24 +895,24 @@ class LiveClient extends EventEmitter {
   _closeConnection() {
     this._isAutoReconnect = false
 
-    if(this._reconnectTimeout) {
+    if (this._reconnectTimeout) {
       // Whenever we close the connection manually,
       // we kill any idle reconnect time outs
       clearTimeout(this._reconnectTimeout)
     }
 
-    if(this._noticedTimeout) {
+    if (this._noticedTimeout) {
       // Whenever we close the connection manually,
       // we kill any noticed timers
       clearTimeout(this._noticedTimeout)
     }
 
-    if(this._keepAliveInterval) {
+    if (this._keepAliveInterval) {
       // Stop any keep alive intervals
       clearInterval(this._keepAliveInterval)
     }
 
-    if(this.isConnected) {
+    if (this.isConnected) {
       debug('Closing the socket')
       this._socket.close()
     } else {
@@ -925,14 +927,14 @@ class LiveClient extends EventEmitter {
   _keepAlive() {
     return setInterval(() => {
       try {
-        if(this.isConnected) {
+        if (this.isConnected) {
           debug('Sending keep alive packet')
           this._socket.send(JSON.stringify({
             type: 'ping'
           }))
         }
-      } catch(err) {
-        if(this._silent !== true) {
+      } catch (err) {
+        if (this._silent !== true) {
           console.error('Error while sending a keepalive ping', err)
         }
       }
@@ -952,7 +954,7 @@ LiveClient.ERROR = 'ERROR'
  * @type {string}
  * @desc Event that triggers when client is connected with platform
  **/
-LiveClient.CONNECTED ='connected'
+LiveClient.CONNECTED = 'connected'
 
 /**
  * @constant
