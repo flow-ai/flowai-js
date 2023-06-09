@@ -84,6 +84,14 @@ class LiveClient extends EventEmitter {
       if (typeof window === 'undefined') {
         this._origin = opts.origin || undefined
       }
+
+      if (opts.debug) {
+        this._debugLogs = true
+      }
+
+      if (opts.cookiesFallback) {
+        this._cookiesFallback = true
+      }
     }
 
     if (typeof (this._clientId) !== 'string') {
@@ -93,7 +101,6 @@ class LiveClient extends EventEmitter {
     this._storage = this._storage || 'local'
     this._endpoint = this._endpoint || 'https://sdk.flow.ai'
     this._rest = new Rest(this._endpoint, this._silent)
-    this.debugLogs = false
     this._init()
 
     debug('Constructed a new LiveClient', this)
@@ -123,7 +130,8 @@ class LiveClient extends EventEmitter {
       clientId: this._clientId,
       key: 'sessionId',
       value,
-      engine: this._storage
+      engine: this._storage,
+      cookiesFallback: this._cookiesFallback
     })
   }
 
@@ -151,7 +159,8 @@ class LiveClient extends EventEmitter {
       clientId: this._clientId,
       key: 'threadId',
       value,
-      engine: this._storage
+      engine: this._storage,
+      cookiesFallback: this._cookiesFallback
     })
     this.log(`ThreadId=${this.threadId} after setting value=${value}`)
   }
@@ -167,7 +176,8 @@ class LiveClient extends EventEmitter {
       secret = Unique.get({
         clientId: this._clientId,
         key: 'secret',
-        engine: this._storage
+        engine: this._storage,
+        cookiesFallback: this._cookiesFallback
       })
     }
 
@@ -185,7 +195,8 @@ class LiveClient extends EventEmitter {
       clientId: this._clientId,
       key: 'secret',
       value,
-      engine: this._storage
+      engine: this._storage,
+      cookiesFallback: this._cookiesFallback
     })
   }
 
@@ -474,7 +485,8 @@ class LiveClient extends EventEmitter {
     if (!threadId && !Unique.exists({
       clientId: this._clientId,
       key: 'threadId',
-      engine: this._storage
+      engine: this._storage,
+      cookiesFallback: this._cookiesFallback
     })) {
       return this.emit(LiveClient.NO_HISTORY)
     }
@@ -526,7 +538,8 @@ class LiveClient extends EventEmitter {
     if (!threadId && !Unique.exists({
       clientId: this._clientId,
       key: 'threadId',
-      engine: this._storage
+      engine: this._storage,
+      cookiesFallback: this._cookiesFallback
     })) {
       // Skip
       throw new Exception("Could not send noticed. No threadId", 'user')
@@ -569,7 +582,8 @@ class LiveClient extends EventEmitter {
     if (!threadId && !Unique.exists({
       clientId: this._clientId,
       key: 'threadId',
-      engine: this._storage
+      engine: this._storage,
+      cookiesFallback: this._cookiesFallback
     })) {
       return this.emit(LiveClient.CHECKED_UNNOTICED_MESSAGES, {
         unnoticed: false
@@ -720,14 +734,9 @@ class LiveClient extends EventEmitter {
       throw new Error("Did not receive a valid response from the backend service")
     }
 
-    let { endpoint } = payload
+    const { endpoint } = payload
 
     debug(`Opening the connection with endpoint '${endpoint}'`)
-
-    if (endpoint.includes('/debug')) {
-      this.debugLogs = true
-      endpoint = endpoint.replace('/debug', '')
-    }
 
     const socket = new w3cwebsocket(endpoint, null, this._origin)
 
