@@ -227,6 +227,15 @@ The sessionId is used to identify connections from different devices like browse
 </dd>
 </dl>
 
+## Functions
+
+<dl>
+<dt><a href="#_setCookie">_setCookie(name, value)</a></dt>
+<dd></dd>
+<dt><a href="#_getCookie">_getCookie(name)</a> ⇒ <code>string</code></dt>
+<dd></dd>
+</dl>
+
 <a name="EventAttachment"></a>
 
 ## EventAttachment
@@ -974,3 +983,20 @@ const message = new Message({
   attachment: new StepAttachment(stepId)
 })
 ```
+<a name="_setCookie"></a>
+
+## _setCookie(name, value)
+
+| Param | Type |
+| --- | --- |
+| name | <code>string</code> | 
+| value | <code>string</code> | 
+
+<a name="_getCookie"></a>
+
+## _getCookie(name)
+
+| Param | Type |
+| --- | --- |
+| name | <code>string</code> | 
+

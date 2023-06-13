@@ -5,6 +5,32 @@ const reqqq = require
 
 debug('flowai:unique')
 
+const COOKIES_EXP_MS = 604800000
+
+/**
+ * 
+ * @param {string} name 
+ * @param {string} value 
+ */
+const _setCookie = (name, value) => {
+  document.cookie = `${encodeURIComponent(name)}=${value};expires=${new Date(Date.now() + COOKIES_EXP_MS)}`
+}
+/**
+ * 
+ * @param {string} name 
+ * @returns {string}
+ */
+const _getCookie = name => {
+  const cookies = document.cookie.split(';')
+
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i]
+    if (cookie.trim().startsWith(encodeURIComponent(name))) {
+      return cookie.split('=')[1]
+    }
+  }
+}
+
 /**
  * Generates and stores a unique ID
  * @class
@@ -22,7 +48,8 @@ class Unique {
       clientId,
       key,
       value,
-      engine
+      engine,
+      cookiesFallback
     } = opts
 
     if (typeof clientId !== 'string' || !clientId.length) {
@@ -41,10 +68,15 @@ class Unique {
     this._key = key
     this._storageKey = `${clientId}.${key}`
     this._storage = createStorage(engine)
+    this._cookiesFallback = cookiesFallback
 
     debug(`Creating a new Unique with key '${key}' and value '${value}'`)
     if (value !== null && value !== undefined) {
       this._storage.setItem(this._storageKey, value)
+
+      if (this._cookiesFallback) {
+        _setCookie(this._storageKey, value)
+      }
     }
   }
 
@@ -54,11 +86,14 @@ class Unique {
    **/
   id() {
     let uniqueId = this._storage.getItem(this._storageKey)
+    if (!uniqueId && this._cookiesFallback) {
+      uniqueId = _getCookie(this._storageKey)
+    }
     if (!uniqueId) {
       // Remove dashes
       uniqueId = uuid().replace(/-/g, '')
 
-      if(this._key === 'threadId') {
+      if (this._key === 'threadId') {
         const channelId = (atob(this._clientId)).split('|')[1]
         uniqueId = `${uniqueId}|${channelId}`
       }
@@ -86,7 +121,8 @@ class Unique {
     const {
       clientId,
       key,
-      engine
+      engine,
+      cookiesFallback
     } = opts
 
     if (typeof clientId !== 'string' || !clientId.length) {
@@ -103,7 +139,14 @@ class Unique {
 
     const storage = createStorage(engine)
     const storageKey = `${clientId}.${key}`
-    return (storage.getItem(storageKey) !== null)
+
+    const exists = storage.getItem(storageKey) !== null
+
+    if (!exists && cookiesFallback) {
+      return !!_getCookie(storageKey)
+    }
+
+    return exists
   }
 
   /**
@@ -119,7 +162,8 @@ class Unique {
     const {
       clientId,
       key,
-      engine
+      engine,
+      cookiesFallback
     } = opts
 
     if (typeof clientId !== 'string' || !clientId.length) {
@@ -136,7 +180,14 @@ class Unique {
 
     const storage = createStorage(engine)
     const storageKey = `${clientId}.${key}`
-    return storage.getItem(storageKey)
+
+    const item = storage.getItem(storageKey)
+
+    if (!item && cookiesFallback) {
+      return _getCookie(storageKey)
+    }
+
+    return item
   }
 }
 
