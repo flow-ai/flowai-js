@@ -230,9 +230,9 @@ The sessionId is used to identify connections from different devices like browse
 ## Functions
 
 <dl>
-<dt><a href="#_setCookie">_setCookie(name, value)</a></dt>
+<dt><a href="#setCookie">setCookie(name, value)</a></dt>
 <dd></dd>
-<dt><a href="#_getCookie">_getCookie(name)</a> ⇒ <code>string</code></dt>
+<dt><a href="#getCookie">getCookie(name)</a> ⇒ <code>string</code></dt>
 <dd></dd>
 </dl>
 
@@ -983,18 +983,18 @@ const message = new Message({
   attachment: new StepAttachment(stepId)
 })
 ```
-<a name="_setCookie"></a>
+<a name="setCookie"></a>
 
-## _setCookie(name, value)
+## setCookie(name, value)
 
 | Param | Type |
 | --- | --- |
 | name | <code>string</code> | 
 | value | <code>string</code> | 
 
-<a name="_getCookie"></a>
+<a name="getCookie"></a>
 
-## _getCookie(name)
+## getCookie(name)
 
 | Param | Type |
 | --- | --- |

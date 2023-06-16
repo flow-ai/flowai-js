@@ -8,6 +8,7 @@ import Rest from './rest'
 import Unique from './unique'
 import Exception from './exception'
 import FileAttachment from './file-attachment'
+import { getCookie } from './cookies'
 
 debug('flowai:liveclient')
 
@@ -231,7 +232,7 @@ class LiveClient extends EventEmitter {
    * // Start with your own custom threadId
    * client.start('UNIQUE THREADID FOR USER')
    **/
-  start(threadId, sessionId) {
+  start(threadId, sessionId, isReconnect, isNewClient) {
     try {
 
       if (sessionId && typeof (sessionId) !== 'string') {
@@ -257,7 +258,7 @@ class LiveClient extends EventEmitter {
       this._prevThreadId = this.threadId
       this.threadId = threadId
 
-      this._openConnection()
+      this._openConnection(isReconnect, isNewClient ? 'new client in webclient' : 'old client in webclient')
 
     } catch (err) {
       // Wrap the error
@@ -667,7 +668,7 @@ class LiveClient extends EventEmitter {
    * Try to reconnect
    * @private
    **/
-  _reconnect() {
+  _reconnect(reconnectSource) {
     if (!this._isAutoReconnect) {
       debug('Auto reconnect is disabled')
       return
@@ -678,7 +679,7 @@ class LiveClient extends EventEmitter {
 
     this._reconnectTimeout = setTimeout(() => {
       this.emit(LiveClient.RECONNECTING)
-      this._openConnection()
+      this._openConnection(true, reconnectSource)
     }, timeout)
   }
 
@@ -686,8 +687,11 @@ class LiveClient extends EventEmitter {
    * Try to open a connection
    * @private
    **/
-  _openConnection() {
+  _openConnection(isReconnect = false, reconnectSource = '') {
     this._isAutoReconnect = true
+
+    const cookieThread = getCookie(`${this._clientId}.threadId`),
+          cookieSession = getCookie(`${this._clientId}.sessionId`)
 
     // Request endpoint to give a WS url
     this._rest
@@ -699,6 +703,13 @@ class LiveClient extends EventEmitter {
           'x-flowai-threadid': this.threadId,
           'x-flowai-secret': this.secret,
           'x-flowai-ott': this._ott
+        },
+        queryParams: {
+          cookiesFallback: this._cookiesFallback,
+          cookieThread,
+          cookieSession,
+          isReconnect,
+          reconnectSource
         }
       })
       .then(result => {
@@ -718,7 +729,7 @@ class LiveClient extends EventEmitter {
         }
 
         if (!err.isFinal) {
-          this._reconnect()
+          this._reconnect('rest')
         }
 
         this.emit(LiveClient.ERROR, new Exception(err, 'connection'))
@@ -792,10 +803,10 @@ class LiveClient extends EventEmitter {
         this.emit(LiveClient.DISCONNECTED)
 
         // DIRTY FIX? Need to check this in the future
-        this._reconnect()
+        this._reconnect('abnormal')
       } else if (evt && evt.reason !== 'connection failed') {
         this.emit(LiveClient.DISCONNECTED)
-        this._reconnect()
+        this._reconnect('connection failed')
       } else {
         this.emit(LiveClient.DISCONNECTED)
       }

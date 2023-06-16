@@ -1,35 +1,11 @@
 import debug from 'debug'
 import uuid from 'uuid-v4'
 
+import { setCookie, getCookie } from './cookies'
+
 const reqqq = require
 
 debug('flowai:unique')
-
-const COOKIES_EXP_MS = 604800000
-
-/**
- * 
- * @param {string} name 
- * @param {string} value 
- */
-const _setCookie = (name, value) => {
-  document.cookie = `${encodeURIComponent(name)}=${value};expires=${new Date(Date.now() + COOKIES_EXP_MS)}`
-}
-/**
- * 
- * @param {string} name 
- * @returns {string}
- */
-const _getCookie = name => {
-  const cookies = document.cookie.split(';')
-
-  for (let i = 0; i < cookies.length; i++) {
-    const cookie = cookies[i]
-    if (cookie.trim().startsWith(encodeURIComponent(name))) {
-      return cookie.split('=')[1]
-    }
-  }
-}
 
 /**
  * Generates and stores a unique ID
@@ -75,7 +51,7 @@ class Unique {
       this._storage.setItem(this._storageKey, value)
 
       if (this._cookiesFallback) {
-        _setCookie(this._storageKey, value)
+        setCookie(this._storageKey, value)
       }
     }
   }
@@ -87,7 +63,7 @@ class Unique {
   id() {
     let uniqueId = this._storage.getItem(this._storageKey)
     if (!uniqueId && this._cookiesFallback) {
-      uniqueId = _getCookie(this._storageKey)
+      uniqueId = getCookie(this._storageKey)
     }
     if (!uniqueId) {
       // Remove dashes
@@ -143,7 +119,7 @@ class Unique {
     const exists = storage.getItem(storageKey) !== null
 
     if (!exists && cookiesFallback) {
-      return !!_getCookie(storageKey)
+      return !!getCookie(storageKey)
     }
 
     return exists
@@ -184,7 +160,7 @@ class Unique {
     const item = storage.getItem(storageKey)
 
     if (!item && cookiesFallback) {
-      return _getCookie(storageKey)
+      return getCookie(storageKey)
     }
 
     return item
