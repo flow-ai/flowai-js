@@ -944,13 +944,13 @@ Originator of a Message
 | --- | --- | --- |
 | threadId | <code>string</code> | Unique id specific to this chat |
 | originator | [<code>Originator</code>](#Originator) | Originator |
-| messages | <code>[ &#x27;Array&#x27; ].&lt;ReplyMessage&gt;</code> | List of messages |
+| messages | <code>Array.&lt;ReplyMessage&gt;</code> | List of messages |
 | messages[].fallback | <code>string</code> | Textual representation of any responses |
 | messages[].replyTo | <code>string</code> | Optional replying to query |
 | messages[].contexts | <code>array</code> | Optional List of context names |
 | messages[].params | <code>array</code> | Optional key value pair of parameters |
 | messages[].intents | <code>array</code> | Optional list of intent names determined |
-| messages[].responses | <code>[ &#x27;Array&#x27; ].&lt;Response&gt;</code> | List of response templates |
+| messages[].responses | <code>Array.&lt;Response&gt;</code> | List of response templates |
 | messages[].responses[].type | <code>string</code> | Template type |
 | messages[].responses[].payload | <code>Object</code> | Template payload |
 | messages[].responses[].delay | <code>Number</code> | Number of seconds the response is delayed |
