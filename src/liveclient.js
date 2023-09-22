@@ -623,7 +623,7 @@ class LiveClient extends EventEmitter {
    * @param {string} text 
    */
   log(text) {
-    if (!this.isConnected || !this.debugLogs) {
+    if (!this.isConnected || !this._debugLogs) {
       return
     }
 
