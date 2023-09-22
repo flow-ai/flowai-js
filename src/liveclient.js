@@ -828,6 +828,7 @@ class LiveClient extends EventEmitter {
 
         case 'message.received':
         case 'activities.created':
+          this.log(`[ACK] Received message: ${evt.data}`)
           this._handleReceived(payload)
           break
 
