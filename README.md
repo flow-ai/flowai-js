@@ -793,6 +793,7 @@ Factory method
 | language | <code>string</code> | Language the message is ib |
 | timezone | <code>number</code> | UTC time offset in hours |
 | params | <code>Object</code> | Parameters to send with the message |
+| tags | <code>Object</code> | Tags to send with the message |
 | domain | <code>Object</code> | Browser or server environment variables like origin |
 
 Additional Message data
@@ -800,7 +801,7 @@ Additional Message data
 
 * [Metadata](#Metadata)
 
-    * [new Metadata(language, timezone, params)](#new_Metadata_new)
+    * [new Metadata(language, timezone, params, tags)](#new_Metadata_new)
 
     * _instance_
         * ~~[.addContext()](#Metadata+addContext)
@@ -811,13 +812,14 @@ Additional Message data
 
 <a name="new_Metadata_new"></a>
 
-### new Metadata(language, timezone, params)
+### new Metadata(language, timezone, params, tags)
 
 | Param | Type | Description |
 | --- | --- | --- |
 | language | <code>string</code> | Specify the language of the message |
 | timezone | <code>number</code> | Specify the timezone of the message |
 | params | <code>Object</code> | Additional data to be send |
+| tags | <code>Object</code> | Additional data to be send |
 
 Constructor
 
@@ -944,13 +946,13 @@ Originator of a Message
 | --- | --- | --- |
 | threadId | <code>string</code> | Unique id specific to this chat |
 | originator | [<code>Originator</code>](#Originator) | Originator |
-| messages | <code>Array.&lt;ReplyMessage&gt;</code> | List of messages |
+| messages | <code>[ &#x27;Array&#x27; ].&lt;ReplyMessage&gt;</code> | List of messages |
 | messages[].fallback | <code>string</code> | Textual representation of any responses |
 | messages[].replyTo | <code>string</code> | Optional replying to query |
 | messages[].contexts | <code>array</code> | Optional List of context names |
 | messages[].params | <code>array</code> | Optional key value pair of parameters |
 | messages[].intents | <code>array</code> | Optional list of intent names determined |
-| messages[].responses | <code>Array.&lt;Response&gt;</code> | List of response templates |
+| messages[].responses | <code>[ &#x27;Array&#x27; ].&lt;Response&gt;</code> | List of response templates |
 | messages[].responses[].type | <code>string</code> | Template type |
 | messages[].responses[].payload | <code>Object</code> | Template payload |
 | messages[].responses[].delay | <code>Number</code> | Number of seconds the response is delayed |
