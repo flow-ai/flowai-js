@@ -153,7 +153,11 @@ class LiveClient extends EventEmitter {
    **/
   set threadId(value) {
     debug(`Creating a new threadId with value '${value}'`)
-    this.log(`Setting threadId=${value}`)
+    let stack
+    if (!value) {
+      stack = new Error().stack
+    }
+    this.log(`Setting threadId=${value}, this.threadId=${this.threadId}, stack=${stack}`)
     // Create a new Thread
     this._thread = new Unique({
       clientId: this._clientId,
@@ -257,7 +261,7 @@ class LiveClient extends EventEmitter {
       this._prevThreadId = this.threadId
       this.threadId = threadId
 
-      this._openConnection()
+      this._openConnection('start')
 
     } catch (err) {
       // Wrap the error
@@ -325,11 +329,12 @@ class LiveClient extends EventEmitter {
       throw new Exception("Could not send the message. You should send a valid Message object.", 'user')
     }
 
+    const msgThreadId = message.threadId
     // Set the default
     message.threadId = message.threadId || this.threadId
 
     // Update threadId
-    this.log(`Updating threadId in send, this.threadId=${this.threadId}, message.threadId=${message.threadId}`)
+    this.log(`Updating threadId in send, this.threadId=${this.threadId}, message.threadId=${message.threadId}, msgThreadId=${msgThreadId}`)
     this.threadId = message.threadId
 
     try {
@@ -482,17 +487,22 @@ class LiveClient extends EventEmitter {
    * client.history('MY CUSTOM THREAD ID')
    **/
   history(threadId) {
-    if (!threadId && !Unique.exists({
+    const exists = Unique.exists({
       clientId: this._clientId,
       key: 'threadId',
       engine: this._storage,
       cookiesFallback: this._cookiesFallback
-    })) {
+    })
+
+    if (!threadId && !exists) {
       return this.emit(LiveClient.NO_HISTORY)
     }
 
     this.log(`Updating threadId in history, this.threadId=${this.threadId}, threadId=${threadId}`)
-    this.threadId = threadId
+    
+    if (!exists) {
+      this.threadId = threadId
+    }
 
     this.emit(LiveClient.REQUESTING_HISTORY)
 
@@ -579,19 +589,23 @@ class LiveClient extends EventEmitter {
    **/
   checkUnnoticed(threadId) {
 
-    if (!threadId && !Unique.exists({
+    const exists = Unique.exists({
       clientId: this._clientId,
       key: 'threadId',
       engine: this._storage,
       cookiesFallback: this._cookiesFallback
-    })) {
+    })
+
+    if (!threadId && !exists) {
       return this.emit(LiveClient.CHECKED_UNNOTICED_MESSAGES, {
         unnoticed: false
       })
     }
 
     this.log(`Updating threadId in checkUnnoticed, this.threadId=${this.threadId}, threadId=${threadId}`)
-    this.threadId = threadId
+    if (!exists) {
+      this.threadId = threadId
+    }
 
     this._rest
       .get({
@@ -634,7 +648,8 @@ class LiveClient extends EventEmitter {
         threadId: this.threadId,
         clientId: this._clientId,
         previousThreadId: this._prevThreadId,
-        sessionId: this.sessionId
+        sessionId: this.sessionId,
+        windowThreadId: window && window.__flowai_webclient_threadId
       }
     })
 
@@ -678,7 +693,7 @@ class LiveClient extends EventEmitter {
 
     this._reconnectTimeout = setTimeout(() => {
       this.emit(LiveClient.RECONNECTING)
-      this._openConnection()
+      this._openConnection('reconnect')
     }, timeout)
   }
 
@@ -686,7 +701,7 @@ class LiveClient extends EventEmitter {
    * Try to open a connection
    * @private
    **/
-  _openConnection() {
+  _openConnection(source) {
     this._isAutoReconnect = true
 
     // Request endpoint to give a WS url
@@ -710,7 +725,7 @@ class LiveClient extends EventEmitter {
           this.secret = result.secret
         }
 
-        this._handleConnection(result.payload)
+        this._handleConnection(result.payload, source)
       })
       .catch(err => {
         if (this._silent !== true) {
@@ -729,7 +744,7 @@ class LiveClient extends EventEmitter {
    * Handle a received endpoint
    * @private
    **/
-  _handleConnection(payload) {
+  _handleConnection(payload, source) {
     if (!payload) {
       throw new Error("Did not receive a valid response from the backend service")
     }
@@ -751,7 +766,7 @@ class LiveClient extends EventEmitter {
       // Create a new Interval
       this._keepAliveInterval = this._keepAlive()
 
-      this.log('Connection opened')
+      this.log(`Connection opened source=${source}`)
     }
 
     socket.onerror = evt => {
