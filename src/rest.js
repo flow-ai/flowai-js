@@ -1,6 +1,6 @@
 import debug from 'debug'
 import querystring from 'querystring'
-import fetch from 'isomorphic-fetch'
+import fetch from 'fetch-everywhere'
 import Exception from './exception'
 debug('flowai:rest')
 
