@@ -1,7 +1,6 @@
 import EventAttachment from './event-attachment'
 import FileAttachment from './file-attachment'
 import FlowAttachment from './flow-attachment'
-import Attachment from './attachment'
 /**
  * Base class to all attachments
  * @private

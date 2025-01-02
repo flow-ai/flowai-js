@@ -8,7 +8,6 @@ debug('flowai:metadata')
  * @property {?string} language - Language the message is ib
  * @property {?number} timezone - UTC time offset in hours
  * @property {?Object} params - Parameters to send with the message
- * @property {?Object} tags - Tags to send with the message
  * @property {Object} domain - Browser or server environment variables like origin
  **/
 class Metadata {
@@ -19,14 +18,12 @@ class Metadata {
    * @param {?string} language - Specify the language of the message
    * @param {?number} timezone - Specify the timezone of the message
    * @param {?Object} params - Additional data to be send
-   * @param {?Object} tags - Additional data to be send
    **/
-  constructor({ contexts, params, tags, language, timezone }) {
+  constructor({ contexts, params, language, timezone }) {
     this.language = language || undefined
     this.timezone = timezone || -(new Date().getTimezoneOffset() / 60)
     this.contexts = contexts || []
     this.params = params || {}
-    this.tags = tags || {}
 
     if(!global.navigator ||
        !global.document ||
@@ -87,18 +84,6 @@ class Metadata {
     this.params[key] = value
   }
 
-  addTag(key, value) {
-    if(typeof(key) !== 'string') {
-      throw new Exception(`The key must be string not ${key}`, 'user')
-    }
-
-    if(typeof(value) === undefined) {
-      throw new Exception(`value must be present or null`, 'user')
-    }
-
-    this.tags[key] = value
-  }
-
   /**
    * @method
    * @deprecated
@@ -123,7 +108,6 @@ class Metadata {
       timezone: metadata.timezone || undefined,
       contexts: metadata.contexts,
       params: metadata.params,
-      tags: metadata.tags,
       domain: metadata.domain
     }))
   }
